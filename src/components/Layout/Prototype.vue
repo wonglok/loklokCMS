@@ -1,7 +1,7 @@
 <template>
 <div class="proto">
-  <h1>Prototype</h1>
-  <h2>{{ $route.fullPath }}</h2>
+  <h1>Prototypes</h1>
+  <p>{{ $route.fullPath }}</p>
   <router-link to="/prototypes/better-particles/ball">Ball</router-link>
   <router-link to="/prototypes/better-particles/fun">Fun</router-link>
   <div class="fixed-box">

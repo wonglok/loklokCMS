@@ -5,14 +5,37 @@
 <script>
 import * as THREE from 'three'
 export default {
+  props: {
+    position: {
+      type: Object
+    },
+    color: {
+      type: Number,
+      default () {
+        return 0xffffff
+      }
+    },
+    intensity: {
+      type: Number,
+      default () {
+        return 5
+      }
+    },
+    distance: {
+      type: Number,
+      default () {
+        return 100
+      }
+    }
+  },
   data () {
     return {
       light: null
     }
   },
   created () {
-    this.light = new THREE.PointLight(0xff0000, 1, 100)
-    this.light.position.set(10, 10, 10)
+    this.light = new THREE.PointLight(this.color, this.intensity, this.distance)
+    this.light.position.set(3, 5, 5)
     // this.light
     this.$emit('light', this.light)
   },
@@ -23,6 +46,12 @@ export default {
     this.$parent.__remove(this.light)
   },
   watch: {
+    color (v) {
+      this.light.color.set(v)
+    },
+    intensity (v) {
+      this.light.intensity = v
+    }
   }
 }
 </script>
