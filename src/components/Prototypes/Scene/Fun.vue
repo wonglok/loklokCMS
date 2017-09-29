@@ -1,24 +1,28 @@
 <template>
-<Scene @scene="(v) => { $emit('scene', v) }">
-  <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { camera = v }" />
-  <Mesh>
-    <MeshPhongMaterial />
-    <BoxGeometry />
-  </Mesh>
-  <PointLight />
-</Scene>
+<span class="root">
+  <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { $emit('camera', v) }" />
+  <Scene @scene="(v) => { $emit('scene', v) }">
+    <Mesh>
+      <MeshPhongMaterial />
+      <SphereGeometry />
+    </Mesh>
+    <PointLight />
+  </Scene>
+</span>
 </template>
 
 <script>
 import Bundle from '@/components/WebGL/Bundle'
 export default {
-  props: ['aspect', 'rect'],
+  props: ['aspect'],
   components: {
     ...Bundle
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.root{
+  display: none;
+}
 </style>

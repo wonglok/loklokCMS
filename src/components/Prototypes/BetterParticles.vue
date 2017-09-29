@@ -1,6 +1,6 @@
 <template>
   <div class="full">
-    <GLView />
+    <GLView></GLView>
   </div>
 </template>
 

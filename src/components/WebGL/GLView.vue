@@ -1,6 +1,11 @@
 <template>
   <div class="full" ref="container">
-    <router-view :aspect="aspect" @scene="(v) => { scene = v }" @camera="(v) => { camera = v }" />
+    <router-view
+      :aspect="aspect"
+      @exec="(v) => { exec = v }"
+      @scene="(v) => { scene = v }"
+      @camera="(v) => { camera = v }"
+    />
     <WebGLRenderer v-if="ready" :rect="rect" :camera="camera" :scene="scene" @renderer="(v) => { renderer = v }">
     </WebGLRenderer>
   </div>
@@ -14,6 +19,7 @@ export default {
   },
   data () {
     return {
+      exec: () => {},
       uninstaller: () => {},
       rect: false,
       aspect: 1.0,
@@ -44,6 +50,7 @@ export default {
       var loopsiloop = () => {
         this.rAFID = window.requestAnimationFrame(loopsiloop)
         if (this.renderer) {
+          this.exec()
           this.renderer.render(this.scene, this.camera)
         }
       }

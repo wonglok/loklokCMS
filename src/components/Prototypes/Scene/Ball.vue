@@ -1,12 +1,14 @@
 <template>
-<Scene @scene="(v) => { $emit('scene', v) }">
+<span class="root">
   <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { $emit('camera', v) }" />
-  <Mesh>
-    <MeshPhongMaterial />
-    <SphereGeometry />
-  </Mesh>
-  <PointLight />
-</Scene>
+  <Scene @scene="(v) => { $emit('scene', v) }">
+    <Points>
+      <MeshPhongMaterial />
+      <SphereGeometry />
+    </Points>
+    <PointLight />
+  </Scene>
+</span>
 </template>
 
 <script>
@@ -19,6 +21,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.root{
+  display: none;
+}
 </style>
