@@ -4,9 +4,9 @@
   <Scene @scene="(v) => { $emit('scene', v) }">
     <Points>
       <SphereGeometry />
-      <PointsMaterial :color="0xff0000" />
+      <PointsMaterial :color="0xff00ff" />
     </Points>
-    <!-- <PointLight /> -->
+    <PointLight />
   </Scene>
 </span>
 </template>

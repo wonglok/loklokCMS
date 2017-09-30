@@ -7,7 +7,32 @@ import * as THREE from 'three'
 export default {
   props: {
     color: {
-      type: Number
+      // type: Number,
+      default () {
+        return Math.random() * 0xffffff
+      }
+    },
+    size: {
+      type: Number,
+      default () {
+        return window.devicePixelRatio || 1.0
+      }
+    },
+    sizeAttenuation: {
+      type: Boolean,
+      default: false
+    },
+    blending: {
+      // type: Number,
+      default () {
+        return THREE.AdditiveBlending
+      }
+    },
+    opacity: {
+      // type: Number,
+      default () {
+        return 1.0
+      }
     }
   },
   data () {
@@ -17,11 +42,12 @@ export default {
   },
   created () {
     this.material = new THREE.PointsMaterial({
-      color: 0xee0302,
-      size: 2.0,
-      sizeAttenuation: false,
+      color: this.color,
+      size: this.size,
+      sizeAttenuation: this.sizeAttenuation,
       // lights: true,
-      blending: THREE.AdditiveBlending
+      opacity: this.opacity,
+      blending: this.blending
     })
     // this.material
     this.$emit('material', this.material)
