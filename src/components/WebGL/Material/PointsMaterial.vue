@@ -33,6 +33,12 @@ export default {
       default () {
         return 1.0
       }
+    },
+    depthTest: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   data () {
@@ -45,9 +51,9 @@ export default {
       color: this.color,
       size: this.size,
       sizeAttenuation: this.sizeAttenuation,
-      // lights: true,
       opacity: this.opacity,
-      blending: this.blending
+      blending: this.blending,
+      depthTest: this.depthTest
     })
     // this.material
     this.$emit('material', this.material)

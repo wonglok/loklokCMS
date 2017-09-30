@@ -1,5 +1,5 @@
 <template>
-<span class="root">
+<span class="scene-root">
   <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { $emit('camera', v) }" />
   <Scene @scene="(v) => { $emit('scene', v) }">
     <Mesh>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style scoped>
-.root{
+.scene-root{
   display: none;
 }
 </style>
