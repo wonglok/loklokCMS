@@ -5,6 +5,7 @@ import Mesh from './Components/Mesh'
 import Points from './Components/Points'
 
 import MeshPhongMaterial from './Material/MeshPhongMaterial'
+import PointsMaterial from './Material/PointsMaterial'
 
 import BoxGeometry from './Geometry/BoxGeometry'
 import SphereGeometry from './Geometry/SphereGeometry'
@@ -18,6 +19,7 @@ export default {
   BoxGeometry,
   Mesh,
   MeshPhongMaterial,
+  PointsMaterial,
   PerspectiveCamera,
   WebGLRenderer,
   Scene

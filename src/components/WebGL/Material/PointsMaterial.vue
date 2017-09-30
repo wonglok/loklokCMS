@@ -1,5 +1,5 @@
 <template>
-<span class="mesh-phong-material"><slot></slot></span>
+<span class="points-material"><slot></slot></span>
 </template>
 
 <script>
@@ -16,10 +16,12 @@ export default {
     }
   },
   created () {
-    this.material = new THREE.MeshPhongMaterial({
+    this.material = new THREE.PointsMaterial({
       color: 0xee0302,
-      specular: 0xffffff,
-      shininess: 1.0
+      size: 2.0,
+      sizeAttenuation: false,
+      // lights: true,
+      blending: THREE.AdditiveBlending
     })
     // this.material
     this.$emit('material', this.material)
@@ -36,7 +38,7 @@ export default {
 </script>
 
 <style scoped>
-.mesh-phong-material{
+.points-material{
   display: none;
 }
 </style>

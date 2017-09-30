@@ -3,10 +3,10 @@
   <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { $emit('camera', v) }" />
   <Scene @scene="(v) => { $emit('scene', v) }">
     <Points>
-      <MeshPhongMaterial />
       <SphereGeometry />
+      <PointsMaterial :color="0xff0000" />
     </Points>
-    <PointLight />
+    <!-- <PointLight /> -->
   </Scene>
 </span>
 </template>
