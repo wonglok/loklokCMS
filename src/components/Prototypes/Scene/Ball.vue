@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     exec () {
-      this.camera.position.z = 2.5 + 2.5 * Math.sin(window.performance.now() / 1000)
+      this.camera.position.z = 5.5 + 1.5 * Math.sin(window.performance.now() / 1000)
     }
   },
   mounted () {

@@ -1,5 +1,5 @@
 <template>
-  <div class="full" ref="container">
+  <div class="container full" ref="container">
     <router-view
       :aspect="aspect"
       @exec="(v) => { exec = v }"

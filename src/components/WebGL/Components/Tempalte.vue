@@ -1,5 +1,5 @@
 <template>
-<span class="root"><slot></slot></span>
+<span class="template"><slot></slot></span>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.root{
+.template{
   display: none;
 }
 </style>

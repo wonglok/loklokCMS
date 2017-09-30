@@ -59,6 +59,15 @@ export default {
     this.$emit('material', this.material)
   },
   watch: {
+    color () {
+      this.material.color.set(this.color)
+    },
+    size () {
+      this.material.size.set(this.size)
+    },
+    opacity () {
+      this.material.opacity.set(this.opacity)
+    }
   },
   mounted () {
     this.$parent.__add(this.material, 'material')
