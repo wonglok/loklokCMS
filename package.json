@@ -5,7 +5,7 @@
   "author": "Wong Lok <yellowhappy831@gmail.com>",
   "private": true,
   "scripts": {
-    "backup": "git add .; git commit -a -m \"$1 backup on `date +'%Y-%m-%d %H:%M:%S'`\"; git push origin master;",
+    "backup": "git add .; git commit -a -m \"backup on `date +'%Y-%m-%d %H:%M:%S'`\"; git push origin master;",
     "deploy": "npm run backup; npm run build; cd functions; npm install; cd ..; firebase deploy;",
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
