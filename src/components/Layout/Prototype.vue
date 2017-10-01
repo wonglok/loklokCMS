@@ -34,7 +34,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
+  box-sizing: border-box;
   border: #bababa dashed 1px;
 }
 .full{
