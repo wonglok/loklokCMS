@@ -2,6 +2,7 @@
   <div class="container full" ref="container">
     <router-view
       :aspect="aspect"
+      @refresh="(v) => { if (this.evlt) { this.evlt.resizer(); } }"
       @exec="(v) => { exec = v }"
       @scene="(v) => { scene = v }"
       @camera="(v) => { camera = v }"
@@ -19,6 +20,7 @@ export default {
   },
   data () {
     return {
+      evlt: false,
       exec: () => {},
       uninstaller: () => {},
       rect: false,
@@ -57,7 +59,7 @@ export default {
       this.rAFID = window.requestAnimationFrame(loopsiloop)
     },
     install () {
-      var ev = {
+      var ev = this.evlt = {
         resizer: () => {
           this.rect = this.$refs.container.getBoundingClientRect()
           this.aspect = this.rect.width / this.rect.height
