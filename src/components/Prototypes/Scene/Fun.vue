@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Bundle from '@/components/WebGL/Bundle'
 import fadeInOut from '@/components/WebGL/Tween/FadeInOutMixin'
 export default {
@@ -21,12 +22,14 @@ export default {
     ...Bundle
   },
   mounted () {
-    this.$emit('exec', this.exec)
-    this.fadeInTween((v) => {
-      this.$refs['mesh-1'].mesh.material.opacity = v
-      this.$refs['mesh-1'].mesh.position.z = -2 * (1 - v)
-    }, () => {
-
+    this.$refs['mesh-1'].mesh.material.opacity = 0
+    Vue.nextTick(() => {
+      this.$emit('exec', this.exec)
+      this.fadeInTween((v) => {
+        this.$refs['mesh-1'].mesh.material.opacity = v
+        this.$refs['mesh-1'].mesh.position.z = -2 * (1 - v)
+      }, () => {
+      })
     })
   },
   beforeRouteLeave (to, from, next) {
