@@ -1,5 +1,5 @@
 <template>
-<span class="points-material"><slot></slot></span>
+<span class="points-material"></span>
 </template>
 
 <script>

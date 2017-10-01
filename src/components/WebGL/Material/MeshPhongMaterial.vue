@@ -1,5 +1,5 @@
 <template>
-<span class="mesh-phong-material"><slot></slot></span>
+<span class="mesh-phong-material"></span>
 </template>
 
 <script>

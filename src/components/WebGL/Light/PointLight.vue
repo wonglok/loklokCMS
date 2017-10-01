@@ -6,9 +6,6 @@
 import * as THREE from 'three'
 export default {
   props: {
-    position: {
-      type: Object
-    },
     color: {
       type: Number,
       default () {
@@ -35,12 +32,12 @@ export default {
   },
   created () {
     this.light = new THREE.PointLight(this.color, this.intensity, this.distance)
-    this.light.position.set(3, 5, 5)
+    this.light.position.set(5, 5, 10)
     // this.light
     this.$emit('light', this.light)
+    this.$parent.__add(this.light)
   },
   mounted () {
-    this.$parent.__add(this.light)
   },
   beforeDestroy () {
     this.$parent.__remove(this.light)

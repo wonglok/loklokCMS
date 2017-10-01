@@ -1,12 +1,23 @@
 <template>
   <div class="container full" ref="container">
-    <router-view
-      :aspect="aspect"
-      @refresh="(v) => { if (this.evlt) { this.evlt.resizer(); } }"
-      @exec="(v) => { exec = v }"
-      @scene="(v) => { scene = v }"
-      @camera="(v) => { camera = v }"
-    />
+    <keep-alive>
+      <!-- <router-view
+        :aspect="aspect"
+        @refresh="(v) => { if (this.evlt) { this.evlt.resizer(); } }"
+        @exec="(v) => { exec = v }"
+        @scene="(v) => { scene = v }"
+        @camera="(v) => { camera = v }"
+      /> -->
+      <component
+        v-bind:is="'router-view'"
+        :aspect="aspect"
+        @refresh="(v) => { if (this.evlt) { this.evlt.resizer(); } }"
+        @exec="(v) => { exec = v }"
+        @scene="(v) => { scene = v }"
+        @camera="(v) => { camera = v }"
+      >
+      </component>
+    </keep-alive>
     <WebGLRenderer v-if="ready" :rect="rect" :camera="camera" :scene="scene" @renderer="(v) => { renderer = v }">
     </WebGLRenderer>
   </div>
