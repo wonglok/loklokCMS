@@ -3,6 +3,7 @@
   <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { camera = v; $emit('camera', v) }" />
   <Scene @scene="(v) => { $emit('scene', v) }">
 
+
     <Points ref="ball-p">
       <SphereGeometry />
       <PointsMaterial :color="0x00ff00" :opacity="0" />
@@ -13,7 +14,7 @@
       <PointsMaterial :color="0xff00ff" :opacity="0" />
     </Points>
 
-    <PointLight />
+    <!-- <PointLight /> -->
   </Scene>
 </span>
 </template>
@@ -28,8 +29,8 @@ export default {
     ...Bundle
   },
   mounted () {
+    this.$emit('exec', this.exec)
     Vue.nextTick(() => {
-      this.$emit('exec', this.exec)
       this.fadeInTween((v) => {
         this.$refs['ball-p'].points.material.opacity = v
         this.$refs['box-p'].points.material.opacity = v

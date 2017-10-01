@@ -3,7 +3,7 @@
   <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { $emit('camera', v) }" />
   <Scene @scene="(v) => { $emit('scene', v) }">
     <Mesh ref="mesh-1">
-      <MeshPhongMaterial  />
+      <MeshPhongMaterial :opacity="0" />
       <SphereGeometry />
     </Mesh>
     <PointLight />
@@ -22,9 +22,8 @@ export default {
     ...Bundle
   },
   mounted () {
-    this.$refs['mesh-1'].mesh.material.opacity = 0
+    this.$emit('exec', this.exec)
     Vue.nextTick(() => {
-      this.$emit('exec', this.exec)
       this.fadeInTween((v) => {
         this.$refs['mesh-1'].mesh.material.opacity = v
         this.$refs['mesh-1'].mesh.position.z = -2 * (1 - v)
@@ -35,6 +34,7 @@ export default {
   beforeRouteLeave (to, from, next) {
     this.fadeOutTween((v) => {
       this.$refs['mesh-1'].mesh.material.opacity = v
+      this.$refs['mesh-1'].mesh.position.z = -10 * (1.0 - v)
     }, () => {
       next()
     })

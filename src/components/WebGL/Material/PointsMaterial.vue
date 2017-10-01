@@ -37,7 +37,7 @@ export default {
     depthTest: {
       type: Boolean,
       default () {
-        return false
+        return true
       }
     }
   },

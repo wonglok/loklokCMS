@@ -8,6 +8,11 @@ export default {
   props: {
     opacity: {
       type: Number
+    },
+    blending: {
+      default () {
+        return THREE.AdditiveBlending
+      }
     }
   },
   data () {
@@ -19,7 +24,10 @@ export default {
     this.material = new THREE.MeshPhongMaterial({
       color: 0xee0302,
       specular: 0xffffff,
-      shininess: 1.0
+      shininess: 1.0,
+      opacity: this.opacity,
+      blending: this.blending,
+      transparent: true
     })
     // this.material
     this.$emit('material', this.material)
