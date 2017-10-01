@@ -11,7 +11,7 @@ export default {
     }
   },
   created () {
-    this.geometry = new THREE.BoxGeometry(2, 2, 2)
+    this.geometry = new THREE.BoxGeometry(2, 2, 2, 20, 20, 20)
     // this.geometry
     this.$emit('geometry', this.geometry)
   },

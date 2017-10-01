@@ -6,7 +6,7 @@
 import * as THREE from 'three'
 export default {
   props: {
-    color: {
+    opacity: {
       type: Number
     }
   },

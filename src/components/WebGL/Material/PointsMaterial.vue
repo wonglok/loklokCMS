@@ -29,7 +29,7 @@ export default {
       }
     },
     opacity: {
-      // type: Number,
+      type: Number,
       default () {
         return 1.0
       }
@@ -63,10 +63,10 @@ export default {
       this.material.color.set(this.color)
     },
     size () {
-      this.material.size.set(this.size)
+      this.material.size = this.size
     },
     opacity () {
-      this.material.opacity.set(this.opacity)
+      this.material.opacity = this.opacity
     }
   },
   mounted () {
