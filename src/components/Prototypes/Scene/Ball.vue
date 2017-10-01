@@ -1,7 +1,7 @@
 <template>
 <span class="scene-root">
-  <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { camera = v; $emit('camera', v) }" />
-  <Scene @scene="(v) => { scene = v; $emit('scene', v) }">
+  <PerspectiveCamera :fov="75" :aspect="aspect" :near="1" :far="1000" @camera="(v) => { camera = v; }" />
+  <Scene @scene="(v) => { scene = v; }">
 
     <Points ref="ball-p">
       <SphereGeometry />
@@ -45,6 +45,9 @@ export default {
       })
     })
   },
+  deactivated () {
+    this.$emit('exec', () => {})
+  },
   beforeRouteLeave (to, from, next) {
     this.fadeOutTween((v) => {
       this.$refs['ball-p'].points.material.opacity = v
@@ -52,9 +55,6 @@ export default {
     }, () => {
       next()
     })
-  },
-  deactivated () {
-    this.$emit('exec', () => {})
   },
   methods: {
     exec () {
