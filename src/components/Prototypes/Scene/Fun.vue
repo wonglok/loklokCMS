@@ -16,7 +16,7 @@
 
     <PointLight />
   </Scene>
-  <Raycaster v-if="camera && scene" :camera="camera" :scene="scene" @setMouse="(v) => { $emit('setMouse', v); setMouse = v }" @finder="(v) => { finder = v }" @glClick="handleClick" />
+  <Raycaster v-if="camera && scene" :camera="camera" :scene="scene" @setMouse="(v) => { $emit('setMouse', v); setMouse = v }" @hover="(v) => { hover = v }" @glClick="handleHit" />
 </span>
 </template>
 
@@ -34,7 +34,7 @@ export default {
       camera: false,
       scene: false,
       setMouse: () => {},
-      finder: () => { return [] },
+      hover: () => { return [] },
       lastResult: []
     }
   },
@@ -67,7 +67,7 @@ export default {
     this.$emit('exec', () => {})
   },
   methods: {
-    handleClick ({ mouse, found }) {
+    handleHit ({ mouse, found }) {
       if (found[0]) {
         this.stopAllTween()
         this.fadeOutTween((v) => {
@@ -88,10 +88,10 @@ export default {
     exec () {
       // this.$refs['mesh-1'].mesh.material.color.set(0xffffff)
 
-      // this.highlight(this.lastResult, 0x00ffff)
-      // var result = this.finder()
-      // this.highlight(result, 0xff00ff)
-      // this.lastResult = result
+      this.highlight(this.lastResult, 0x00ffff)
+      var result = this.hover()
+      this.highlight(result, 0xff00ff)
+      this.lastResult = result
 
       this.execTween()
     }

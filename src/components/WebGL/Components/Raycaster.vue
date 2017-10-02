@@ -19,12 +19,12 @@ export default {
     this.raycaster = new THREE.Raycaster()
     this.mouse.isIn = false
     this.$emit('setMouse', this.setMouse)
-    this.$emit('finder', this.finder)
+    // this.$emit('finder', this.finder)
     this.$emit('hover', this.hover)
   },
   activated () {
     this.$emit('setMouse', this.setMouse)
-    this.$emit('finder', this.finder)
+    // this.$emit('finder', this.finder)
     this.$emit('hover', this.hover)
   },
   methods: {
