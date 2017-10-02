@@ -1,10 +1,10 @@
-<template>
-<span class="point-light"><slot></slot></span>
-</template>
-
 <script>
 import * as THREE from 'three'
 export default {
+  abstract: true,
+  render () {
+    return null
+  },
   props: {
     color: {
       type: Number,

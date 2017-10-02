@@ -11,7 +11,7 @@ export default {
         opacity: 1 * factor
       }
       var tween = new TWEEN.Tween(varying)
-                    .to({ opacity: 0 * factor }, 500)
+                    .to({ opacity: 0 * factor }, 1000)
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .onUpdate(() => {
                       update(varying.opacity / factor)

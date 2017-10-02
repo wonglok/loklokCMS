@@ -1,9 +1,10 @@
-<template>
-<span class="perspective-camera"></span>
-</template>
 <script>
 import * as THREE from 'three'
 export default {
+  abstract: true,
+  render () {
+    return null
+  },
   props: ['fov', 'aspect', 'near', 'far'],
   data () {
     return {

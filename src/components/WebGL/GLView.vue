@@ -18,7 +18,7 @@
       >
       </component>
     </keep-alive>
-    <WebGLRenderer v-if="ready" :rect="rect" :camera="camera" :scene="scene" @renderer="(v) => { renderer = v }">
+    <WebGLRenderer v-if="keepRenderer" :rect="rect" :camera="camera" :scene="scene" @renderer="(v) => { renderer = v }">
     </WebGLRenderer>
   </div>
 </template>
@@ -39,7 +39,8 @@ export default {
       renderer: false,
       camera: false,
       scene: false,
-      rAFID: 0
+      rAFID: 0,
+      keepAlive: false
     }
   },
   mounted () {
@@ -53,6 +54,16 @@ export default {
   computed: {
     ready () {
       return this.camera && this.scene && this.rect
+    },
+    keepRenderer () {
+      return (this.camera && this.scene && this.rect) || this.keepAlive
+    }
+  },
+  watch: {
+    ready () {
+      if (this.ready) {
+        this.keepAlive = true
+      }
     }
   },
   methods: {

@@ -1,7 +1,6 @@
 <template>
 <span class="mesh"><slot></slot></span>
 </template>
-
 <script>
 import * as THREE from 'three'
 export default {
@@ -22,6 +21,7 @@ export default {
   },
   watch: {
   },
+  // calling parent methods.
   mounted () {
     this.$parent.__add(this.mesh)
   },
@@ -29,6 +29,7 @@ export default {
     this.$parent.__remove(this.mesh)
   },
   methods: {
+    // let child add
     __add (v, type) {
       if (type === 'geometry') {
         this.mesh.geometry = v

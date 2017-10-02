@@ -1,10 +1,10 @@
-<template>
-<span class="box-geometry"><slot></slot></span>
-</template>
-
 <script>
 import * as THREE from 'three'
 export default {
+  abstract: true,
+  render () {
+    return null
+  },
   data () {
     return {
       geometry: null

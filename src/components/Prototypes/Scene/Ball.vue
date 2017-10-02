@@ -18,9 +18,8 @@
 </span>
 </template>
 <script>
-import Vue from 'vue'
 import Bundle from '@/components/WebGL/Bundle'
-import fadeInOut from '@/components/WebGL/Tween/FadeInOutMixin'
+import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 export default {
   mixins: [fadeInOut],
   props: ['aspect'],
@@ -37,7 +36,7 @@ export default {
     this.$emit('scene', this.scene)
     this.$emit('camera', this.camera)
     this.$emit('exec', this.exec)
-    Vue.nextTick(() => {
+    this.$nextTick(() => {
       this.fadeInTween((v) => {
         this.$refs['ball-p'].points.material.opacity = v
         this.$refs['box-p'].points.material.opacity = v
