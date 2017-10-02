@@ -2,8 +2,8 @@
 <div class="proto">
   <h1>Prototypes</h1>
   <p>{{ $route.fullPath }}</p>
-  <router-link to="/prototypes/better-particles/ball">Ball</router-link>
-  <router-link to="/prototypes/better-particles/fun">Fun</router-link>
+  <router-link to="/prototypes/scene/ball">Ball</router-link>
+  <router-link to="/prototypes/scene/fun">Fun</router-link>
   <div class="fixed-box">
     <div class="full">
       <router-view></router-view>

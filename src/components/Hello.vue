@@ -1,7 +1,6 @@
 <template>
   <div class="new-page">
-    <router-link to="/prototypes/better-particles/ball">Ball Particles</router-link>
-    <router-link to="/prototypes/better-particles/fun">Ball Particles</router-link>
+    <router-link to="/prototypes">Prototypes</router-link>
   </div>
 </template>
 

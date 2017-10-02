@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import LayoutPrototype from '@/components/Layout/Prototype'
-import BetterParticles from '@/components/Prototypes/BetterParticles'
+import GLViewScene from '@/components/Prototypes/GLViewScene'
 import Ball from '@/components/Prototypes/Scene/Ball'
 import Fun from '@/components/Prototypes/Scene/Fun'
 
@@ -19,11 +19,13 @@ export default new Router({
     {
       path: '/prototypes',
       component: LayoutPrototype,
+      redirect: '/prototypes/scene/ball',
       children: [
         {
-          path: 'better-particles',
-          name: 'BetterParticles',
-          component: BetterParticles,
+          path: 'scene',
+          name: 'GLViewScene',
+          component: GLViewScene,
+          redirect: '/prototypes/scene/ball',
           children: [
             {
               path: 'ball',
