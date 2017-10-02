@@ -69,6 +69,7 @@ export default {
   methods: {
     handleClick ({ mouse, found }) {
       if (found[0]) {
+        this.stopAllTween()
         this.fadeOutTween((v) => {
           found[0].object.material.opacity = v
         }, () => {
@@ -87,10 +88,10 @@ export default {
     exec () {
       // this.$refs['mesh-1'].mesh.material.color.set(0xffffff)
 
-      this.highlight(this.lastResult, 0x00ffff)
-      var result = this.finder()
-      this.highlight(result, 0xff00ff)
-      this.lastResult = result
+      // this.highlight(this.lastResult, 0x00ffff)
+      // var result = this.finder()
+      // this.highlight(result, 0xff00ff)
+      // this.lastResult = result
 
       this.execTween()
     }

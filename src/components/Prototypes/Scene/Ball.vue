@@ -14,6 +14,7 @@
     </Points>
 
   </Scene>
+  <Raycaster v-if="camera && scene" :camera="camera" :scene="scene" @setMouse="(v) => { $emit('setMouse', v); setMouse = v }" @finder="(v) => { finder = v }" @glClick="handleClick" />
 </span>
 </template>
 <script>
@@ -28,12 +29,17 @@ export default {
   data () {
     return {
       camera: false,
-      scene: false
+      scene: false,
+      setMouse: () => {},
+      finder: () => { return [] },
+      lastResult: []
     }
   },
   activated () {
     this.$emit('scene', this.scene)
     this.$emit('camera', this.camera)
+    this.$emit('setMouse', this.setMouse)
+
     this.$nextTick(() => {
       this.$emit('exec', this.exec)
       this.fadeInTween((v) => {
@@ -44,6 +50,7 @@ export default {
     })
   },
   deactivated () {
+    this.$emit('setMouse', () => {})
     this.$emit('exec', () => {})
   },
   beforeRouteLeave (to, from, next) {
@@ -55,8 +62,27 @@ export default {
     })
   },
   methods: {
+    handleClick ({ mouse, found }) {
+      if (found[0]) {
+        this.stopAllTween()
+        this.fadeOutTween((v) => {
+          found[0].object.rotation.z = Math.PI * -2.0 * v
+        }, () => {
+          this.fadeInTween((v) => {
+            found[0].object.rotation.z = Math.PI * -2.0 * (1.0 - v)
+          }, () => {
+          })
+        })
+      }
+    },
     exec () {
       this.execTween()
+
+      // this.highlight(this.lastResult, 0x00ffff)
+      // var result = this.finder()
+      // this.highlight(result, 0xff00ff)
+      // this.lastResult = result
+
       this.camera.position.z = 20
       this.$refs['ball-p'].points.position.z = 8.5 + 8.5 * Math.sin(window.performance.now() / 1000)
       this.$refs['box-p'].points.position.z = 8.5 + 8.5 * Math.sin(window.performance.now() / 1000)

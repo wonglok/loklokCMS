@@ -2,6 +2,9 @@ import TWEEN from '@tweenjs/tween.js'
 
 export default {
   methods: {
+    stopAllTween () {
+      TWEEN.removeAll()
+    },
     execTween () {
       TWEEN.update()
     },
