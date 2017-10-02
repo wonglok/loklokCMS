@@ -8,7 +8,7 @@ export default {
   // render () {
   //   return null
   // },
-  props: ['rect', 'camera', 'scene'],
+  props: ['camera', 'scene'],
   data () {
     return {
       raycaster: null,
@@ -17,17 +17,11 @@ export default {
   },
   created () {
     this.raycaster = new THREE.Raycaster()
-    // this.mouse = new THREE.Vector2(0, 0)
+    this.mouse.isIn = false
     // this.raycaster
-    this.$emit('setMouse', ({ pageX, pageY }) => {
-      if (this.rect && typeof pageX !== 'undefined' && typeof pageY !== 'undefined') {
-        this.mouse.x = ((pageX - this.rect.left) / this.rect.width) * 2 - 1
-        this.mouse.y = -((pageY - this.rect.top) / this.rect.height) * 2 + 1
-        // console.log(this.mouse)
-      }
-    })
-    this.$emit('finder', () => {
-      if (this.camera && this.scene && this.mouse) {
+
+    var finder = () => {
+      if (this.camera && this.scene && this.mouse && this.mouse.isIn) {
         this.raycaster.setFromCamera(this.mouse, this.camera)
         var intersects = this.raycaster.intersectObjects(this.scene.children)
         // console.log(intersects)
@@ -35,7 +29,21 @@ export default {
       } else {
         return []
       }
+    }
+    this.$emit('setMouse', ({ pageX, pageY, rect, isIn, type }) => {
+      if (rect && typeof pageX !== 'undefined' && typeof pageY !== 'undefined') {
+        this.mouse.x = ((pageX - rect.left) / rect.width) * 2 - 1
+        this.mouse.y = -((pageY - rect.top) / rect.height) * 2 + 1
+        // console.log(this.mouse)
+      }
+      if (typeof isIn !== 'undefined') {
+        this.mouse.isIn = isIn
+      }
+      if (type === 'click') {
+        return this.$emit('glClick', { mouse: this.mouse, found: finder() })
+      }
     })
+    this.$emit('finder', finder)
   },
   watch: {
   }

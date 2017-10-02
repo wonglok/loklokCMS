@@ -16,7 +16,7 @@
 
     <PointLight />
   </Scene>
-  <Raycaster v-if="rect && camera && scene" :camera="camera" :scene="scene" :rect="rect" @setMouse="(v) => { $emit('setMouse', v); setMouse = v }" @finder="(v) => { finder = v }" />
+  <Raycaster v-if="camera && scene" :camera="camera" :scene="scene" @setMouse="(v) => { $emit('setMouse', v); setMouse = v }" @finder="(v) => { finder = v }" @glClick="handleClick" />
 </span>
 </template>
 
@@ -25,7 +25,7 @@ import Bundle from '@/components/WebGL/Bundle'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 export default {
   mixins: [fadeInOut],
-  props: ['aspect', 'rect'],
+  props: ['aspect'],
   components: {
     ...Bundle
   },
@@ -34,13 +34,15 @@ export default {
       camera: false,
       scene: false,
       setMouse: () => {},
-      finder: () => { return [] }
+      finder: () => { return [] },
+      lastResult: []
     }
   },
   activated () {
-    this.$emit('setMouse', this.setMouse)
     this.$emit('scene', this.scene)
     this.$emit('camera', this.camera)
+    this.$emit('setMouse', this.setMouse)
+
     this.$nextTick(() => {
       this.$emit('exec', this.exec)
       this.fadeInTween((v) => {
@@ -64,15 +66,31 @@ export default {
     this.$emit('exec', () => {})
   },
   methods: {
-    highlight (result) {
+    handleClick ({ mouse, found }) {
+      if (found[0]) {
+        this.fadeOutTween((v) => {
+          found[0].object.material.opacity = v
+        }, () => {
+          this.fadeInTween((v) => {
+            found[0].object.material.opacity = v
+          }, () => {
+          })
+        })
+      }
+    },
+    highlight (result, color) {
       for (var i = 0; i < result.length; i++) {
-        result[i].object.material.color.set(0xff00ff)
+        result[i].object.material.color.set(color)
       }
     },
     exec () {
-      this.$refs['mesh-1'].mesh.material.color.set(0xffffff)
+      // this.$refs['mesh-1'].mesh.material.color.set(0xffffff)
+
+      this.highlight(this.lastResult, 0x00ffff)
       var result = this.finder()
-      this.highlight(result)
+      this.highlight(result, 0xff00ff)
+      this.lastResult = result
+
       this.execTween()
     }
   }

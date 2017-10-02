@@ -88,18 +88,56 @@ export default {
           this.rect = this.$refs.container.getBoundingClientRect()
           this.aspect = this.rect.width / this.rect.height
         },
+        onTS: (evt) => {
+          evt.preventDefault()
+          this.setMouse({ isIn: true, type: 'click', pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
+        },
+        onTM: (evt) => {
+          evt.preventDefault()
+          this.setMouse({ pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
+        },
+        onTE: (evt) => {
+          this.setMouse({ isIn: false })
+        },
         onMV: (evt) => {
-          this.setMouse({ pageX: evt.pageX, pageY: evt.pageY })
+          evt.preventDefault()
+          this.setMouse({ pageX: evt.pageX, pageY: evt.pageY, rect: this.rect })
+        },
+        onME: (evt) => {
+          this.setMouse({ isIn: true })
+        },
+        onML: (evt) => {
+          this.setMouse({ isIn: false })
+        },
+        onCL: (evt) => {
+          this.setMouse({ type: 'click', pageX: evt.pageX, pageY: evt.pageY, rect: this.rect })
         }
       }
       ev.resizer()
       this.$emit('refresh', () => {
         ev.resizer()
       })
+      this.$refs.container.addEventListener('mouseenter', ev.onME, false)
+      this.$refs.container.addEventListener('mouseleave', ev.onML, false)
       this.$refs.container.addEventListener('mousemove', ev.onMV, false)
+
+      this.$refs.container.addEventListener('click', ev.onCL, false)
+
+      this.$refs.container.addEventListener('touchstart', ev.onTS, false)
+      this.$refs.container.addEventListener('touchmove', ev.onTM, false)
+      this.$refs.container.addEventListener('touchend', ev.onTE, false)
+      this.$refs.container.style['-webkit-tap-highlight-color'] = `rgba(0,0,0,0)`
       window.addEventListener('resize', ev.resizer, false)
       this.uninstaller = () => {
+        this.$refs.container.removeEventListener('mouseenter', ev.onME)
+        this.$refs.container.removeEventListener('mouseleave', ev.onML)
         this.$refs.container.removeEventListener('mousemove', ev.onMV)
+
+        this.$refs.container.removeEventListener('click', ev.onCL)
+
+        this.$refs.container.removeEventListener('touchstart', ev.onTS)
+        this.$refs.container.removeEventListener('touchmove', ev.onTM)
+        this.$refs.container.removeEventListener('touchend', ev.onTE)
         window.removeEventListener('resize', ev.resizer)
       }
     }
