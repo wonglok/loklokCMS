@@ -20,18 +20,27 @@ export default {
     this.mouse.isIn = false
     this.$emit('setMouse', this.setMouse)
     this.$emit('finder', this.finder)
+    this.$emit('hover', this.hover)
   },
   activated () {
     this.$emit('setMouse', this.setMouse)
     this.$emit('finder', this.finder)
+    this.$emit('hover', this.hover)
   },
   methods: {
     finder () {
-      if (this.camera && this.scene && this.mouse && this.mouse.isIn) {
+      if (this.camera && this.scene && this.mouse) {
         this.raycaster.setFromCamera(this.mouse, this.camera)
         var intersects = this.raycaster.intersectObjects(this.scene.children)
         // console.log(intersects)
         return intersects
+      } else {
+        return []
+      }
+    },
+    hover () {
+      if (this.mouse.isIn) {
+        return this.finder()
       } else {
         return []
       }
