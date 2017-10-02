@@ -11,7 +11,8 @@
       <component
         v-bind:is="'router-view'"
         :aspect="aspect"
-        @refresh="(v) => { if (this.evlt) { this.evlt.resizer(); } }"
+        :rect="rect"
+        @setMouse="(v) => { setMouse = v }"
         @exec="(v) => { exec = v }"
         @scene="(v) => { scene = v }"
         @camera="(v) => { camera = v }"
@@ -34,6 +35,7 @@ export default {
       evlt: false,
       exec: () => {},
       uninstaller: () => {},
+      setMouse: () => {},
       rect: false,
       aspect: 1.0,
       renderer: false,
@@ -85,11 +87,19 @@ export default {
         resizer: () => {
           this.rect = this.$refs.container.getBoundingClientRect()
           this.aspect = this.rect.width / this.rect.height
+        },
+        onMV: (evt) => {
+          this.setMouse({ pageX: evt.pageX, pageY: evt.pageY })
         }
       }
       ev.resizer()
+      this.$emit('refresh', () => {
+        ev.resizer()
+      })
+      this.$refs.container.addEventListener('mousemove', ev.onMV, false)
       window.addEventListener('resize', ev.resizer, false)
       this.uninstaller = () => {
+        this.$refs.container.removeEventListener('mousemove', ev.onMV)
         window.removeEventListener('resize', ev.resizer)
       }
     }

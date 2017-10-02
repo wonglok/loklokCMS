@@ -13,7 +13,6 @@
       <PointsMaterial :color="0xff00ff" :opacity="0" />
     </Points>
 
-    <!-- <PointLight /> -->
   </Scene>
 </span>
 </template>
@@ -35,8 +34,8 @@ export default {
   activated () {
     this.$emit('scene', this.scene)
     this.$emit('camera', this.camera)
-    this.$emit('exec', this.exec)
     this.$nextTick(() => {
+      this.$emit('exec', this.exec)
       this.fadeInTween((v) => {
         this.$refs['ball-p'].points.material.opacity = v
         this.$refs['box-p'].points.material.opacity = v
