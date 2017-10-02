@@ -63,6 +63,7 @@ export default {
     })
   },
   deactivated () {
+    this.$emit('setMouse', () => {})
     this.$emit('exec', () => {})
   },
   methods: {

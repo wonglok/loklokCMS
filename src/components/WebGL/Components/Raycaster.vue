@@ -18,9 +18,15 @@ export default {
   created () {
     this.raycaster = new THREE.Raycaster()
     this.mouse.isIn = false
-    // this.raycaster
-
-    var finder = () => {
+    this.$emit('setMouse', this.setMouse)
+    this.$emit('finder', this.finder)
+  },
+  activated () {
+    this.$emit('setMouse', this.setMouse)
+    this.$emit('finder', this.finder)
+  },
+  methods: {
+    finder () {
       if (this.camera && this.scene && this.mouse && this.mouse.isIn) {
         this.raycaster.setFromCamera(this.mouse, this.camera)
         var intersects = this.raycaster.intersectObjects(this.scene.children)
@@ -29,8 +35,8 @@ export default {
       } else {
         return []
       }
-    }
-    this.$emit('setMouse', ({ pageX, pageY, rect, isIn, type }) => {
+    },
+    setMouse ({ pageX, pageY, rect, isIn, type }) {
       if (rect && typeof pageX !== 'undefined' && typeof pageY !== 'undefined') {
         this.mouse.x = ((pageX - rect.left) / rect.width) * 2 - 1
         this.mouse.y = -((pageY - rect.top) / rect.height) * 2 + 1
@@ -40,12 +46,9 @@ export default {
         this.mouse.isIn = isIn
       }
       if (type === 'click') {
-        return this.$emit('glClick', { mouse: this.mouse, found: finder() })
+        return this.$emit('glClick', { mouse: this.mouse, found: this.finder() })
       }
-    })
-    this.$emit('finder', finder)
-  },
-  watch: {
+    }
   }
 }
 </script>
