@@ -57,12 +57,6 @@ export default function () {
     var positionTexture = gpuCompute.createTexture()
     fillTexture(positionTexture)
     positionVariable = gpuCompute.addVariable('positionInfo', particlePositionShader, positionTexture)
-    positionVariable.material.defines.BOUNDS = BOUNDS.toFixed(1)
-    positionVariable.wrapS = THREE.ClampToEdgeWrapping
-    positionVariable.wrapT = THREE.ClampToEdgeWrapping
-    positionVariable.material.uniforms.mousePos = {
-      value: new THREE.Vector2(0, 0)
-    }
 
     var velocityTexture = gpuCompute.createTexture()
     var velocityVariable = gpuCompute.addVariable('velocityInfo', particleVelocityShader, velocityTexture)
@@ -71,6 +65,15 @@ export default function () {
     velocityVariable.wrapT = THREE.ClampToEdgeWrapping
     velocityVariable.material.uniforms.mousePos = {
       value: new THREE.Vector2(0, 0)
+    }
+
+    api.setMouse = ({ pageX, pageY, rect, isIn, type }) => {
+      var mouse = velocityVariable.material.uniforms.mousePos.value
+      if (rect && typeof pageX !== 'undefined' && typeof pageY !== 'undefined') {
+        mouse.x = ((pageX - rect.left) / rect.width) * 2 - 1
+        mouse.y = -((pageY - rect.top) / rect.height) * 2 + 1
+        // console.log(mouse)
+      }
     }
 
     gpuCompute.setVariableDependencies(positionVariable, [positionVariable, velocityVariable])

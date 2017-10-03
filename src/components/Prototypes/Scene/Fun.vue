@@ -22,7 +22,7 @@
     v-if="camera && scene"
     :camera="camera"
     :scene="scene"
-    @setMouse="(v) => { $emit('setMouse', v); setMouse = v; }"
+    @setMouse="(v) => { setRMouse = v; }"
     @hover="(v) => { hover = v }"
     @glClick="handleHit"
   />
@@ -45,9 +45,23 @@ export default {
       particleSea: false,
       camera: false,
       scene: false,
-      setMouse: () => {},
+      setRMouse: () => {},
       hover: () => { return [] },
       lastResult: []
+    }
+  },
+  watch: {
+    particleSea () {
+      this.$emit('setMouse', (data) => {
+        this.setRMouse(data)
+        this.particleSea.setMouse(data)
+      })
+    },
+    setRMouse () {
+      this.$emit('setMouse', (data) => {
+        this.setRMouse(data)
+        this.particleSea.setMouse(data)
+      })
     }
   },
   activated () {

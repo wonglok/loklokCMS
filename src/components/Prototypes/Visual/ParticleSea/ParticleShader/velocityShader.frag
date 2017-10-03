@@ -12,14 +12,14 @@ float constrain(float val, float min, float max) {
     }
 }
 
-vec3 getDiff (in vec3 lastPos, in vec3 mousePos) {
-  vec3 diff = lastPos.xyz / 33.3 - mousePos;
+vec2 getDiff (in vec2 lastPos, in vec2 mousePos) {
+  vec2 diff = lastPos.xy / 33.3 - mousePos;
   float distance = constrain(length(diff), 18.0, 50.0);
   float strength = 0.35 / (distance * distance);
 
   diff = normalize(diff);
   // delta
-  diff = diff * strength * (-20.83) * (1.0 / 0.01666667) * 0.000183 * 2.0;
+  diff = diff * strength * -1.0;
   // diff = diff * strength * (-20.83) * (1.0 / delta) * 0.0183;
 
   return diff;
@@ -32,11 +32,9 @@ void main()	{
   vec4 lastPos = texture2D( positionInfo, uv );
   vec4 lastVel = texture2D( velocityInfo, uv );
 
-  vec3 diff = getDiff( lastPos.xyz, vec3(mousePos.x, mousePos.y, 0) );
+  vec2 diff = getDiff( lastPos.xy, mousePos );
 
-  lastVel.xyz += diff;
+  lastVel.xy += diff;
 
-  vec4 result = vec4(lastVel);
-
-  gl_FragColor = result;
+  gl_FragColor = lastVel;
 }
