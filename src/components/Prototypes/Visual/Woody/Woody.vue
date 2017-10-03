@@ -3,19 +3,19 @@
 </template>
 
 <script>
-import ParticleSea from '@/components/Prototypes/Visual/ParticleSea/ParticleSea.js'
+import Woody from '@/components/Prototypes/Visual/Woody/Woody.js'
 
 export default {
-  props: ['renderer'],
+  props: ['renderer', 'rect'],
   data () {
     return {
-      api: ParticleSea(),
+      api: Woody(),
       info: false
       // mesh: null
     }
   },
   mounted () {
-    this.info = this.api.setup({ renderer: this.renderer })
+    this.info = this.api.setup({ renderer: this.renderer, rect: this.rect })
 
     this.$emit('api', this.api)
     this.$parent.__add(this.info.points)
@@ -33,6 +33,9 @@ export default {
     }
   },
   watch: {
+    rect () {
+      this.api.updateRect(this.rect)
+    }
   }
 }
 </script>

@@ -5,6 +5,8 @@ import LayoutPrototype from '@/components/Layout/Prototype'
 import Preview from '@/components/Prototypes/Preview'
 import Ball from '@/components/Prototypes/Scene/Ball'
 import Fun from '@/components/Prototypes/Scene/Fun'
+import Red from '@/components/Prototypes/Scene/Red'
+import Woody from '@/components/Prototypes/Scene/Woody'
 
 Vue.use(Router)
 
@@ -34,6 +36,14 @@ export default new Router({
             {
               path: 'fun',
               component: Fun
+            },
+            {
+              path: 'red',
+              component: Red
+            },
+            {
+              path: 'woody',
+              component: Woody
             }
           ]
         }

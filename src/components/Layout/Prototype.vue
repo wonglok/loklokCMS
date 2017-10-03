@@ -2,8 +2,12 @@
 <div class="proto">
   <h1>Prototypes</h1>
   <p>{{ $route.fullPath }}</p>
-  <router-link to="/prototypes/scene/ball">Ball</router-link>
-  <router-link to="/prototypes/scene/fun">Fun</router-link>
+  <p>
+    <router-link to="/prototypes/scene/ball">Ball</router-link>
+    <router-link to="/prototypes/scene/red">Red</router-link>
+    <router-link to="/prototypes/scene/fun">Fun</router-link>
+    <router-link to="/prototypes/scene/woody">Woody</router-link>
+  </p>
   <!-- <button v-if="!appState.loggedIn" @click="loginGoogle()">Login Google</button> -->
   <!-- <pre style="width: 100%; max-height: 200px; overflow: auto;">{{ appState.user }}</pre> -->
   <div class="fixed-box">

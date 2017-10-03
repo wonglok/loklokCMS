@@ -15,7 +15,7 @@
       <SphereGeometry  />
     </Mesh> -->
 
-    <ParticleSea v-if="renderer" :renderer="renderer" @api="(v) => { particleSea = v }" />
+    <Woody v-if="renderer" :renderer="renderer" @api="(v) => { particleSea = v }" />
 
     <!-- <PointLight /> -->
   </Scene>
@@ -33,14 +33,14 @@
 <script>
 import * as THREE from 'three'
 import Bundle from '@/components/WebGL/Bundle'
-import ParticleSea from '@/components/Prototypes/Visual/ParticleSea/ParticleSea.vue'
+import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 export default {
   mixins: [fadeInOut],
   props: ['aspect', 'renderer'],
   components: {
     ...Bundle,
-    ParticleSea
+    Woody
   },
   data () {
     return {
@@ -53,6 +53,26 @@ export default {
     }
   },
   watch: {
+    particleSea () {
+      this.$emit('setMouse', (data) => {
+        if (this.setRMouse) {
+          this.setRMouse(data)
+        }
+        if (this.particleSea) {
+          this.particleSea.setMouse(data)
+        }
+      })
+    },
+    setRMouse () {
+      this.$emit('setMouse', (data) => {
+        if (this.setRMouse) {
+          this.setRMouse(data)
+        }
+        if (this.particleSea) {
+          this.particleSea.setMouse(data)
+        }
+      })
+    }
   },
   activated () {
     this.$emit('scene', this.scene)
