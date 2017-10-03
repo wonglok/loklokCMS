@@ -1,6 +1,12 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "cms-admins": {
+      ".read": "true",
+    	".write": "auth != null && root.child('cms-system').hasChild(auth.uid)"
+  	},
+  	"cms-info": {
+      ".read": "true",
+    	".write": "auth != null && root.child('cms-admins').hasChild(auth.uid)"
+  	}
   }
 }

@@ -4,6 +4,8 @@
   <p>{{ $route.fullPath }}</p>
   <router-link to="/prototypes/scene/ball">Ball</router-link>
   <router-link to="/prototypes/scene/fun">Fun</router-link>
+  <!-- <button v-if="!appState.loggedIn" @click="loginGoogle()">Login Google</button> -->
+  <!-- <pre style="width: 100%; max-height: 200px; overflow: auto;">{{ appState.user }}</pre> -->
   <div class="fixed-box">
     <div class="full">
       <router-view></router-view>
@@ -13,8 +15,19 @@
 </template>
 
 <script>
-export default {
+import { loginGoogle, appState } from '@/backend/firebase'
 
+export default {
+  data () {
+    return {
+      appState
+    }
+  },
+  methods: {
+    loginGoogle () {
+      loginGoogle()
+    }
+  }
 }
 </script>
 

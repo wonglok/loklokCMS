@@ -3,8 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import * as firebase from '@/backend/firebase'
 
 Vue.config.productionTip = false
+
+firebase.hydrate()
 
 /* eslint-disable no-new */
 new Vue({

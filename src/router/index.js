@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import LayoutPrototype from '@/components/Layout/Prototype'
-import GLViewScene from '@/components/Prototypes/GLViewScene'
+import Preview from '@/components/Prototypes/Preview'
 import Ball from '@/components/Prototypes/Scene/Ball'
 import Fun from '@/components/Prototypes/Scene/Fun'
 
@@ -23,8 +23,8 @@ export default new Router({
       children: [
         {
           path: 'scene',
-          name: 'GLViewScene',
-          component: GLViewScene,
+          name: 'Preview',
+          component: Preview,
           redirect: '/prototypes/scene/ball',
           children: [
             {

@@ -12,6 +12,7 @@
         v-bind:is="'router-view'"
         :aspect="aspect"
         :rect="rect"
+        :renderer="renderer"
         @setMouse="(v) => { setMouse = v }"
         @exec="(v) => { exec = v }"
         @scene="(v) => { scene = v }"
@@ -26,12 +27,16 @@
 
 <script>
 import Bundle from '@/components/WebGL/Bundle'
+
+var rAFID = 0
+
 export default {
   components: {
     ...Bundle
   },
   data () {
     return {
+      view: { left: 0, top: 0 },
       evlt: false,
       exec: () => {},
       uninstaller: () => {},
@@ -41,7 +46,6 @@ export default {
       renderer: false,
       camera: false,
       scene: false,
-      rAFID: 0,
       keepAlive: false
     }
   },
@@ -70,17 +74,25 @@ export default {
   },
   methods: {
     stop () {
-      window.cancelAnimationFrame(this.rAFID)
+      window.cancelAnimationFrame(rAFID)
     },
     loop () {
       var loopsiloop = () => {
-        this.rAFID = window.requestAnimationFrame(loopsiloop)
+        rAFID = window.requestAnimationFrame(loopsiloop)
+
+        // var rect = this.$refs.container.getBoundingClientRect()
+        // if (rect.left !== this.view.left || rect.top !== this.view.top) {
+        //   this.evlt.resizer()
+        //   this.view.left = rect.left
+        //   this.view.top = rect.top
+        // }
+
         if (this.renderer) {
           this.exec()
           this.renderer.render(this.scene, this.camera)
         }
       }
-      this.rAFID = window.requestAnimationFrame(loopsiloop)
+      rAFID = window.requestAnimationFrame(loopsiloop)
     },
     install () {
       var ev = this.evlt = {
@@ -103,6 +115,9 @@ export default {
           evt.preventDefault()
           this.setMouse({ pageX: evt.pageX, pageY: evt.pageY, rect: this.rect })
         },
+        onMO: (evt) => {
+          this.setMouse({ isIn: true })
+        },
         onME: (evt) => {
           this.setMouse({ isIn: true })
         },
@@ -114,9 +129,11 @@ export default {
         }
       }
       ev.resizer()
+      console.log('emitting refresher')
       this.$emit('refresh', () => {
         ev.resizer()
       })
+      this.$refs.container.addEventListener('mouseover', ev.onMO, false)
       this.$refs.container.addEventListener('mouseenter', ev.onME, false)
       this.$refs.container.addEventListener('mouseleave', ev.onML, false)
       this.$refs.container.addEventListener('mousemove', ev.onMV, false)
@@ -129,6 +146,7 @@ export default {
       this.$refs.container.style['-webkit-tap-highlight-color'] = `rgba(0,0,0,0)`
       window.addEventListener('resize', ev.resizer, false)
       this.uninstaller = () => {
+        this.$refs.container.removeEventListener('mouseover', ev.onMO)
         this.$refs.container.removeEventListener('mouseenter', ev.onME)
         this.$refs.container.removeEventListener('mouseleave', ev.onML)
         this.$refs.container.removeEventListener('mousemove', ev.onMV)

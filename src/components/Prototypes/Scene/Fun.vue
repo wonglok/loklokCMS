@@ -11,26 +11,38 @@
 
     <Mesh ref="mesh-1">
       <MeshPhongMaterial :opacity="0" />
-      <SphereGeometry />
+      <SphereGeometry  />
     </Mesh>
+
+    <ParticleSea v-if="renderer" :renderer="renderer" @api="(v) => { particleSea = v }" />
 
     <PointLight />
   </Scene>
-  <Raycaster v-if="camera && scene" :camera="camera" :scene="scene" @setMouse="(v) => { $emit('setMouse', v); setMouse = v }" @hover="(v) => { hover = v }" @glClick="handleHit" />
+  <Raycaster
+    v-if="camera && scene"
+    :camera="camera"
+    :scene="scene"
+    @setMouse="(v) => { $emit('setMouse', v); setMouse = v; }"
+    @hover="(v) => { hover = v }"
+    @glClick="handleHit"
+  />
 </span>
 </template>
 
 <script>
 import Bundle from '@/components/WebGL/Bundle'
+import ParticleSea from '@/components/Prototypes/Visual/ParticleSea/ParticleSea.vue'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 export default {
   mixins: [fadeInOut],
-  props: ['aspect'],
+  props: ['aspect', 'renderer'],
   components: {
-    ...Bundle
+    ...Bundle,
+    ParticleSea
   },
   data () {
     return {
+      particleSea: false,
       camera: false,
       scene: false,
       setMouse: () => {},
@@ -81,17 +93,24 @@ export default {
       }
     },
     highlight (result, color) {
+      if (result.length === 0) { return }
       for (var i = 0; i < result.length; i++) {
-        result[i].object.material.color.set(color)
+        if (result[i].object.material.color) {
+          result[i].object.material.color.set(color)
+        }
       }
     },
     exec () {
       // this.$refs['mesh-1'].mesh.material.color.set(0xffffff)
 
-      this.highlight(this.lastResult, 0x00ffff)
-      var result = this.hover()
-      this.highlight(result, 0xff00ff)
-      this.lastResult = result
+      // this.highlight(this.lastResult, 0x00ffff)
+      // var result = this.hover()
+      // this.highlight(result, 0xff00ff)
+      // this.lastResult = result
+
+      if (this.particleSea) {
+        this.particleSea.render()
+      }
 
       this.execTween()
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="full">
-    <GLView></GLView>
+    <GLView @refresh="(v) => { refresh = v }"></GLView>
   </div>
 </template>
 
