@@ -15,7 +15,7 @@
       <SphereGeometry  />
     </Mesh> -->
 
-    <Woody v-if="renderer" :renderer="renderer" @api="(v) => { particleSea = v }" />
+    <Woody v-if="renderer" :renderer="renderer" @api="(v) => { woodyBall = v }" />
 
     <!-- <PointLight /> -->
   </Scene>
@@ -44,7 +44,7 @@ export default {
   },
   data () {
     return {
-      particleSea: false,
+      woodyBall: false,
       camera: false,
       scene: false,
       setRMouse: () => {},
@@ -53,13 +53,13 @@ export default {
     }
   },
   watch: {
-    particleSea () {
+    woodyBall () {
       this.$emit('setMouse', (data) => {
         if (this.setRMouse) {
           this.setRMouse(data)
         }
-        if (this.particleSea) {
-          this.particleSea.setMouse(data)
+        if (this.woodyBall) {
+          this.woodyBall.setMouse(data)
         }
       })
     },
@@ -68,8 +68,8 @@ export default {
         if (this.setRMouse) {
           this.setRMouse(data)
         }
-        if (this.particleSea) {
-          this.particleSea.setMouse(data)
+        if (this.woodyBall) {
+          this.woodyBall.setMouse(data)
         }
       })
     }
@@ -81,8 +81,8 @@ export default {
       if (this.setRMouse) {
         this.setRMouse(data)
       }
-      if (this.particleSea) {
-        this.particleSea.setMouse(data)
+      if (this.woodyBall) {
+        this.woodyBall.setMouse(data)
       }
     })
 
@@ -143,8 +143,8 @@ export default {
       // this.highlight(result, 0xff00ff)
       // this.lastResult = result
 
-      if (this.particleSea) {
-        this.particleSea.render()
+      if (this.woodyBall) {
+        this.woodyBall.render()
       }
 
       this.execTween()

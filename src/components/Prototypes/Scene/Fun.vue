@@ -16,6 +16,7 @@
     </Mesh> -->
 
     <ParticleSea v-if="renderer" :renderer="renderer" @api="(v) => { particleSea = v }" />
+    <!-- <Woody v-if="renderer" :renderer="renderer" @api="(v) => { woodyBall = v }" /> -->
 
     <!-- <PointLight /> -->
   </Scene>
@@ -34,16 +35,20 @@
 import * as THREE from 'three'
 import Bundle from '@/components/WebGL/Bundle'
 import ParticleSea from '@/components/Prototypes/Visual/ParticleSea/ParticleSea.vue'
+import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
+
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 export default {
   mixins: [fadeInOut],
   props: ['aspect', 'renderer'],
   components: {
     ...Bundle,
+    Woody,
     ParticleSea
   },
   data () {
     return {
+      woodyBall: false,
       particleSea: false,
       camera: false,
       scene: false,
@@ -63,6 +68,9 @@ export default {
       }
       if (this.particleSea) {
         this.particleSea.setMouse(data)
+      }
+      if (this.woodyBall) {
+        this.woodyBall.setMouse(data)
       }
     })
 
@@ -125,6 +133,9 @@ export default {
 
       if (this.particleSea) {
         this.particleSea.render()
+      }
+      if (this.woodyBall) {
+        this.woodyBall.render()
       }
 
       this.execTween()
