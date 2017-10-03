@@ -1,6 +1,9 @@
 #include <common>
 
 uniform sampler2D positionInfo;
+uniform sampler2D velocityInfo;
+
+varying vec4 particleVel;
 
 void main() {
   vec2 cellSize = vec2( 1.0 / WIDTH, 1.0 / WIDTH );
@@ -14,14 +17,14 @@ void main() {
   vec3 objectNormal = vec3(1.0);
 
   vec4 fireworkCoord = texture2D( positionInfo, uv );
+  particleVel = texture2D( velocityInfo, uv );
 
   vec3 transformed = vec3( fireworkCoord.x, fireworkCoord.y, fireworkCoord.z );
 
-  gl_PointSize = 2.0;
+  gl_PointSize = 1.0;
 
   vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );
   vec4 outputPos = projectionMatrix * mvPosition;
-
 
   gl_Position = outputPos;
 

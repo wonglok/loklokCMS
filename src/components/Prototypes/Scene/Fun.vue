@@ -5,31 +5,33 @@
     :aspect="aspect"
     :near="1"
     :far="1000"
+    :position="{ x: 0, y: 0, z: 165 }"
     @camera="(v) => { camera = v; }"
   />
   <Scene @scene="(v) => { scene = v; }">
 
-    <Mesh ref="mesh-1">
+    <!-- <Mesh ref="mesh-1">
       <MeshPhongMaterial :opacity="0" />
       <SphereGeometry  />
-    </Mesh>
+    </Mesh> -->
 
     <ParticleSea v-if="renderer" :renderer="renderer" @api="(v) => { particleSea = v }" />
 
-    <PointLight />
+    <!-- <PointLight /> -->
   </Scene>
-  <Raycaster
+  <!-- <Raycaster
     v-if="camera && scene"
     :camera="camera"
     :scene="scene"
     @setMouse="(v) => { setRMouse = v; }"
     @hover="(v) => { hover = v }"
     @glClick="handleHit"
-  />
+  /> -->
 </span>
 </template>
 
 <script>
+import * as THREE from 'three'
 import Bundle from '@/components/WebGL/Bundle'
 import ParticleSea from '@/components/Prototypes/Visual/ParticleSea/ParticleSea.vue'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
@@ -53,40 +55,59 @@ export default {
   watch: {
     particleSea () {
       this.$emit('setMouse', (data) => {
-        this.setRMouse(data)
-        this.particleSea.setMouse(data)
+        if (this.setRMouse) {
+          this.setRMouse(data)
+        }
+        if (this.particleSea) {
+          this.particleSea.setMouse(data)
+        }
       })
     },
     setRMouse () {
       this.$emit('setMouse', (data) => {
-        this.setRMouse(data)
-        this.particleSea.setMouse(data)
+        if (this.setRMouse) {
+          this.setRMouse(data)
+        }
+        if (this.particleSea) {
+          this.particleSea.setMouse(data)
+        }
       })
     }
   },
   activated () {
     this.$emit('scene', this.scene)
     this.$emit('camera', this.camera)
-    this.$emit('setMouse', this.setMouse)
+    this.$emit('setMouse', (data) => {
+      if (this.setRMouse) {
+        this.setRMouse(data)
+      }
+      if (this.particleSea) {
+        this.particleSea.setMouse(data)
+      }
+    })
+
+    this.scene.background = new THREE.Color(0x000000)
 
     this.$nextTick(() => {
       this.$emit('exec', this.exec)
-      this.fadeInTween((v) => {
-        this.camera.position.z = 10
-        this.$refs['mesh-1'].mesh.material.opacity = v
-        this.$refs['mesh-1'].mesh.position.z = 5 * (1 - v)
-      }, () => {
-      })
+      // this.fadeInTween((v) => {
+      //   this.camera.position.z = 10
+      //   this.$refs['mesh-1'].mesh.material.opacity = v
+      //   this.$refs['mesh-1'].mesh.position.z = 5 * (1 - v)
+      // }, () => {
+      // })
     })
   },
   beforeRouteLeave (to, from, next) {
-    this.fadeOutTween((v) => {
-      this.camera.position.z = 10
-      this.$refs['mesh-1'].mesh.material.opacity = v
-      this.$refs['mesh-1'].mesh.position.z = -5 * (1.0 - v)
-    }, () => {
-      next()
-    })
+    next()
+
+    // this.fadeOutTween((v) => {
+    //   this.camera.position.z = 10
+    //   this.$refs['mesh-1'].mesh.material.opacity = v
+    //   this.$refs['mesh-1'].mesh.position.z = -5 * (1.0 - v)
+    // }, () => {
+    //   next()
+    // })
   },
   deactivated () {
     this.$emit('setMouse', () => {})

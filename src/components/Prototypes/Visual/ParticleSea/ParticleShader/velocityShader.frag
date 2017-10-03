@@ -14,12 +14,12 @@ float constrain(float val, float min, float max) {
 
 vec2 getDiff (in vec2 lastPos, in vec2 mousePos) {
   vec2 diff = lastPos.xy / 33.3 - mousePos;
-  float distance = constrain(length(diff), 18.0, 50.0);
+  float distance = constrain(length(diff), 5.0, 100.0);
   float strength = 0.35 / (distance * distance);
 
   diff = normalize(diff);
   // delta
-  diff = diff * strength * -1.0;
+  diff = diff * strength * -2.0;
   // diff = diff * strength * (-20.83) * (1.0 / delta) * 0.0183;
 
   return diff;

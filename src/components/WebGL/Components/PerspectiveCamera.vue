@@ -5,7 +5,7 @@ export default {
   render () {
     return null
   },
-  props: ['fov', 'aspect', 'near', 'far'],
+  props: ['fov', 'aspect', 'near', 'far', 'position'],
   data () {
     return {
       camera: null
@@ -13,10 +13,22 @@ export default {
   },
   created () {
     this.camera = new THREE.PerspectiveCamera(this.fov, this.aspect, this.near, this.far)
-    this.camera.position.z = 5
+
+    if (this.position) {
+      this.camera.position.x = this.position.x
+      this.camera.position.y = this.position.y
+      this.camera.position.z = this.position.z
+    }
     this.$emit('camera', this.camera)
   },
   watch: {
+    position () {
+      if (this.position) {
+        this.camera.position.x = this.position.x
+        this.camera.position.y = this.position.y
+        this.camera.position.z = this.position.z
+      }
+    },
     aspect () {
       if (this.camera) {
         this.camera.aspect = this.aspect

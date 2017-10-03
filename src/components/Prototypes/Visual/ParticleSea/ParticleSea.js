@@ -17,6 +17,7 @@ export default function () {
 
   var gpuCompute
   var positionVariable
+  var velocityVariable
   var particleShader
 
   function fillTexture (texture) {
@@ -59,7 +60,7 @@ export default function () {
     positionVariable = gpuCompute.addVariable('positionInfo', particlePositionShader, positionTexture)
 
     var velocityTexture = gpuCompute.createTexture()
-    var velocityVariable = gpuCompute.addVariable('velocityInfo', particleVelocityShader, velocityTexture)
+    velocityVariable = gpuCompute.addVariable('velocityInfo', particleVelocityShader, velocityTexture)
     velocityVariable.material.defines.BOUNDS = BOUNDS.toFixed(1)
     velocityVariable.wrapS = THREE.ClampToEdgeWrapping
     velocityVariable.wrapT = THREE.ClampToEdgeWrapping
@@ -94,6 +95,9 @@ export default function () {
       uniforms: {
         positionInfo: {
           value: null
+        },
+        velocityInfo: {
+          value: null
         }
       },
       vertexShader: particleVertexShader,
@@ -126,6 +130,7 @@ export default function () {
   function render () {
     // @.@
     particleShader.uniforms.positionInfo.value = gpuCompute.getCurrentRenderTarget(positionVariable).texture
+    particleShader.uniforms.velocityInfo.value = gpuCompute.getCurrentRenderTarget(velocityVariable).texture
     gpuCompute.compute()
   }
   api.render = render
