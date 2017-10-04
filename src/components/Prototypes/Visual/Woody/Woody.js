@@ -11,7 +11,7 @@ export default function () {
     var shaderMaterial = new THREE.ShaderMaterial({
       uniforms: {
         pointSize: { value: window.devicePixelRatio * 1.25 || 1.0 },
-        wood: { value: new THREE.TextureLoader().load(require('./Texture/wood.jpg')) },
+        wood: { value: new THREE.TextureLoader().load(require('./Texture/broken-glass.jpg')) },
         time: { value: 1.0 },
         resolution: { value: new THREE.Vector2() },
         mousePos: { value: new THREE.Vector2() }
