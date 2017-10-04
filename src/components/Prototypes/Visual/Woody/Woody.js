@@ -10,7 +10,7 @@ export default function () {
 
     var shaderMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        pointSize: { value: window.devicePixelRatio * 1.5 || 1.0 },
+        pointSize: { value: window.devicePixelRatio * 1.25 || 1.0 },
         wood: { value: new THREE.TextureLoader().load(require('./Texture/wood.jpg')) },
         time: { value: 1.0 },
         resolution: { value: new THREE.Vector2() },

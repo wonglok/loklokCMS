@@ -65,13 +65,13 @@ void toBall(vec3 pos, out float az, out float el) {
 }
 
 void main() {
-  vec4 woodColor = texture2D( wood, uv + mousePos * 0.015  + cnoise(uv + mousePos) );
+  vec4 woodColor = texture2D( wood, uv * 0.5 + mousePos * 0.015 + cnoise(uv + mousePos) * 0.5 );
   vUv = uv;
 
   float az = 0.0;
   float el = 0.0;
 
-  vec3 noiser = position + (vec3(woodColor) * 2.0 - 1.0) * 50.0;
+  vec3 noiser = position + (vec3(woodColor)) * 50.0;
 
   toBall(noiser, az, el);
 
