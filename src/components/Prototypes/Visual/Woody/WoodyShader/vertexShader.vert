@@ -81,5 +81,5 @@ void main() {
 
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
-  gl_PointSize = woodColor.z * normal.z * 3.0 + 1.0;
+  gl_PointSize = abs(woodColor.z * normal.z * 3.0 ) + 1.0;
 }
