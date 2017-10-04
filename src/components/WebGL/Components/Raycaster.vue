@@ -31,7 +31,7 @@ export default {
     finder () {
       if (this.camera && this.scene && this.mouse) {
         this.raycaster.setFromCamera(this.mouse, this.camera)
-        var intersects = this.raycaster.intersectObjects(this.scene.children)
+        var intersects = this.raycaster.intersectObjects(this.scene.children, true)
         // console.log(intersects)
         return intersects
       } else {

@@ -1,12 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import LayoutPrototype from '@/components/Layout/Prototype'
+import LayoutPrototype from '@/components/LayoutHTML/Prototype'
+
 import Preview from '@/components/Prototypes/Preview'
 import Ball from '@/components/Prototypes/Scene/Ball'
 import Fun from '@/components/Prototypes/Scene/Fun'
 import Red from '@/components/Prototypes/Scene/Red'
 import Woody from '@/components/Prototypes/Scene/Woody'
+
+import NikeMobilerHTML from '@/components/LayoutHTML/Nike'
+import GameLanding from '@/components/NikeWebGL/GameLanding'
 
 Vue.use(Router)
 
@@ -17,6 +21,17 @@ export default new Router({
       path: '/',
       name: 'Hello',
       component: Hello
+    },
+    {
+      path: '/nike',
+      component: NikeMobilerHTML,
+      children: [
+        {
+          path: 'game',
+          name: 'nike-scene',
+          component: GameLanding
+        }
+      ]
     },
     {
       path: '/prototypes',

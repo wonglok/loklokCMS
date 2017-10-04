@@ -19,6 +19,9 @@ export default {
                     .onUpdate(() => {
                       update(varying.opacity / factor)
                     })
+                    .onStop(() => {
+                      done()
+                    })
                     .onComplete(() => {
                       done()
                     })
@@ -35,6 +38,9 @@ export default {
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .onUpdate(() => {
                       update(varying.opacity / factor)
+                    })
+                    .onStop(() => {
+                      done()
                     })
                     .onComplete(() => {
                       done()

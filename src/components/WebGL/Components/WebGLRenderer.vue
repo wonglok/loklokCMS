@@ -42,6 +42,7 @@ export default {
     this.$emit('renderer', this.renderer)
   },
   mounted () {
+    this.renderer.domElement.style.marginBottom = '-6px'
     this.$refs.mounter.appendChild(this.renderer.domElement)
   },
   beforeDestroy () {

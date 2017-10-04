@@ -72,14 +72,14 @@ void main() {
   vec2 dynamicUV = uv;
   dynamicUV = dynamicUV * 0.5 + mousePos * 0.015;
   dynamicUV = dynamicUV * 0.5 + cnoise(uv * 0.25 + mousePos * 0.15) * 0.5;
-  dynamicUV = dynamicUV * 0.75 + (sin(time) * cos(time) + 0.5) * 0.25;
+  dynamicUV = dynamicUV * 0.75 + (sin(time * 3.0) * cos(time * 3.0) + 0.5) * 0.25;
 
   vec4 woodColor = texture2D(wood, dynamicUV);
 
   float az = 0.0;
   float el = 0.0;
 
-  vec3 noiser = position + (vec3(woodColor) * 2.0 - 1.0) * 27.0;
+  vec3 noiser = position + (vec3(woodColor) * 2.0 - 1.0) * 30.0;
   toBall(noiser, az, el);
 
   vec3 levitation = vec3(woodColor) * normal * 8.0;
@@ -92,5 +92,5 @@ void main() {
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
 
   float newSize = woodColor.z * normal.z * 3.0;
-  gl_PointSize = abs(newSize) + 1.0;
+  gl_PointSize = abs(newSize) + 1.25;
 }

@@ -4,6 +4,7 @@
 <script>
 import * as THREE from 'three'
 export default {
+  props: ['position', 'gclick'],
   data () {
     return {
       mesh: null,
@@ -15,11 +16,22 @@ export default {
   },
   created () {
     this.mesh = new THREE.Mesh()
+    if (this.gclick) {
+      this.mesh.userData.gclick = this.gclick
+    }
+    if (this.position) {
+      this.mesh.position.set(this.position.x || 0, this.position.y || 0, this.position.z || 0)
+    }
     this.default.geometry = this.mesh.geometry
     this.default.material = this.mesh.material
     this.$emit('mesh', this.mesh)
   },
   watch: {
+    position () {
+      if (this.position) {
+        this.mesh.position.set(this.position.x || 0, this.position.y || 0, this.position.z || 0)
+      }
+    }
   },
   // calling parent methods.
   mounted () {
