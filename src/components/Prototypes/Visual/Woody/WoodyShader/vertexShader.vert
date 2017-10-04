@@ -74,12 +74,12 @@ void main() {
 
   vec3 noiser = position + vec3(woodColor.x) * 30.0;
   toBall(noiser, az, el);
-  vec3 newPos = fromBall(70.0, az, el) + vec3(woodColor) * normal;
+  vec3 newPos = fromBall(70.0, az, el) + vec3(woodColor) * normal * 10.0;
 
   // vec3 newPos = position + normal * vec3(woodColor) * 20.0;
   // vec3 newPos = position;
 
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
-  gl_PointSize = pointSize;
+  gl_PointSize = woodColor.z * normal.z * 3.0 + 1.0;
 }
