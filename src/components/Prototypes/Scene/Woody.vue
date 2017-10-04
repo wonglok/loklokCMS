@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import * as THREE from 'three'
+// import * as THREE from 'three'
 import Bundle from '@/components/WebGL/Bundle'
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
@@ -86,7 +86,7 @@ export default {
       }
     })
 
-    this.scene.background = new THREE.Color(0x000000)
+    // this.scene.background = new THREE.Color(0xffffff)
 
     this.$nextTick(() => {
       this.$emit('exec', this.exec)
