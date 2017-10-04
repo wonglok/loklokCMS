@@ -79,7 +79,8 @@ void main() {
   // vec3 newPos = position + normal * vec3(woodColor) * 20.0;
   // vec3 newPos = position;
 
-
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
-  gl_PointSize = abs(woodColor.z * normal.z * 3.0 ) + 1.0;
+
+  float newSize = woodColor.z * normal.z * 3.0;
+  gl_PointSize = abs(newSize) + 1.0;
 }
