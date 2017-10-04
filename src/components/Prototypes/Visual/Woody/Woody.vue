@@ -6,7 +6,7 @@
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.js'
 
 export default {
-  props: ['renderer', 'rect', 'position'],
+  props: ['renderer', 'rect', 'position', 'gclick'],
   data () {
     return {
       api: Woody(),
@@ -16,7 +16,11 @@ export default {
   },
   mounted () {
     this.info = this.api.setup({ renderer: this.renderer, rect: this.rect, position: this.position || { x: 0, y: 0, z: 0 } })
-    this.api.updateRect({ rect: this.rect })
+    // this.api.updateRect({ rect: this.rect })
+
+    if (this.gclick) {
+      this.api.points.userData.gclick = this.gclick
+    }
 
     this.$emit('api', this.api)
     this.$parent.__add(this.info.points)

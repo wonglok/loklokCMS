@@ -9,13 +9,14 @@ export default function () {
     var geometry = new THREE.SphereBufferGeometry(70, 128, 128)
 
     var shaderMaterial = api.material = new THREE.ShaderMaterial({
-      // transparent: true,
-      // depthTest: true,
-      // blending: THREE.AdditiveBlending,
+      transparent: true,
+      depthTest: true,
+      blending: THREE.AdditiveBlending,
       uniforms: {
         pointSize: { value: window.devicePixelRatio * 1.0 || 1.0 },
         wood: { value: new THREE.TextureLoader().load(require('./Texture/broken-glass.jpg')) },
         time: { value: 1.0 },
+        opacity: { value: 1.0 },
         resolution: { value: new THREE.Vector2() },
         mousePos: { value: new THREE.Vector2() }
       },

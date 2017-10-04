@@ -29,7 +29,7 @@
       </component>
     </keep-alive>
 
-    <Woody @api="(v) => { execStack.woody = v.render; mouseStack.woody = v.setMouse }" :position="{ x: 0, y: 0, z: -170 }" />
+    <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; mouseStack.woody = v.setMouse }" :position="{ x: 0, y: 0, z: -170 }" />
 
   </Scene>
   <Raycaster
@@ -110,6 +110,17 @@ export default {
     this.$emit('exec', () => {})
   },
   methods: {
+    tweenWoody ({ found }) {
+      console.log(found)
+      this.fadeOutTween((v) => {
+        found.object.material.uniforms.opacity.value = v
+      }, () => {
+        this.fadeInTween((v) => {
+          found.object.material.uniforms.opacity.value = v
+        }, () => {
+        })
+      })
+    },
     alert ({ found }) {
       this.fadeOutTween((v) => {
         found.object.material.opacity = v
