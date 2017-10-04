@@ -1,6 +1,8 @@
 varying vec2 vUv;
 uniform sampler2D wood;
 
+uniform vec2 resolution;
+
 void main() {
 
   // vec4 rainbow = vec4(1.0);
@@ -13,7 +15,13 @@ void main() {
   // );
 
   vec4 woodColor = texture2D( wood, vUv );
-  gl_FragColor = woodColor;
+  vec4 finalColor = vec4( vec3(woodColor), 0.25);
 
-  // gl_FragColor = vec4( vec3(0.6) , 0.5);
+  finalColor *= vec4(0.65, 0.65, 0.9, 0.75);
+
+  gl_FragColor = finalColor;
+
+  // gl_FragColor = woodColor;
+
+  // gl_FragColor = vec4( vec3(0.6) , 0.15);
 }

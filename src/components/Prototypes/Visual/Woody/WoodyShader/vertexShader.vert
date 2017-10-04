@@ -3,6 +3,7 @@ varying vec2 vUv;
 uniform sampler2D wood;
 uniform float pointSize;
 uniform vec2 mousePos;
+uniform float time;
 
 #define M_PI 3.1415926535897932384626433832795
 
@@ -65,17 +66,22 @@ void toBall(vec3 pos, out float az, out float el) {
 }
 
 void main() {
-  vec2 dynamicUV = uv * 0.5 + mousePos * 0.015 + cnoise(uv * 0.75 + mousePos * 0.25) * 0.5;
-  vec4 woodColor = texture2D( wood,  dynamicUV);
-  vUv = dynamicUV;
+  vec2 dynamicUV = uv * 0.25;
+  dynamicUV = dynamicUV + mousePos * 0.015;
+  dynamicUV = dynamicUV + cnoise(uv * 0.25 + mousePos * 0.15) * 0.5;
+  dynamicUV = dynamicUV * 0.5 + (sin(time) * cos(time) + 0.5) * 0.5;
+
+  vec4 woodColor = texture2D(wood, dynamicUV);
+  vUv = uv;
 
   float az = 0.0;
   float el = 0.0;
 
-  vec3 noiser = position + vec3(woodColor.x) * 30.0;
+  vec3 noiser = position + (vec3(woodColor) * 2.0 - 1.0) * 30.0;
   toBall(noiser, az, el);
-  vec3 newPos = fromBall(70.0, az, el) + vec3(woodColor) * normal * 10.0;
 
+  vec3 levitation = vec3(woodColor) * normal * 5.0;
+  vec3 newPos = fromBall(70.0, az, el) + levitation;
   // vec3 newPos = position + normal * vec3(woodColor) * 20.0;
   // vec3 newPos = position;
 

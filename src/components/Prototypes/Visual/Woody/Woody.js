@@ -8,9 +8,12 @@ export default function () {
   function setupScene ({ rect }) {
     var geometry = new THREE.SphereBufferGeometry(70, 128, 128)
 
-    var shaderMaterial = new THREE.ShaderMaterial({
+    var shaderMaterial = api.material = new THREE.ShaderMaterial({
+      transparent: true,
+      depthTest: true,
+      blending: THREE.AdditiveBlending,
       uniforms: {
-        pointSize: { value: window.devicePixelRatio * 1.25 || 1.0 },
+        pointSize: { value: window.devicePixelRatio * 1.35 || 1.0 },
         wood: { value: new THREE.TextureLoader().load(require('./Texture/broken-glass.jpg')) },
         time: { value: 1.0 },
         resolution: { value: new THREE.Vector2() },
@@ -50,6 +53,7 @@ export default function () {
   api.setup = setup
 
   function render () {
+    api.material.uniforms.time.value = (window.performance.now() * 0.0001) % 10.0
   }
   api.render = render
 
