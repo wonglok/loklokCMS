@@ -39,6 +39,10 @@ export default function () {
     }
     api.updateRect({ rect })
 
+    api.updateTime = () => {
+      shaderMaterial.uniforms.time.value = (window.performance.now() * 0.0001) % 10.0
+    }
+
     var points = new THREE.Points(geometry, shaderMaterial)
     return {
       points
@@ -53,7 +57,7 @@ export default function () {
   api.setup = setup
 
   function render () {
-    api.material.uniforms.time.value = (window.performance.now() * 0.0001) % 10.0
+    api.updateTime()
   }
   api.render = render
 
