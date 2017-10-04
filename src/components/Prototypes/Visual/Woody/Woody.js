@@ -6,11 +6,11 @@ export default function () {
   var api = {}
 
   function setupScene ({ rect }) {
-    var geometry = new THREE.SphereBufferGeometry(70, 90, 90)
+    var geometry = new THREE.SphereBufferGeometry(70, 128, 128)
 
     var shaderMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        pointSize: { value: window.devicePixelRatio || 1.0 },
+        pointSize: { value: window.devicePixelRatio * 1.5 || 1.0 },
         wood: { value: new THREE.TextureLoader().load(require('./Texture/wood.jpg')) },
         time: { value: 1.0 },
         resolution: { value: new THREE.Vector2() },

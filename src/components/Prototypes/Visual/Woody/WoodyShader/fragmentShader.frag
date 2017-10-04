@@ -15,5 +15,5 @@ void main() {
   vec4 woodColor = texture2D( wood, vUv );
   gl_FragColor = woodColor;
 
-  // gl_FragColor = vec4( vec3(0.0,0.0,1.0) , 0.5);
+  // gl_FragColor = vec4( vec3(0.6) , 0.5);
 }

@@ -65,7 +65,7 @@ void toBall(vec3 pos, out float az, out float el) {
 }
 
 void main() {
-  vec4 woodColor = texture2D( wood, uv + cnoise(uv + mousePos) );
+  vec4 woodColor = texture2D( wood, uv + mousePos * 0.015  + cnoise(uv + mousePos) );
   vUv = uv;
 
   float az = 0.0;
