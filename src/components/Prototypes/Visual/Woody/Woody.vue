@@ -16,6 +16,7 @@ export default {
   },
   mounted () {
     this.info = this.api.setup({ renderer: this.renderer, rect: this.rect })
+    this.api.updateRect({ rect: this.rect })
 
     this.$emit('api', this.api)
     this.$parent.__add(this.info.points)
@@ -34,7 +35,7 @@ export default {
   },
   watch: {
     rect () {
-      this.api.updateRect(this.rect)
+      this.api.updateRect({ rect: this.rect })
     }
   }
 }
