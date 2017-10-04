@@ -10,33 +10,7 @@
   />
   <Scene @scene="(v) => { scene = v; }">
 
-    <Object3D :position="{ x: 0, y: 35.2, z: 0 }">
-
-      <Mesh :position="{ x: 0, y: -3.3, z: 0 }">
-        <PlaneGeometry :width="55" :height="0.2"  />
-        <MeshBasicMaterial :opacity="1" :color="0xee3932" />
-      </Mesh>
-
-      <ImageMesh
-        :gclick="alert"
-        :position="{ x: 32.5 * aspect, y: 0, z: 0 }"
-        :link="require('./element/menu/menu-open.svg')"
-      />
-      <ImageMesh
-        :gclick="alert"
-        :position="{ x: -24.5 * aspect, y: 0, z: 0 }"
-        :link="require('./element/menu/nike.svg')"
-      />
-    </Object3D>
-
-
-
-    <!-- <Mesh :position="{ x: 12, y: 35.2, z: 0 }">
-      <PlaneGeometry :width="2.5" :height="2"  />
-      <MeshBasicMaterial :opacity="1" :color="0xffffff" :image="require('./Menu/menu-open.svg')" />
-    </Mesh> -->
-
-
+    <GLMenu :aspect="aspect" @exec="(v) => { execStack.glmenu = v }" />
 
     <PointLight />
 
@@ -47,14 +21,22 @@
       <SphereGeometry />
     </Mesh>
 
+    <keep-alive>
+      <component
+        v-bind:is="'router-view'"
+        :aspect="aspect"
+      >
+      </component>
+    </keep-alive>
 
-    <router-view />
+    <Woody @api="(v) => { execStack.woody = v.render; mouseStack.woody = v.setMouse }" :position="{ x: 0, y: 0, z: -170 }" />
+
   </Scene>
   <Raycaster
     v-if="camera && scene"
     :camera="camera"
     :scene="scene"
-    @setMouse="(v) => { $emit('setMouse', v); setMouse = v; }"
+    @setMouse="(v) => { mouseStack.raycaster = v; }"
     @hover="(v) => { hover = v }"
     @glClick="handleHit"
   />
@@ -63,16 +45,22 @@
 
 <script>
 import * as THREE from 'three'
+import GLMenu from '@/components/NikeWebGL/element/Menu/Menu'
+import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
 import Bundle from '@/components/WebGL/Bundle'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 export default {
   mixins: [fadeInOut],
   props: ['aspect'],
   components: {
+    Woody,
+    GLMenu,
     ...Bundle
   },
   data () {
     return {
+      mouseStack: {},
+      execStack: {},
       camera: false,
       scene: false,
       setMouse: () => {},
@@ -83,13 +71,19 @@ export default {
   activated () {
     this.$emit('scene', this.scene)
     this.$emit('camera', this.camera)
-    this.$emit('setMouse', this.setMouse)
+    this.$emit('setMouse', (args) => {
+      for (var name in this.mouseStack) {
+        let exec = this.mouseStack[name]
+        if (exec) {
+          exec(args)
+        }
+      }
+    })
 
     this.scene.background = new THREE.Color(0x000000)
 
     this.$nextTick(() => {
       this.$emit('exec', this.exec)
-
       // this.fadeInTween((v) => {
       //   // this.camera.position.z = 10
       //   this.$refs['mesh-1'].mesh.material.opacity = v
@@ -99,7 +93,10 @@ export default {
     })
   },
   beforeRouteLeave (to, from, next) {
-    next()
+    this.$nextTick(() => {
+      next()
+    })
+
     // this.fadeOutTween((v) => {
     //   // this.camera.position.z = 10
     //   this.$refs['mesh-1'].mesh.material.opacity = v
@@ -124,7 +121,7 @@ export default {
       })
     },
     handleHit ({ mouse, found }) {
-      console.log(found)
+      // console.log(found)
       if (found[0]) {
         // click handler
         if (found[0].object.userData && found[0].object.userData.gclick) {
@@ -132,12 +129,12 @@ export default {
         }
       }
     },
-    highlight (result, color) {
-      if (result.length === 0) { return }
-      for (var i = 0; i < result.length; i++) {
-        result[i].object.material.color.set(color)
-      }
-    },
+    // highlight (result, color) {
+    //   if (result.length === 0) { return }
+    //   for (var i = 0; i < result.length; i++) {
+    //     result[i].object.material.color.set(color)
+    //   }
+    // },
     exec () {
       // this.$refs['mesh-1'].mesh.material.color.set(0xffffff)
 
@@ -145,6 +142,13 @@ export default {
       // var result = this.hover()
       // this.highlight(result, 0xff00ff)
       // this.lastResult = result
+
+      for (var execItem in this.execStack) {
+        let exec = this.execStack[execItem]
+        if (exec) {
+          exec()
+        }
+      }
 
       this.execTween()
     }

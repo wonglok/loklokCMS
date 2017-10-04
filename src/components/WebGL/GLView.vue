@@ -97,6 +97,7 @@ export default {
     install () {
       var ev = this.evlt = {
         resizer: () => {
+          if (!this.$refs.container) { return }
           this.rect = this.$refs.container.getBoundingClientRect()
           this.aspect = this.rect.width / this.rect.height
         },
@@ -133,29 +134,30 @@ export default {
       this.$emit('refresh', () => {
         ev.resizer()
       })
-      this.$refs.container.addEventListener('mouseover', ev.onMO, false)
-      this.$refs.container.addEventListener('mouseenter', ev.onME, false)
-      this.$refs.container.addEventListener('mouseleave', ev.onML, false)
-      this.$refs.container.addEventListener('mousemove', ev.onMV, false)
+      var container = this.$refs.container
+      container.addEventListener('mouseover', ev.onMO, false)
+      container.addEventListener('mouseenter', ev.onME, false)
+      container.addEventListener('mouseleave', ev.onML, false)
+      container.addEventListener('mousemove', ev.onMV, false)
 
-      this.$refs.container.addEventListener('click', ev.onCL, false)
+      container.addEventListener('click', ev.onCL, false)
 
-      this.$refs.container.addEventListener('touchstart', ev.onTS, false)
-      this.$refs.container.addEventListener('touchmove', ev.onTM, false)
-      this.$refs.container.addEventListener('touchend', ev.onTE, false)
-      this.$refs.container.style['-webkit-tap-highlight-color'] = `rgba(0,0,0,0)`
+      container.addEventListener('touchstart', ev.onTS, false)
+      container.addEventListener('touchmove', ev.onTM, false)
+      container.addEventListener('touchend', ev.onTE, false)
+      container.style['-webkit-tap-highlight-color'] = `rgba(0,0,0,0)`
       window.addEventListener('resize', ev.resizer, false)
       this.uninstaller = () => {
-        this.$refs.container.removeEventListener('mouseover', ev.onMO)
-        this.$refs.container.removeEventListener('mouseenter', ev.onME)
-        this.$refs.container.removeEventListener('mouseleave', ev.onML)
-        this.$refs.container.removeEventListener('mousemove', ev.onMV)
+        container.removeEventListener('mouseover', ev.onMO)
+        container.removeEventListener('mouseenter', ev.onME)
+        container.removeEventListener('mouseleave', ev.onML)
+        container.removeEventListener('mousemove', ev.onMV)
 
-        this.$refs.container.removeEventListener('click', ev.onCL)
+        container.removeEventListener('click', ev.onCL)
 
-        this.$refs.container.removeEventListener('touchstart', ev.onTS)
-        this.$refs.container.removeEventListener('touchmove', ev.onTM)
-        this.$refs.container.removeEventListener('touchend', ev.onTE)
+        container.removeEventListener('touchstart', ev.onTS)
+        container.removeEventListener('touchmove', ev.onTM)
+        container.removeEventListener('touchend', ev.onTE)
         window.removeEventListener('resize', ev.resizer)
       }
     }

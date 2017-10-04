@@ -6,7 +6,7 @@
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.js'
 
 export default {
-  props: ['renderer', 'rect'],
+  props: ['renderer', 'rect', 'position'],
   data () {
     return {
       api: Woody(),
@@ -15,7 +15,7 @@ export default {
     }
   },
   mounted () {
-    this.info = this.api.setup({ renderer: this.renderer, rect: this.rect })
+    this.info = this.api.setup({ renderer: this.renderer, rect: this.rect, position: this.position || { x: 0, y: 0, z: 0 } })
     this.api.updateRect({ rect: this.rect })
 
     this.$emit('api', this.api)
@@ -34,6 +34,9 @@ export default {
     }
   },
   watch: {
+    position () {
+      this.api.setPosition({ position: this.position })
+    },
     rect () {
       this.api.updateRect({ rect: this.rect })
     }

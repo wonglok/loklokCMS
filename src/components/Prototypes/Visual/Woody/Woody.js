@@ -5,7 +5,7 @@ import * as THREE from 'three'
 export default function () {
   var api = {}
 
-  function setupScene ({ rect }) {
+  function setupScene ({ rect, position }) {
     var geometry = new THREE.SphereBufferGeometry(70, 128, 128)
 
     var shaderMaterial = api.material = new THREE.ShaderMaterial({
@@ -23,6 +23,12 @@ export default function () {
       fragmentShader: require('raw-loader!./WoodyShader/fragmentShader.frag')
     })
 
+    api.setPosition = ({ position }) => {
+      if (api.points && position) {
+        api.points.position.set(position.x, position.y, position.z)
+      }
+    }
+
     api.setMouse = ({ pageX, pageY, rect, isIn, type }) => {
       var mouse = shaderMaterial.uniforms.mousePos.value
       if (rect && typeof pageX !== 'undefined' && typeof pageY !== 'undefined') {
@@ -37,21 +43,23 @@ export default function () {
         shaderMaterial.uniforms.resolution.set(rect.width, rect.height)
       }
     }
-    api.updateRect({ rect })
 
     api.updateTime = () => {
       shaderMaterial.uniforms.time.value = (window.performance.now() * 0.0001) % 10.0
     }
 
-    var points = new THREE.Points(geometry, shaderMaterial)
+    var points = api.points = new THREE.Points(geometry, shaderMaterial)
+
+    api.updateRect({ rect })
+    api.setPosition({ position })
     return {
       points
     }
   }
 
-  function setup ({ renderer, rect }) {
+  function setup ({ renderer, rect, position }) {
     return {
-      ...setupScene({ rect })
+      ...setupScene({ rect, position })
     }
   }
   api.setup = setup
