@@ -104,7 +104,7 @@ void main() {
   float finalSize = woodColor.z * 5.0;
   finalSize += clamp(mousePos.x * 0.5, 0.0, 1.0) * 80.0;
 
-  if (abs(rand(vec2(vertIndex))) < mousePos.x - 0.05) {
+  if (abs(rand(vec2(vertIndex))) < mousePos.x - 0.04) {
     finalDot.w = 0.0;
   }
 

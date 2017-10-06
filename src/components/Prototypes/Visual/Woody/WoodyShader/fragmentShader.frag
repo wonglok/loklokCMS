@@ -15,13 +15,13 @@ void main() {
   // gl_FragColor = vec4(vec3(woodColor) * 0.5, 0.223 * opacity);
 
   vec4 ballColor = texture2D( ball, gl_PointCoord );
-  if (ballColor.r < 0.01) {
+  if (ballColor.r < 0.1) {
     discard;
   } else {
-    ballColor.a = 0.04;
-    ballColor.r *= 1.4;
+    // ballColor.a = 0.04;
+    // ballColor.r *= 1.4;
 
-    ballColor = mix(vec4(1.0,1.0,1.0, 0.04), ballColor, mousePos.x);
+    ballColor = mix(vec4(1.0,1.0,1.0, 1.0), vec4(238.0 / 255.0, 57.0 / 255.0, 50.0 / 255.0, 1.0), mousePos.x);
 
     gl_FragColor = ballColor;
   }
