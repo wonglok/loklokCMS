@@ -8,14 +8,20 @@ export default function () {
   function setupScene ({ rect, position }) {
     var geometry = new THREE.SphereBufferGeometry(70, 128, 128)
     // var geometry = new THREE.BoxBufferGeometry(70, 70, 70, 128, 128, 128)
+    var vertIndex = new Float32Array(geometry.attributes.position.count)
+    for (var i = 0; i < vertIndex.length; i++) {
+      vertIndex[i] = i
+    }
+    geometry.addAttribute('vertIndex', new THREE.BufferAttribute(vertIndex, 1))
 
     var shaderMaterial = api.material = new THREE.ShaderMaterial({
       transparent: true,
-      depthTest: true,
+      depthTest: false,
       blending: THREE.AdditiveBlending,
       uniforms: {
         pointSize: { value: window.devicePixelRatio * 1.0 || 1.0 },
         wood: { value: new THREE.TextureLoader().load(require('./Texture/broken-glass.jpg')) },
+        ball: { value: new THREE.TextureLoader().load(require('./Texture/circle-red@2x.png')) },
         time: { value: 1.0 },
         opacity: { value: 1.0 },
         resolution: { value: new THREE.Vector2() },

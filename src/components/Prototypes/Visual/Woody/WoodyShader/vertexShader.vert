@@ -1,13 +1,17 @@
 varying vec2 vUv;
-varying vec3 vNormal;
+varying float vfinalSize;
+// varying vec3 vNormal;
 
 uniform sampler2D wood;
 uniform float pointSize;
 uniform vec2 mousePos;
 uniform float time;
 
+attribute float vertIndex;
+
 #define M_PI 3.1415926535897932384626433832795
 
+#include <common>
 
 //  Classic Perlin 3D Noise
 //  by Stefan Gustavson
@@ -70,27 +74,43 @@ void main() {
   vUv = uv;
 
   vec2 dynamicUV = uv;
-  dynamicUV = dynamicUV * 0.5 + mousePos * 0.015;
-  dynamicUV = dynamicUV * 0.5 + cnoise(uv * 0.25 + mousePos * 0.15) * 0.5;
-  dynamicUV = dynamicUV * 0.75 + (sin(time * 3.0) * cos(time * 3.0) + 0.5) * 0.25;
+  dynamicUV = dynamicUV * 0.5;
+  dynamicUV += abs(-sin(time) * cos(time));
+  dynamicUV = dynamicUV * 0.5 + cnoise(uv * 0.25) * 0.05;
+  // dynamicUV.x = dynamicUV.x * 0.75 + (sin(time * 3.0) * cos(time * 3.0) + 0.5) * 0.25;
+
+  // dynamicUV *= abs(mousePos.x);
 
   vec4 woodColor = texture2D(wood, dynamicUV);
 
   float az = 0.0;
   float el = 0.0;
 
-  vec3 noiser = position + (vec3(woodColor) * 2.0 - 1.0) * 30.0;
+  // vec3 noiser = position + woodColor.z * normal.z * 20.0;
+
+  vec3 noiser = position
+    + woodColor.z * normal.z * 20.0
+    + (vec3(woodColor) * 2.0 - 1.0) * 30.0;
+
   toBall(noiser, az, el);
 
   vec3 levitation = vec3(woodColor) * normal * 8.0;
-  vNormal = levitation;
+  // vNormal = levitation;
 
   vec3 newPos = fromBall(70.0, az, el) + levitation;
   // vec3 newPos = position + normal * vec3(woodColor) * 20.0;
   // vec3 newPos = position;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
+  vec4 finalDot = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
+  float finalSize = woodColor.z * 5.0;
+  finalSize += clamp(mousePos.x * 0.5, 0.0, 1.0) * 80.0;
 
-  float newSize = woodColor.z * normal.z * 3.0;
-  gl_PointSize = abs(newSize) + 1.25;
+  if (abs(rand(vec2(vertIndex))) < mousePos.x - 0.05) {
+    finalDot.w = 0.0;
+  }
+
+  vfinalSize = finalSize;
+
+  gl_PointSize = abs(finalSize);
+  gl_Position = finalDot;
 }
