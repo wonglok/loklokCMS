@@ -77,12 +77,11 @@ void main()	{
 
   float az = lastPos.x;
   float el = lastPos.y;
-  vec3 noiser = vec3(lastPos) + cnoise(vec2(lastPos)) * 10.0;
+  vec3 noiser = vec3(lastPos + lastVel) + cnoise(vec2(lastPos)) * 2.5;
   toBall(noiser, az, el);
 
-  lastPos.xyz = fromBall(70.5, az, el);
-  lastPos.xyz += lastVel.xyz * 10.0;
-
+  lastPos.xyz = fromBall(75.5, az, el);
+  lastPos.xyz += lastVel.xyz * 18.0;
 
   gl_FragColor = lastPos;
 }
