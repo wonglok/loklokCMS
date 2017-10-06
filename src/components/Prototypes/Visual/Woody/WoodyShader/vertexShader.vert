@@ -70,6 +70,16 @@ void toBall(vec3 pos, out float az, out float el) {
 	el = atan2(pos.z, sqrt(pos.x * pos.x + pos.y * pos.y));
 }
 
+float evaluateBezierPosition(float v1, float v2, float v3, float v4, float t ) {
+    vec3 p;
+    float OneMinusT = 1.0 - t;
+    float b0 = OneMinusT*OneMinusT*OneMinusT;
+    float b1 = 3.0*t*OneMinusT*OneMinusT;
+    float b2 = 3.0*t*t*OneMinusT;
+    float b3 = t*t*t;
+    return b0*v1 + b1*v2 + b2*v3 + b3*v4;
+}
+
 void main() {
   vUv = uv;
 
@@ -102,9 +112,15 @@ void main() {
 
   vec4 finalDot = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
   float finalSize = woodColor.z * 5.0;
-  finalSize += clamp(mousePos.x * 0.5, 0.0, 1.0) * 80.0;
+  float sizeInc = clamp(mousePos.x, 0.0, 1.0) * 80.0;
+  float bezR = 1.0 - evaluateBezierPosition(1.0, 0.0, 1.0, 0.0, (mousePos.x));
+  float bez = evaluateBezierPosition(0.0, 1.0, 0.0, 1.0, (mousePos.x));
+  finalSize += sizeInc * bezR * bezR;
 
-  if (abs(rand(vec2(vertIndex))) < mousePos.x - 0.04) {
+  // float bez = evaluateBezierPosition(0.0, 1.0, 0.0, 1.0, (mousePos.x + 0.15));
+  highp float rand1 = abs(rand(vec2(vertIndex * 0.00001)));
+  highp float reducer = abs(mousePos.x) * bez * 200.0;
+  if ((rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * 200.0) < reducer)   {
     finalDot.w = 0.0;
   }
 

@@ -39,6 +39,7 @@ export default {
 
 <style scoped>
 .particle-sea{
+  /* animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1) */
   display: none;
 }
 </style>
