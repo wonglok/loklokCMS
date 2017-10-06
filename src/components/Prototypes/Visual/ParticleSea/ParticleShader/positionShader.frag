@@ -75,13 +75,16 @@ void main()	{
   vec4 lastVel = texture2D( velocityInfo, uv );
   vec4 lastPos = texture2D( positionInfo, uv );
 
-  float az = lastPos.x;
-  float el = lastPos.y;
-  vec3 noiser = vec3(lastPos) + cnoise(vec2(lastPos * 150.0)) * 15.0;
+  float noisiness = 5.5 - 2.5 * length(mousePos.yx);
+
+  float az = 0.0;
+  float el = 0.0;
+
+  vec3 noiser = vec3(lastPos) + cnoise(vec2(lastPos * noisiness)) * noisiness;
   toBall(noiser, az, el);
 
   lastPos.xyz = fromBall(75.5, az, el);
-  lastPos.xyz += lastVel.xyz * 15.0;
+  lastPos.xyz += lastVel.xyz * noisiness;
 
   gl_FragColor = lastPos;
 }

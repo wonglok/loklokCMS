@@ -58,6 +58,9 @@ export default function () {
     var positionTexture = gpuCompute.createTexture()
     fillTexture(positionTexture)
     positionVariable = gpuCompute.addVariable('positionInfo', particlePositionShader, positionTexture)
+    positionVariable.material.uniforms.mousePos = {
+      value: new THREE.Vector2(0, 0)
+    }
 
     var velocityTexture = gpuCompute.createTexture()
     velocityVariable = gpuCompute.addVariable('velocityInfo', particleVelocityShader, velocityTexture)
@@ -69,10 +72,13 @@ export default function () {
     }
 
     api.setMouse = ({ pageX, pageY, rect, isIn, type }) => {
-      var mouse = velocityVariable.material.uniforms.mousePos.value
+      var posMouse = velocityVariable.material.uniforms.mousePos.value
+      var velMouse = positionVariable.material.uniforms.mousePos.value
       if (rect && typeof pageX !== 'undefined' && typeof pageY !== 'undefined') {
-        mouse.x = ((pageX - rect.left) / rect.width) * 2 - 1
-        mouse.y = -((pageY - rect.top) / rect.height) * 2 + 1
+        velMouse.x = ((pageX - rect.left) / rect.width) * 2 - 1
+        velMouse.y = -((pageY - rect.top) / rect.height) * 2 + 1
+        posMouse.x = ((pageX - rect.left) / rect.width) * 2 - 1
+        posMouse.y = -((pageY - rect.top) / rect.height) * 2 + 1
         // console.log(mouse)
       }
     }

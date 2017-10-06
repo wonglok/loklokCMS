@@ -1,5 +1,5 @@
 // varying vec2 vUv;
-varying float vfinalSize;
+// varying float vfinalSize;
 // varying vec3 vNormal;
 
 uniform sampler2D wood;
@@ -127,7 +127,7 @@ void main() {
     finalDot.w = 0.0;
   }
 
-  vfinalSize = finalSize;
+  // vfinalSize = finalSize;
 
   gl_PointSize = abs(finalSize);
   gl_Position = finalDot;
