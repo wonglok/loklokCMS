@@ -1,4 +1,4 @@
-varying vec2 vUv;
+// varying vec2 vUv;
 varying float vfinalSize;
 // varying vec3 vNormal;
 
@@ -81,7 +81,7 @@ float evaluateBezierPosition(float v1, float v2, float v3, float v4, float t ) {
 }
 
 void main() {
-  vUv = uv;
+  // vUv = uv;
 
   vec2 dynamicUV = uv;
   dynamicUV = dynamicUV * 0.5;
