@@ -88,11 +88,10 @@ void main() {
 
   // vec3 noiser = position + woodColor.z * normal.z * 20.0;
 
-  vec3 noiser = position
-    + woodColor.z * normal.z * 20.0
+  vec3 noiser = woodColor.z * normal.z * 20.0
     + (vec3(woodColor) * 2.0 - 1.0) * 30.0;
 
-  toBall(noiser, az, el);
+  toBall(mix(position + noiser, position + noiser * 0.1, mousePos.x), az, el);
 
   vec3 levitation = vec3(woodColor) * normal * 8.0;
   // vNormal = levitation;
