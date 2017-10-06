@@ -19,14 +19,14 @@
 
     <!-- <PointLight /> -->
   </Scene>
-  <!-- <Raycaster
+  <Raycaster
     v-if="camera && scene"
     :camera="camera"
     :scene="scene"
     @setMouse="(v) => { setRMouse = v; }"
     @hover="(v) => { hover = v }"
     @glClick="handleHit"
-  /> -->
+  />
 </span>
 </template>
 
@@ -116,15 +116,17 @@ export default {
   methods: {
     handleHit ({ mouse, found }) {
       if (found[0]) {
+        var magnitude = Math.abs(1.0 - Math.random())
+        // console.log(found[0].object.material)
         this.stopAllTween()
-        this.fadeOutTween((v) => {
-          found[0].object.material.opacity = v
+        this.punchInTween((v) => {
+          found[0].object.material.uniforms.mousePos.value.x = v
         }, () => {
-          this.fadeInTween((v) => {
-            found[0].object.material.opacity = v
+          this.punchOutTween((v) => {
+            found[0].object.material.uniforms.mousePos.value.x = v
           }, () => {
-          })
-        })
+          }, magnitude)
+        }, magnitude)
       }
     },
     highlight (result, color) {

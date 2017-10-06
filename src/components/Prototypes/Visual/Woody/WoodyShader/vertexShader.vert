@@ -101,7 +101,7 @@ void main() {
   vec3 noiser = woodColor.z * normal.z * 20.0
     + (vec3(woodColor) * 2.0 - 1.0) * 30.0;
 
-  toBall(mix(position + noiser, position + noiser * 1.5, mousePos.x), az, el);
+  toBall(mix(position + noiser, position + noiser * 0.75, mousePos.x), az, el);
 
   vec3 levitation = vec3(woodColor) * normal * 8.0;
   // vNormal = levitation;
@@ -118,12 +118,12 @@ void main() {
   float sizeInc = slider * 80.0;
   float bezR = 1.0 - evaluateBezierPosition(1.0, 0.0, 1.0, 0.0, (slider));
   float bez = evaluateBezierPosition(0.0, 1.0, 0.0, 1.0, (slider));
-  finalSize += sizeInc * bezR * bezR;
+  finalSize += sizeInc * bezR;
 
   // float bez = evaluateBezierPosition(0.0, 1.0, 0.0, 1.0, (slider + 0.15));
-  highp float rand1 = abs(rand(vec2(vertIndex * 0.00001)));
+  highp float rand1 = abs(rand(vec2(vertIndex * 0.000001)));
   highp float reducer = abs(slider) * bez * 200.0;
-  if ((rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * 200.0) < reducer)   {
+  if ((rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * 200.0) < reducer)   {
     finalDot.w = 0.0;
   }
 

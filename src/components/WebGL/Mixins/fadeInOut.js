@@ -48,6 +48,46 @@ export default {
 
       tween.start()
     },
+    punchOutTween (update, done, magnitude) {
+      var factor = 1000
+      var varying = {
+        opacity: 1 * factor
+      }
+      var tween = new TWEEN.Tween(varying)
+                    .to({ opacity: 0 * factor }, 1500 * (magnitude || 1))
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .onUpdate(() => {
+                      update(varying.opacity / factor)
+                    })
+                    .onStop(() => {
+                      done()
+                    })
+                    .onComplete(() => {
+                      done()
+                    })
+      tween.start()
+    },
+    punchInTween (update, done, magnitude) {
+      var factor = 1000
+      var varying = {
+        opacity: 0 * factor
+      }
+
+      var tween = new TWEEN.Tween(varying)
+                    .to({ opacity: 1 * factor }, 1500 * (magnitude || 1))
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .onUpdate(() => {
+                      update(varying.opacity / factor)
+                    })
+                    .onStop(() => {
+                      done()
+                    })
+                    .onComplete(() => {
+                      done()
+                    })
+
+      tween.start()
+    },
     updateTween () {
 
     }
