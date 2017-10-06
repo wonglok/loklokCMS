@@ -6,7 +6,7 @@
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.js'
 
 export default {
-  props: ['renderer', 'rect', 'position', 'gclick'],
+  props: ['renderer', 'rect', 'position', 'scale', 'gclick'],
   data () {
     return {
       api: Woody(),

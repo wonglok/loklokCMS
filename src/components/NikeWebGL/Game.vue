@@ -27,13 +27,14 @@
     </keep-alive>
     -->
 
+    <!--
     <PointLight />
     <Mesh :position="{ x: 0, y: 0, z: 5 }"
       :gclick="alert"
     >
       <MeshPhongMaterial :opacity="1" />
       <SphereGeometry />
-    </Mesh>
+    </Mesh> -->
 
     <keep-alive>
       <component
@@ -43,9 +44,7 @@
       </component>
     </keep-alive>
 
-
-
-    <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; mouseStack.woody = v.setMouse }" :position="{ x: 0, y: 0, z: -170 }" />
+    <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
 
   </Scene>
   <Raycaster
@@ -128,14 +127,15 @@ export default {
   methods: {
     tweenWoody ({ found }) {
       console.log(found)
-      this.fadeOutTween((v) => {
-        found.object.material.uniforms.opacity.value = v
+      var magnitude = Math.abs(1.0 - Math.random())
+      this.punchInTween((v) => {
+        found.object.material.uniforms.mousePos.value.x = v
       }, () => {
-        this.fadeInTween((v) => {
-          found.object.material.uniforms.opacity.value = v
+        this.punchOutTween((v) => {
+          found.object.material.uniforms.mousePos.value.x = v
         }, () => {
-        })
-      })
+        }, magnitude)
+      }, magnitude)
     },
     alert ({ found }) {
       this.fadeOutTween((v) => {

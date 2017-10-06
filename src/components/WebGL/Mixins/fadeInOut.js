@@ -1,5 +1,7 @@
 import TWEEN from '@tweenjs/tween.js'
 
+var punchTween = false
+
 export default {
   methods: {
     stopAllTween () {
@@ -13,6 +15,7 @@ export default {
       var varying = {
         opacity: 1 * factor
       }
+
       var tween = new TWEEN.Tween(varying)
                     .to({ opacity: 0 * factor }, 1000)
                     .easing(TWEEN.Easing.Quadratic.Out)
@@ -53,7 +56,13 @@ export default {
       var varying = {
         opacity: 1 * factor
       }
-      var tween = new TWEEN.Tween(varying)
+
+      //
+      if (punchTween) {
+        punchTween.stop()
+      }
+
+      punchTween = new TWEEN.Tween(varying)
                     .to({ opacity: 0 * factor }, 1500 * (magnitude || 1))
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .onUpdate(() => {
@@ -65,7 +74,7 @@ export default {
                     .onComplete(() => {
                       done()
                     })
-      tween.start()
+      punchTween.start()
     },
     punchInTween (update, done, magnitude) {
       var factor = 1000
@@ -73,7 +82,11 @@ export default {
         opacity: 0 * factor
       }
 
-      var tween = new TWEEN.Tween(varying)
+      if (punchTween) {
+        punchTween.stop()
+      }
+
+      punchTween = new TWEEN.Tween(varying)
                     .to({ opacity: 1 * factor }, 1500 * (magnitude || 1))
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .onUpdate(() => {
@@ -86,7 +99,7 @@ export default {
                       done()
                     })
 
-      tween.start()
+      punchTween.start()
     },
     updateTween () {
 
