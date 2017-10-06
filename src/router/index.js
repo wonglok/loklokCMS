@@ -10,7 +10,7 @@ import Red from '@/components/Prototypes/Scene/Red'
 import Woody from '@/components/Prototypes/Scene/Woody'
 
 import NikeMobilerHTML from '@/components/LayoutHTML/Nike'
-import GameLanding from '@/components/NikeWebGL/GameLanding'
+import Game from '@/components/NikeWebGL/Game'
 
 Vue.use(Router)
 
@@ -29,7 +29,7 @@ export default new Router({
         {
           path: 'game',
           name: 'nike-scene',
-          component: GameLanding
+          component: Game
         }
       ]
     },

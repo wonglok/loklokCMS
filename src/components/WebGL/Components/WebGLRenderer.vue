@@ -19,10 +19,8 @@ export default {
       default: false
     },
     camera: {
-      type: THREE.PerspectiveCamera
     },
     scene: {
-      type: THREE.Scene
     }
   },
   data () {

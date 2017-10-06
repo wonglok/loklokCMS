@@ -4,7 +4,7 @@
 <script>
 import * as THREE from 'three'
 export default {
-  props: ['position', 'gclick'],
+  props: ['position', 'gclick', 'scale'],
   data () {
     return {
       mesh: null,
@@ -22,6 +22,9 @@ export default {
     if (this.position) {
       this.mesh.position.set(this.position.x || 0, this.position.y || 0, this.position.z || 0)
     }
+    if (this.scale) {
+      this.mesh.scale.set(this.scale.x || 1, this.scale.y || 1, this.scale.z || 1)
+    }
     this.default.geometry = this.mesh.geometry
     this.default.material = this.mesh.material
     this.$emit('mesh', this.mesh)
@@ -30,6 +33,11 @@ export default {
     position () {
       if (this.position) {
         this.mesh.position.set(this.position.x || 0, this.position.y || 0, this.position.z || 0)
+      }
+    },
+    scale () {
+      if (this.scale) {
+        this.mesh.scale.set(this.scale.x || 1, this.scale.y || 1, this.scale.z || 1)
       }
     }
   },

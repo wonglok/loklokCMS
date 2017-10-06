@@ -7,6 +7,7 @@ export default function () {
 
   function setupScene ({ rect, position }) {
     var geometry = new THREE.SphereBufferGeometry(70, 128, 128)
+    // var geometry = new THREE.BoxBufferGeometry(70, 70, 70, 128, 128, 128)
 
     var shaderMaterial = api.material = new THREE.ShaderMaterial({
       transparent: true,

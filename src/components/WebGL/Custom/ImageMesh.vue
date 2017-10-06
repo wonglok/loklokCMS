@@ -1,5 +1,5 @@
 <template>
-  <Mesh :position="position" :gclick="gclick">
+  <Mesh @mesh="(v) => { mesh = v }" :position="position" :scale="scale" :gclick="gclick">
     <PlaneGeometry  v-if="ready" :width="sWidth" :height="sHeight"  />
     <MeshBasicMaterial  v-if="ready" :opacity="1" :color="0xffffff" :image="link" />
   </Mesh>
@@ -19,6 +19,7 @@ export default {
   },
   data () {
     return {
+      mesh: false,
       ready: false,
       sWidth: 1,
       sHeight: 1
@@ -28,8 +29,13 @@ export default {
     if (this.link) {
       var img = new Image()
       img.onload = () => {
-        this.sWidth = img.width / 10 * (this.scale || 1)
-        this.sHeight = img.height / 10 * (this.scale || 1)
+        this.sWidth = img.width / 10
+        this.sHeight = img.height / 10
+        // if (this.scale) {
+        //   this.sWidth = img.width / 10 * (this.scale.x)
+        //   this.sHeight = img.height / 10 * (this.scale.y)
+        // } else {
+        // }
         this.ready = true
       }
       img.src = this.link

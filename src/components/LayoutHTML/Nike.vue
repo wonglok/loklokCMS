@@ -22,17 +22,19 @@ export default {
   data () {
     return {
       refresh: {},
-      isBigEnough: false,
-      random: Math.random()
+      isBigEnough: false
     }
   },
   created () {
     var resizer = () => {
       this.isBigEnough = window.innerWidth > 828
+      // auto refresh :D
       for (var exec in this.refresh) {
         var exe = this.refresh[exec]
         if (exe) {
-          exe()
+          this.$nextTick(() => {
+            exe()
+          })
         }
       }
     }

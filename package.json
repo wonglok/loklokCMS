@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.1.1",
+    "canvas-text-wrapper": "^0.10.2",
     "firebase": "^4.4.0",
     "three": "^0.87.1",
     "vue": "^2.4.4",

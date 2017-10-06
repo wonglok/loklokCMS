@@ -10,10 +10,24 @@
   />
   <Scene @scene="(v) => { scene = v; }">
 
-    <GLMenu :aspect="aspect" @exec="(v) => { execStack.glmenu = v }" />
+    <GLMenu
+      :aspect="aspect"
+      @exec="(v) => { execStack.glmenu = v }"
+    />
+
+    <!--
+    <keep-alive>
+      <component
+        v-if="true"
+        :is="'GLMenu'"
+        :aspect="aspect"
+        @exec="(v) => { execStack.glmenu = v }"
+      >
+      </component>
+    </keep-alive>
+    -->
 
     <PointLight />
-
     <Mesh :position="{ x: 0, y: 0, z: 5 }"
       :gclick="alert"
     >
@@ -28,6 +42,8 @@
       >
       </component>
     </keep-alive>
+
+
 
     <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; mouseStack.woody = v.setMouse }" :position="{ x: 0, y: 0, z: -170 }" />
 
