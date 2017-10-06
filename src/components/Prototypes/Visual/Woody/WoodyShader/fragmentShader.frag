@@ -15,7 +15,7 @@ void main() {
   // gl_FragColor = vec4(vec3(woodColor) * 0.5, 0.223 * opacity);
 
   vec4 ballColor = texture2D( ball, gl_PointCoord );
-  if (ballColor.r < 0.1) {
+  if (ballColor.r < 0.001) {
     discard;
   } else {
     // ballColor.a = 0.04;
