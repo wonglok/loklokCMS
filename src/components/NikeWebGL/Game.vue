@@ -44,7 +44,7 @@
       </component>
     </keep-alive>
 
-    <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
+    <Woody gclick="tweenWoody" @api="(v) => { woodyAPI = v; execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
 
   </Scene>
   <Raycaster
@@ -74,6 +74,7 @@ export default {
   },
   data () {
     return {
+      woodyAPI: false,
       mouseStack: {},
       execStack: {},
       camera: false,
@@ -92,6 +93,9 @@ export default {
         if (exec) {
           exec(args)
         }
+      }
+      if (args.type === 'click' && this.woodyAPI) {
+        this.tweenWoody({ found: { object: this.woodyAPI } })
       }
     })
 
