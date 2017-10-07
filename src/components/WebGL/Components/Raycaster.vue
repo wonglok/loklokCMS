@@ -2,6 +2,7 @@
 <span class="raycaster"></span>
 </template>
 <script>
+import { glSystem } from '@/components/WebGL/Shared/system'
 import * as THREE from 'three'
 export default {
   // abstract: true,
@@ -11,6 +12,8 @@ export default {
   props: ['camera', 'scene'],
   data () {
     return {
+      glSystem: glSystem,
+      run: false,
       raycaster: null,
       mouse: new THREE.Vector2(0, 0)
     }
@@ -18,11 +21,13 @@ export default {
   created () {
     this.raycaster = new THREE.Raycaster()
     this.mouse.isIn = false
+    this.$emit('raycast', this.raycast)
     this.$emit('setMouse', this.setMouse)
     // this.$emit('finder', this.finder)
     this.$emit('hover', this.hover)
   },
   activated () {
+    this.$emit('raycast', this.raycast)
     this.$emit('setMouse', this.setMouse)
     // this.$emit('finder', this.finder)
     this.$emit('hover', this.hover)
@@ -55,7 +60,19 @@ export default {
         this.mouse.isIn = isIn
       }
       if (type === 'click') {
-        return this.$emit('glClick', { mouse: this.mouse, found: this.finder() })
+        this.run = true
+        // this.$emit('glClick', { mouse: this.mouse, found: this.finder() })
+      }
+    },
+    raycast () {
+      if (this.run && !this.glSystem.isBusy) {
+        this.run = false
+        this.glSystem.busy = true
+        var result = this.finder()
+        if (typeof result[0] === 'undefined') {
+          this.glSystem.busy = false
+        }
+        this.$emit('glClick', { mouse: this.mouse, found: result })
       }
     }
   }

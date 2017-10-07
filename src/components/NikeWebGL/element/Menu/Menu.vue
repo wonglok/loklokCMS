@@ -77,12 +77,16 @@ export default {
       })
     },
     menuIn (el, done) {
+      this.$refs['nike-logo'].mesh.visible = true
+      this.$refs['menu-open'].mesh.visible = true
+      this.$refs['nav-red-line'].mesh.visible = true
+
       this.fadeInTween((v) => {
         this.tweening = true
         if (this.$refs['nike-logo']) {
           this.$refs['nike-logo'].mesh.material.opacity = v
           this.$refs['menu-open'].mesh.material.opacity = v
-          this.$refs['menu-open'].mesh.position.z = v / 100
+          // this.$refs['menu-open'].mesh.position.z = v / 100
           this.$refs['nav-red-line'].mesh.material.opacity = v
         }
       }, () => {
@@ -96,11 +100,14 @@ export default {
         if (this.$refs['nike-logo']) {
           this.$refs['nike-logo'].mesh.material.opacity = v
           this.$refs['menu-open'].mesh.material.opacity = v
-          this.$refs['menu-open'].mesh.position.z = v / 100
+          // this.$refs['menu-open'].mesh.position.z = v / 100
           this.$refs['nav-red-line'].mesh.material.opacity = v
         }
       }, () => {
         done()
+        this.$refs['nike-logo'].mesh.visible = false
+        this.$refs['menu-open'].mesh.visible = false
+        this.$refs['nav-red-line'].mesh.visible = false
         this.tweening = false
       })
     },
@@ -109,7 +116,7 @@ export default {
         this.tweening = true
         if (this.$refs['fs-menu-open']) {
           this.$refs['fs-menu-open'].mesh.material.opacity = v
-          this.$refs['fs-menu-open'].mesh.position.z = v / 100
+          // this.$refs['fs-menu-open'].mesh.position.z = v / 100
         }
       }, () => {
         done()
@@ -120,7 +127,7 @@ export default {
       this.fadeOutTween((v) => {
         if (this.$refs['fs-menu-open']) {
           this.$refs['fs-menu-open'].mesh.material.opacity = v
-          this.$refs['fs-menu-open'].mesh.position.z = v / 100
+          // this.$refs['fs-menu-open'].mesh.position.z = v / 100
         }
       }, () => {
         done()

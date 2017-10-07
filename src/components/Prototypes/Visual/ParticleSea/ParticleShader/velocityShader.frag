@@ -38,6 +38,5 @@ void main()	{
 
   lastVel.xyz += diff;
 
-
   gl_FragColor = lastVel;
 }

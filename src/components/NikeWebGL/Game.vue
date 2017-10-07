@@ -44,13 +44,14 @@
       </component>
     </keep-alive>
 
-    <Woody gclick="tweenWoody" @api="(v) => { woodyAPI = v; execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
+    <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
 
   </Scene>
   <Raycaster
     v-if="camera && scene"
     :camera="camera"
     :scene="scene"
+    @raycast="(v) => { execStack.raycast = v; }"
     @setMouse="(v) => { mouseStack.raycaster = v; }"
     @hover="(v) => { hover = v }"
     @glClick="handleHit"
@@ -60,6 +61,7 @@
 
 <script>
 import * as THREE from 'three'
+import { glSystem } from '@/components/WebGL/Shared/system'
 import GLMenu from '@/components/NikeWebGL/element/Menu/Menu'
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
 import Bundle from '@/components/WebGL/Bundle'
@@ -74,7 +76,7 @@ export default {
   },
   data () {
     return {
-      woodyAPI: false,
+      glSystem,
       mouseStack: {},
       execStack: {},
       camera: false,
@@ -93,9 +95,6 @@ export default {
         if (exec) {
           exec(args)
         }
-      }
-      if (args.type === 'click' && this.woodyAPI) {
-        this.tweenWoody({ found: { object: this.woodyAPI } })
       }
     })
 
@@ -130,14 +129,15 @@ export default {
   },
   methods: {
     tweenWoody ({ found }) {
-      console.log(found)
-      var magnitude = Math.abs(1.0 - Math.random())
+      this.glSystem.busy = true
+      var magnitude = Math.abs(1.5 - Math.random())
       this.punchInTween((v) => {
         found.object.material.uniforms.mousePos.value.x = v
       }, () => {
         this.punchOutTween((v) => {
           found.object.material.uniforms.mousePos.value.x = v
         }, () => {
+          this.glSystem.busy = false
         }, magnitude)
       }, magnitude)
     },

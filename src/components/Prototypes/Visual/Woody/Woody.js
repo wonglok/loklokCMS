@@ -6,7 +6,7 @@ export default function () {
   var api = {}
 
   function setupScene ({ rect, position }) {
-    var geometry = new THREE.SphereBufferGeometry(70, 100, 100)
+    var geometry = new THREE.SphereBufferGeometry(70, 125, 125)
     // var geometry = new THREE.BoxBufferGeometry(70, 70, 70, 128, 128, 128)
     var vertIndex = new Float32Array(geometry.attributes.position.count)
     for (var i = 0; i < vertIndex.length; i++) {
