@@ -67,7 +67,6 @@ void toBall(vec3 pos, out float az, out float el) {
 // toBall(noiser, az, el);
 // lastVel.xyz = fromBall(1.0, az, el);
 
-
 void main()	{
   vec2 cellSize = 1.0 / resolution.xy;
   vec2 uv = gl_FragCoord.xy * cellSize;
@@ -75,16 +74,18 @@ void main()	{
   vec4 lastVel = texture2D( velocityInfo, uv );
   vec4 lastPos = texture2D( positionInfo, uv );
 
-  float noisiness = 5.5 - 2.5 * length(mousePos.yx);
+  float noisiness = 5.5;
 
   float az = 0.0;
   float el = 0.0;
 
-  vec3 noiser = vec3(lastPos) + cnoise(vec2(lastPos * noisiness)) * noisiness;
+  vec3 noiser = vec3(lastPos) + rand(vec2(lastPos * noisiness + lastPos.z)) * noisiness;
   toBall(noiser, az, el);
-
-  lastPos.xyz = fromBall(75.5, az, el);
-  lastPos.xyz += lastVel.xyz * noisiness;
-
+  if (rand(lastVel.xy) > 0.1) {
+    lastPos.xyz = fromBall(75.5, az, el);
+    lastPos.xyz += lastVel.xyz * noisiness;
+  } else {
+    lastPos.xyz += lastVel.xyz * noisiness;
+  }
   gl_FragColor = lastPos;
 }
