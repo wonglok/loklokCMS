@@ -9,6 +9,7 @@ import Object3D from './Components/Object3D'
 import MeshPhongMaterial from './Material/MeshPhongMaterial'
 import MeshBasicMaterial from './Material/MeshBasicMaterial'
 import PointsMaterial from './Material/PointsMaterial'
+import MeshPictureMaterial from './Material/MeshPictureMaterial'
 
 import PlaneGeometry from './Geometry/PlaneGeometry'
 import BoxGeometry from './Geometry/BoxGeometry'
@@ -33,6 +34,7 @@ export default {
   Mesh,
   MeshPhongMaterial,
   MeshBasicMaterial,
+  MeshPictureMaterial,
 
   PointsMaterial,
   PerspectiveCamera,

@@ -1,10 +1,10 @@
 <template>
   <transition
-      @enter="campFadeIn"
-      @leave="campFadeOut"
+      @enter="pageFadeIn"
+      @leave="pageFadeOut"
     >
     <keep-alive>
-      <Object3D ref="nike-boxing-camp">
+      <Object3D ref="page-content">
         <ImageMesh
           dgclick="() => {  }"
           :position="{ x: -20.5 * aspect, y: 26.0, z: 0 }"
@@ -38,50 +38,7 @@ export default {
       tweening: false
     }
   },
-  computed: {
-    children () {
-      if (this.$refs['nike-boxing-camp'] && this.$refs['nike-box-camp'].object3d) {
-        return this.$refs['nike-box-camp'].object3d.children
-      } else {
-        return []
-      }
-    }
-  },
   methods: {
-    campFadeIn (el, done) {
-      var updater = (mesh) => {
-        if (mesh) {
-          this.fadeInTween((v) => {
-            this.tweening = true
-            mesh.material.opacity = v
-          }, () => {
-            done()
-            this.tweening = false
-          })
-        }
-      }
-      if (this.$refs['nike-boxing-camp']) {
-        this.$refs['nike-boxing-camp'].visible = true
-        this.$refs['nike-boxing-camp'].object3d.children.forEach(updater)
-      }
-    },
-    campFadeOut (el, done) {
-      var updater = (mesh) => {
-        if (mesh) {
-          this.fadeOutTween((v) => {
-            this.tweening = true
-            mesh.material.opacity = v
-          }, () => {
-            done()
-            this.tweening = false
-            this.$refs['nike-boxing-camp'].visible = false
-          })
-        }
-      }
-      if (this.$refs['nike-boxing-camp']) {
-        this.$refs['nike-boxing-camp'].object3d.children.forEach(updater)
-      }
-    },
     __add (v) {
       this.$parent.scene.add(v)
     },

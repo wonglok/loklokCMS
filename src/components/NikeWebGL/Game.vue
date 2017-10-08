@@ -26,8 +26,6 @@
       </component>
     </keep-alive>
 
-    <!-- <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" /> -->
-
   </Scene>
   <Raycaster
     v-if="camera && scene"
@@ -45,14 +43,12 @@
 import * as THREE from 'three'
 import { glSystem } from '@/components/WebGL/Shared/system'
 import GLMenu from '@/components/NikeWebGL/element/Menu/Menu'
-import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
 import Bundle from '@/components/WebGL/Bundle'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 export default {
   mixins: [fadeInOut],
   props: ['aspect'],
   components: {
-    Woody,
     GLMenu,
     ...Bundle
   },
@@ -97,7 +93,6 @@ export default {
     this.$nextTick(() => {
       next()
     })
-
     // this.fadeOutTween((v) => {
     //   // this.camera.position.z = 10
     //   this.$refs['mesh-1'].mesh.material.opacity = v
@@ -111,19 +106,6 @@ export default {
     this.$emit('exec', () => {})
   },
   methods: {
-    tweenWoody ({ found }) {
-      this.glSystem.busy = true
-      var magnitude = Math.abs(1.5 - Math.random())
-      this.punchInTween((v) => {
-        found.object.material.uniforms.mousePos.value.x = v
-      }, () => {
-        this.punchOutTween((v) => {
-          found.object.material.uniforms.mousePos.value.x = v
-        }, () => {
-          this.glSystem.busy = false
-        }, magnitude)
-      }, magnitude)
-    },
     alert ({ found }) {
       this.fadeOutTween((v) => {
         found.object.material.opacity = v
@@ -150,13 +132,6 @@ export default {
     //   }
     // },
     exec () {
-      // this.$refs['mesh-1'].mesh.material.color.set(0xffffff)
-
-      // this.highlight(this.lastResult, 0x00ffff)
-      // var result = this.hover()
-      // this.highlight(result, 0xff00ff)
-      // this.lastResult = result
-
       for (var execItem in this.execStack) {
         let exec = this.execStack[execItem]
         if (exec) {

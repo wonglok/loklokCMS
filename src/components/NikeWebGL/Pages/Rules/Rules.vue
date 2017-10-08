@@ -32,50 +32,7 @@ export default {
       tweening: false
     }
   },
-  computed: {
-    children () {
-      if (this.$refs['page-content'] && this.$refs['page-content'].object3d) {
-        return this.$refs['page-content'].object3d.children
-      } else {
-        return []
-      }
-    }
-  },
   methods: {
-    pageFadeIn (el, done) {
-      var updater = (mesh) => {
-        if (mesh) {
-          this.fadeInTween((v) => {
-            this.tweening = true
-            mesh.material.opacity = v
-          }, () => {
-            done()
-            this.tweening = false
-          })
-        }
-      }
-      if (this.$refs['page-content']) {
-        this.$refs['page-content'].visible = true
-        this.$refs['page-content'].object3d.children.forEach(updater)
-      }
-    },
-    pageFadeOut (el, done) {
-      var updater = (mesh) => {
-        if (mesh) {
-          this.fadeOutTween((v) => {
-            this.tweening = true
-            mesh.material.opacity = v
-          }, () => {
-            done()
-            this.tweening = false
-            this.$refs['page-content'].visible = false
-          })
-        }
-      }
-      if (this.$refs['page-content']) {
-        this.$refs['page-content'].object3d.children.forEach(updater)
-      }
-    },
     __add (v) {
       this.$parent.scene.add(v)
     },

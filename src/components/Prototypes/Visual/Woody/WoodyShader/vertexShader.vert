@@ -128,7 +128,6 @@ void main() {
   }
 
   // vfinalSize = finalSize;
-
   gl_PointSize = abs(finalSize);
   gl_Position = finalDot;
 }

@@ -1,24 +1,33 @@
 <template>
 <span class="hidden">
+
+  <ImageMesh
+    ref="menu-open"
+    :position="{ x: 32.5 * aspect, y: 35.2, z: 0 }"
+    :scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
+    :link="require('./img/menu-open.png')"
+  />
+  <Mesh
+    ref="red-box"
+    :gclick="() => { showFSMenu = !showFSMenu; }"
+    :position="{ x: 32.5 * aspect, y: 35.2, z: 0.1 }">
+    <PlaneGeometry :width="6" :height="6"  />
+    <MeshBasicMaterial :opacity="0.0" :color="0x000000" />
+  </Mesh>
+
   <transition
     @enter="menuIn"
     @leave="menuOut"
   >
     <keep-alive>
+
       <Object3D ref="nav-bar" v-if="!showFSMenu" :position="{ x: 0, y: 35.2, z: 0 }">
         <ImageMesh
           ref="nike-logo"
-          :gclick="(v) => { if (!showFSMenu || !tweening) { home(v) } }"
+          :gclick="(v) => { $router.push('/nike/game') }"
           :position="{ x: -22.5 * aspect, y: 0, z: 0 }"
           :scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
           :link="require('./img/nike.png')"
-        />
-        <ImageMesh
-          ref="menu-open"
-          :gclick="() => { if (!showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
-          :position="{ x: 32.5 * aspect, y: 0, z: 0 }"
-          :scale="{ x: 1 / 3 * 1.08, y: 1 / 3 * 1.08, z: 1.0 }"
-          :link="require('./img/menu-open.png')"
         />
         <Mesh
           ref="nav-red-line"
@@ -35,13 +44,6 @@
   >
     <keep-alive>
       <Object3D ref="fs-menu" v-if="showFSMenu" :position="{ x: 0, y: 0, z: 0 }">
-        <ImageMesh
-          ref="fs-menu-open"
-          :gclick="() => { if (showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
-          :position="{ x: 32.5 * aspect, y: 35.2, z: 0 }"
-          :scale="{ x: 1 / 3 * 1.08, y: 1 / 3 * 1.08, z: 1.0 }"
-          :link="require('./img/menu-open.png')"
-        />
         <ImageMesh
           ref="fs-menu-close"
           :gclick="() => { if (showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
@@ -138,17 +140,14 @@ export default {
       // var width = height * this.aspect // visible width
       return height
     },
-    home () {
-      this.$router.push({
-        path: '/nike/game'
-      })
-    },
     menuIn (el, done) {
       var updater = (mesh) => {
         if (mesh) {
           this.tweening = true
           this.fadeInTween((v) => {
-            mesh.material.opacity = v
+            if (mesh.material.uniforms) {
+              mesh.material.uniforms.opacity.value = v
+            }
           }, () => {
             done()
             this.tweening = false
@@ -164,7 +163,9 @@ export default {
         if (mesh) {
           this.tweening = true
           this.fadeOutTween((v) => {
-            mesh.material.opacity = v
+            if (mesh.material.uniforms) {
+              mesh.material.uniforms.opacity.value = v
+            }
           }, () => {
             done()
             this.tweening = false
@@ -179,8 +180,11 @@ export default {
       var updater = (mesh) => {
         if (mesh) {
           this.tweening = true
+          mesh.visible = true
           this.fadeInTween((v) => {
-            mesh.material.opacity = v
+            if (mesh.material.uniforms) {
+              mesh.material.uniforms.opacity.value = v
+            }
           }, () => {
             done()
             this.tweening = false
@@ -196,9 +200,12 @@ export default {
         if (mesh) {
           this.tweening = true
           this.fadeOutTween((v) => {
-            mesh.material.opacity = v
+            if (mesh.material.uniforms) {
+              mesh.material.uniforms.opacity.value = v
+            }
           }, () => {
             done()
+            mesh.visible = false
             this.tweening = false
           })
         }

@@ -5,76 +5,67 @@
     >
     <keep-alive>
       <Object3D ref="page-content">
-        <ImageMesh
+        <!-- <ImageMesh
           d-gclick="() => {  }"
           :position="{ x: 0, y: 20.0, z: -0.1 }"
           :scale="{ x: 1 / 3 * 1.35, y: 1 / 3 * 1.35, z: 1.0 }"
           :link="require('./img/bg/rex.png')"
-        />
+        /> -->
+
+        <Woody ref="woody" :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
+
       </Object3D>
     </keep-alive>
   </transition>
 </template>
 
 <script>
-import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
+import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
+import { glSystem } from '@/components/WebGL/Shared/system'
 
+import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import Bundle from '@/components/WebGL/Bundle'
 export default {
   name: 'Play',
   mixins: [fadeInOut],
   components: {
+    Woody,
     ...Bundle
   },
   props: ['aspect'],
   data () {
     return {
+      execStack: {},
+      glSystem,
       tweening: false
     }
   },
-  computed: {
-    children () {
-      if (this.$refs['page-content'] && this.$refs['page-content'].object3d) {
-        return this.$refs['page-content'].object3d.children
-      } else {
-        return []
+  activated () {
+    this.$emit('exec', () => {
+      for (var execItem in this.execStack) {
+        let exec = this.execStack[execItem]
+        if (exec) {
+          exec()
+        }
       }
-    }
+    })
+  },
+  deactivated () {
+
   },
   methods: {
-    pageFadeIn (el, done) {
-      var updater = (mesh) => {
-        if (mesh) {
-          this.fadeInTween((v) => {
-            this.tweening = true
-            mesh.material.opacity = v
-          }, () => {
-            done()
-            this.tweening = false
-          })
-        }
-      }
-      if (this.$refs['page-content']) {
-        this.$refs['page-content'].visible = true
-        this.$refs['page-content'].object3d.children.forEach(updater)
-      }
-    },
-    pageFadeOut (el, done) {
-      var updater = (mesh) => {
-        if (mesh) {
-          this.fadeOutTween((v) => {
-            this.tweening = true
-            mesh.material.opacity = v
-          }, () => {
-            done()
-            this.tweening = false
-            this.$refs['page-content'].visible = false
-          })
-        }
-      }
-      if (this.$refs['page-content']) {
-        this.$refs['page-content'].object3d.children.forEach(updater)
-      }
+    tweenWoody ({ found }) {
+      this.glSystem.busy = true
+      var magnitude = Math.abs(1.5 - Math.random())
+      this.punchInTween((v) => {
+        found.object.material.uniforms.mousePos.value.x = v
+      }, () => {
+        this.punchOutTween((v) => {
+          found.object.material.uniforms.mousePos.value.x = v
+        }, () => {
+          this.glSystem.busy = false
+        }, magnitude)
+      }, magnitude)
     },
     __add (v) {
       this.$parent.scene.add(v)
