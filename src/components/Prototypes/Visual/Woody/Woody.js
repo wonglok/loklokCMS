@@ -15,9 +15,10 @@ export default function () {
     geometry.addAttribute('vertIndex', new THREE.BufferAttribute(vertIndex, 1))
 
     var shaderMaterial = api.material = new THREE.ShaderMaterial({
+      side: THREE.DoubleSide,
       transparent: true,
-      // depthTest: false,
-      // blending: THREE.AdditiveBlending,
+      depthTest: true,
+      blending: THREE.NormalBlending,
       uniforms: {
         pointSize: { value: window.devicePixelRatio * 1.0 || 1.0 },
         wood: { value: new THREE.TextureLoader().load(require('./Texture/broken-glass.jpg')) },

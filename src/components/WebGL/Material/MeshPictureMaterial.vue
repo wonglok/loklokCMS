@@ -7,6 +7,10 @@ export default {
   },
   props: {
     image: {},
+    depthTest: {
+      type: Boolean,
+      default: true
+    },
     color: {
       type: Number
     },
@@ -31,7 +35,8 @@ export default {
       transparent: true,
       // blending: THREE.AdditiveBlending,
       blending: THREE.NormalBlending,
-      depthTest: false,
+      depthTest: this.depthTest,
+
       uniforms: {
         image: { value: new THREE.TextureLoader().load(this.image) },
         opacity: { value: this.opacity }

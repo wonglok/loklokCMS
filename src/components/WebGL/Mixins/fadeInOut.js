@@ -131,6 +131,9 @@ export default {
     pageFadeOut (el, done) {
       var updater = (mesh) => {
         if (mesh) {
+          if (mesh.material.uniforms) {
+            mesh.material.depthTest = false
+          }
           this.fadeOutTween((v) => {
             this.tweening = true
             if (mesh.material.uniforms) {
@@ -138,6 +141,9 @@ export default {
             }
           }, () => {
             done()
+            if (mesh.material.uniforms) {
+              mesh.material.depthTest = true
+            }
             this.tweening = false
             this.__remove(this.$refs['page-content'].object3d)
           })
