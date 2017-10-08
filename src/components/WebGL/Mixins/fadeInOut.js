@@ -112,6 +112,7 @@ export default {
     pageFadeIn (el, done) {
       var updater = (mesh) => {
         if (mesh) {
+          mesh.visible = true
           this.fadeInTween((v) => {
             this.tweening = true
             if (mesh.material.uniforms) {
@@ -124,7 +125,7 @@ export default {
         }
       }
       if (this.$refs['page-content']) {
-        this.__add(this.$refs['page-content'].object3d)
+        // this.__add(this.$refs['page-content'].object3d)
         this.$refs['page-content'].object3d.children.forEach(updater)
       }
     },
@@ -134,6 +135,7 @@ export default {
           if (mesh.material.uniforms) {
             mesh.material.depthTest = false
           }
+
           this.fadeOutTween((v) => {
             this.tweening = true
             if (mesh.material.uniforms) {
@@ -144,12 +146,13 @@ export default {
             if (mesh.material.uniforms) {
               mesh.material.depthTest = true
             }
+            mesh.visible = false
             this.tweening = false
-            this.__remove(this.$refs['page-content'].object3d)
+            // this.__remove(this.$refs['page-content'].object3d)
           })
         }
       }
-      if (this.$refs['page-content']) {
+      if (this.$refs['page-content'] && this.$refs['page-content'].object3d) {
         this.$refs['page-content'].object3d.children.forEach(updater)
       }
     }
