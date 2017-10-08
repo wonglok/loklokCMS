@@ -34,7 +34,7 @@ void main()	{
   vec4 lastVel = texture2D( velocityInfo, uv );
 
 
-  vec3 diff = getDiff( lastPos.xyz, vec3(mousePos, 0) );
+  vec3 diff = getDiff( lastPos.xyz, vec3(mousePos, 0.1) );
 
   lastVel.xyz += diff;
 

@@ -13,38 +13,20 @@
     <GLMenu
       :aspect="aspect"
       @exec="(v) => { execStack.glmenu = v }"
+      @showPage="(v) => { showPage = v }"
     />
-
-    <!--
     <keep-alive>
       <component
-        v-if="true"
-        :is="'GLMenu'"
-        :aspect="aspect"
-        @exec="(v) => { execStack.glmenu = v }"
-      >
-      </component>
-    </keep-alive>
-    -->
-
-    <!--
-    <PointLight />
-    <Mesh :position="{ x: 0, y: 0, z: 5 }"
-      :gclick="alert"
-    >
-      <MeshPhongMaterial :opacity="1" />
-      <SphereGeometry />
-    </Mesh> -->
-
-    <keep-alive>
-      <component
+        v-if="showPage"
+        ref="page-content"
         v-bind:is="'router-view'"
+        @exec="(v) => { execStack.currentPage = v }"
         :aspect="aspect"
       >
       </component>
     </keep-alive>
 
-    <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
+    <!-- <Woody :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" /> -->
 
   </Scene>
   <Raycaster
@@ -77,6 +59,7 @@ export default {
   data () {
     return {
       glSystem,
+      showPage: true,
       mouseStack: {},
       execStack: {},
       camera: false,

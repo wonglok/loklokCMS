@@ -79,10 +79,10 @@ void main()	{
   toBall(noiser, az, el);
   if (rand(lastVel.xy) > 0.33333) {
     lastPos.xyz = fromBall(75.0, az, el);
-    lastPos.xyz += lastVel.xyz * noisiness * 2.0;
   } else {
     lastPos.xyz += fromBall(-5.0, az, el);
-    lastPos.xyz += lastVel.xyz * noisiness * 2.0;
   }
+
+  lastPos.xyz += lastVel.xyz * noisiness * 2.0;
   gl_FragColor = lastPos;
 }

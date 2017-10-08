@@ -16,7 +16,7 @@ export default {
     },
     blending: {
       default () {
-        return THREE.AdditiveBlending
+        return null
       }
     }
   },

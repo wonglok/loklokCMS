@@ -5,7 +5,7 @@
     @leave="menuOut"
   >
     <keep-alive>
-      <Object3D v-if="!showFSMenu" :position="{ x: 0, y: 35.2, z: 0 }">
+      <Object3D ref="nav-bar" v-if="!showFSMenu" :position="{ x: 0, y: 35.2, z: 0 }">
         <ImageMesh
           ref="nike-logo"
           :gclick="(v) => { if (!showFSMenu || !tweening) { home(v) } }"
@@ -17,7 +17,7 @@
           ref="menu-open"
           :gclick="() => { if (!showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
           :position="{ x: 32.5 * aspect, y: 0, z: 0 }"
-          :scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
+          :scale="{ x: 1 / 3 * 1.08, y: 1 / 3 * 1.08, z: 1.0 }"
           :link="require('./img/menu-open.png')"
         />
         <Mesh
@@ -34,13 +34,61 @@
     @leave="fsMenuOut"
   >
     <keep-alive>
-      <Object3D v-if="showFSMenu" :position="{ x: 0, y: 0, z: 0 }">
+      <Object3D ref="fs-menu" v-if="showFSMenu" :position="{ x: 0, y: 0, z: 0 }">
         <ImageMesh
           ref="fs-menu-open"
           :gclick="() => { if (showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
           :position="{ x: 32.5 * aspect, y: 35.2, z: 0 }"
-          :scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
+          :scale="{ x: 1 / 3 * 1.08, y: 1 / 3 * 1.08, z: 1.0 }"
           :link="require('./img/menu-open.png')"
+        />
+        <ImageMesh
+          ref="fs-menu-close"
+          :gclick="() => { if (showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
+          :position="{ x: 0, y: 0, z: 0 }"
+          :translate="{ x: (w) => {
+            return getSceneWidth() - w * 0.5
+          }, y: (h) => {
+            return -getSceneHeight() + h * 0.5
+          }, z: 0.0 }"
+          :scale="{ x: 1 / 2, y: 1 / 2, z: 1.0 }"
+          :link="require('./img/red-btn.png')"
+        />
+        <ImageMesh
+          :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game'); } }"
+          :position="{ x: 0, y: 25.0, z: 0 }"
+          :translate="{ x: (w) => {
+            return getSceneWidth() - w * 0.5
+          }, y: 0.0, z: 0.0 }"
+          :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
+          :link="require('./img/items/home.png')"
+        />
+        <ImageMesh
+          :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/agree'); } }"
+          :position="{ x: 0, y: 20.0, z: 0 }"
+          :translate="{ x: (w) => {
+            return getSceneWidth() - w * 0.5
+          }, y: 0.0, z: 0.0 }"
+          :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
+          :link="require('./img/items/boxing-camp.png')"
+        />
+        <ImageMesh
+          :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/rules'); } }"
+          :position="{ x: 0, y: 15.0, z: 0 }"
+          :translate="{ x: (w) => {
+            return getSceneWidth() - w * 0.5
+          }, y: 0.0, z: 0.0 }"
+          :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
+          :link="require('./img/items/rules.png')"
+        />
+        <ImageMesh
+          :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/status'); } }"
+          :position="{ x: 0, y: 10.0, z: 0 }"
+          :translate="{ x: (w) => {
+            return getSceneWidth() - w * 0.5
+          }, y: 0.0, z: 0.0 }"
+          :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
+          :link="require('./img/items/rewards.png')"
         />
       </Object3D>
     </keep-alive>
@@ -49,6 +97,7 @@
 </template>
 
 <script>
+import * as THREE from 'three'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import Bundle from '@/components/WebGL/Bundle'
 export default {
@@ -60,90 +109,103 @@ export default {
   },
   data () {
     return {
+      tween: {},
       tweening: false,
       showFSMenu: false
     }
   },
+  watch: {
+    showFSMenu () {
+      this.$emit('showPage', !this.showFSMenu)
+    }
+  },
   activated () {
-
   },
   deactivated () {
-
   },
   methods: {
+    getSceneWidth () {
+      var dist = 50
+      var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
+      var height = 2 * Math.tan(vFOV / 2) * dist // visible height
+      var width = height * this.aspect // visible width
+      return width
+    },
+    getSceneHeight () {
+      var dist = 50
+      var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
+      var height = 2 * Math.tan(vFOV / 2) * dist // visible height
+      // var width = height * this.aspect // visible width
+      return height
+    },
     home () {
       this.$router.push({
         path: '/nike/game'
       })
     },
     menuIn (el, done) {
-      this.$refs['nike-logo'].mesh.visible = true
-      this.$refs['menu-open'].mesh.visible = true
-      this.$refs['nav-red-line'].mesh.visible = true
-
-      this.fadeInTween((v) => {
-        this.tweening = true
-        if (this.$refs['nike-logo']) {
-          this.$refs['nike-logo'].mesh.material.opacity = v
-          this.$refs['menu-open'].mesh.material.opacity = v
-          // this.$refs['menu-open'].mesh.position.z = v / 100
-          this.$refs['nav-red-line'].mesh.material.opacity = v
+      var updater = (mesh) => {
+        if (mesh) {
+          this.tweening = true
+          this.fadeInTween((v) => {
+            mesh.material.opacity = v
+          }, () => {
+            done()
+            this.tweening = false
+          })
         }
-      }, () => {
-        done()
-        this.tweening = false
-      })
+      }
+      if (this.$refs['nav-bar']) {
+        this.$refs['nav-bar'].object3d.children.forEach(updater)
+      }
     },
     menuOut (el, done) {
-      this.fadeOutTween((v) => {
-        this.tweening = true
-        if (this.$refs['nike-logo']) {
-          this.$refs['nike-logo'].mesh.material.opacity = v
-          this.$refs['menu-open'].mesh.material.opacity = v
-          // this.$refs['menu-open'].mesh.position.z = v / 100
-          this.$refs['nav-red-line'].mesh.material.opacity = v
+      var updater = (mesh) => {
+        if (mesh) {
+          this.tweening = true
+          this.fadeOutTween((v) => {
+            mesh.material.opacity = v
+          }, () => {
+            done()
+            this.tweening = false
+          })
         }
-      }, () => {
-        done()
-        this.$refs['nike-logo'].mesh.visible = false
-        this.$refs['menu-open'].mesh.visible = false
-        this.$refs['nav-red-line'].mesh.visible = false
-        this.tweening = false
-      })
+      }
+      if (this.$refs['nav-bar']) {
+        this.$refs['nav-bar'].object3d.children.forEach(updater)
+      }
     },
     fsMenuIn (el, done) {
-      this.fadeInTween((v) => {
-        this.tweening = true
-        if (this.$refs['fs-menu-open']) {
-          this.$refs['fs-menu-open'].mesh.material.opacity = v
-          // this.$refs['fs-menu-open'].mesh.position.z = v / 100
+      var updater = (mesh) => {
+        if (mesh) {
+          this.tweening = true
+          this.fadeInTween((v) => {
+            mesh.material.opacity = v
+          }, () => {
+            done()
+            this.tweening = false
+          })
         }
-      }, () => {
-        done()
-        this.tweening = false
-      })
+      }
+      if (this.$refs['fs-menu']) {
+        this.$refs['fs-menu'].object3d.children.forEach(updater)
+      }
     },
     fsMenuOut (el, done) {
-      this.fadeOutTween((v) => {
-        if (this.$refs['fs-menu-open']) {
-          this.$refs['fs-menu-open'].mesh.material.opacity = v
-          // this.$refs['fs-menu-open'].mesh.position.z = v / 100
+      var updater = (mesh) => {
+        if (mesh) {
+          this.tweening = true
+          this.fadeOutTween((v) => {
+            mesh.material.opacity = v
+          }, () => {
+            done()
+            this.tweening = false
+          })
         }
-      }, () => {
-        done()
-        this.tweening = false
-      })
-    },
-    blink ({ found }) {
-      console.log(found)
-      this.fadeOutTween((v) => {
-        found.object.material.opacity = v
-      }, () => {
-        this.fadeInTween((v) => {
-          found.object.material.opacity = v
-        }, () => {
-        })
-      })
+      }
+      if (this.$refs['fs-menu']) {
+        this.$refs['fs-menu'].object3d.children.forEach(updater)
+      }
     },
     __add (v) {
       this.$parent.scene.add(v)

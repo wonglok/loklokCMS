@@ -18,7 +18,7 @@ export default {
     if (this.scale) {
       this.object3d.scale.set(this.scale.x || 0, this.scale.y || 0, this.scale.z || 0)
     }
-    this.$emit('object3d', this.object3d)
+    this.$emit('object', this.object3d)
   },
   watch: {
     position () {

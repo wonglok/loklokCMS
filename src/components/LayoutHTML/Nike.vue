@@ -1,11 +1,11 @@
 <template>
   <div class="full">
     <div class="baseline">
-      <div class="maxer">
+      <div class="maxer" v-show="isTallEnough">
         <div class="maxer-desc">iPhone 7 Plus</div>
         <GLView @refresh="(v) => { refresh.maxer1 = v }"></GLView>
       </div>
-      <div class="maxer2" v-if="isBigEnough">
+      <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
         <div class="maxer-desc">iPhone 7 Plus Safari</div>
         <GLView @refresh="(v) => { refresh.maxer2 = v }"></GLView>
       </div>
@@ -22,11 +22,13 @@ export default {
   data () {
     return {
       refresh: {},
+      isTallEnough: false,
       isBigEnough: false
     }
   },
   created () {
     var resizer = () => {
+      this.isTallEnough = window.innerHeight > 500
       this.isBigEnough = window.innerWidth > 828
       // auto refresh :D
       for (var exec in this.refresh) {

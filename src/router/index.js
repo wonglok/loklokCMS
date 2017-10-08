@@ -11,6 +11,12 @@ import Woody from '@/components/Prototypes/Scene/Woody'
 
 import NikeMobilerHTML from '@/components/LayoutHTML/Nike'
 import Game from '@/components/NikeWebGL/Game'
+import BoxingCamp from '@/components/NikeWebGL/Pages/BoxingCamp/BoxingCamp'
+import Agree from '@/components/NikeWebGL/Pages/Agree/Agree'
+
+import Play from '@/components/NikeWebGL/Pages/Play/Play'
+import Rules from '@/components/NikeWebGL/Pages/Rules/Rules'
+import Status from '@/components/NikeWebGL/Pages/Status/Status'
 
 Vue.use(Router)
 
@@ -29,7 +35,29 @@ export default new Router({
         {
           path: 'game',
           name: 'nike-scene',
-          component: Game
+          component: Game,
+          children: [
+            {
+              path: '',
+              component: BoxingCamp
+            },
+            {
+              path: 'agree',
+              component: Agree
+            },
+            {
+              path: 'play',
+              component: Play
+            },
+            {
+              path: 'status',
+              component: Status
+            },
+            {
+              path: 'rules',
+              component: Rules
+            }
+          ]
         }
       ]
     },
