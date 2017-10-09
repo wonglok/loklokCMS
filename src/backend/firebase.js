@@ -8,6 +8,8 @@ function isset (o) {
 }
 
 export const appState = {
+  loading: false,
+  ready: false,
   user: null,
   get name () {
     if (!appState.user) { return '' }
@@ -45,12 +47,14 @@ export function restoreStates ({ done }) {
       //   path: '/'
       // })
     }
+    appState.ready = true
     done()
   })
 }
 
 var googleLoginProvider
 export function loginGoogle () {
+  appState.loading = true
   googleLoginProvider = googleLoginProvider || new firebase.auth.GoogleAuthProvider()
   firebase.auth().signInWithPopup(googleLoginProvider).then(function (result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
@@ -59,6 +63,7 @@ export function loginGoogle () {
     var user = result.user
     // ...
     appState.user = user
+    appState.loading = false
   }).catch(function (error) {
     // Handle Errors here.
     // var errorCode = error.code
@@ -71,15 +76,19 @@ export function loginGoogle () {
     // ...
 
     appState.user = null
+    appState.loading = false
     console.log(errorMessage)
   })
 }
 
 export function logout () {
+  appState.loading = true
   firebase.auth().signOut().then(function () {
     appState.user = null
+    appState.loading = false
   }).catch(function () {
     appState.user = null
+    appState.loading = false
   })
 }
 

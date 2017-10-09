@@ -1,13 +1,16 @@
 <template>
   <div class="full">
-    <div class="baseline">
-      <div class="maxer" v-show="isTallEnough">
-        <div class="maxer-desc">iPhone 7 Plus</div>
-        <GLView @refresh="(v) => { refresh.maxer1 = v }"></GLView>
-      </div>
-      <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
-        <div class="maxer-desc">iPhone 7 Plus Safari</div>
-        <GLView @refresh="(v) => { refresh.maxer2 = v }"></GLView>
+    <div class="full-v">
+      <Controllers @api="(v) => { apis.controllers = v }" />
+      <div class="baseline">
+        <div class="maxer" v-show="isTallEnough">
+          <div class="maxer-desc">iPhone 7 Plus</div>
+          <GLView @refresh="(v) => { refresh.maxer1 = v }" @gl-click="passer"></GLView>
+        </div>
+        <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
+          <div class="maxer-desc">iPhone 7 Plus Safari</div>
+          <GLView @refresh="(v) => { refresh.maxer2 = v }"></GLView>
+        </div>
       </div>
     </div>
   </div>
@@ -15,15 +18,25 @@
 
 <script>
 import GLView from '@/components/WebGL/GLView'
+import Controllers from '@/components/CMS/Controllers/Controllers'
 export default {
   components: {
-    GLView
+    GLView,
+    Controllers
   },
   data () {
     return {
+      apis: {},
       refresh: {},
       isTallEnough: false,
       isBigEnough: false
+    }
+  },
+  methods: {
+    passer (args) {
+      if (this.apis.controllers) {
+        this.apis.controllers.glClick(args)
+      }
     }
   },
   created () {
@@ -56,6 +69,15 @@ export default {
   justify-content: space-around;
   align-items: center;
 }
+.full-v{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .baseline{
   max-height: 736px;
   width: 100%;

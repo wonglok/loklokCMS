@@ -123,6 +123,7 @@ export default {
         if (found[0].object.userData && found[0].object.userData.gclick) {
           found[0].object.userData.gclick({ mouse, found: found[0] })
         }
+        this.$emit('gl-click', { mouse, found: found[0] })
       }
     },
     // highlight (result, color) {

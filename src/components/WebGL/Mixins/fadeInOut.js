@@ -1,7 +1,5 @@
 import TWEEN from '@tweenjs/tween.js'
-
 var punchTween = false
-
 export default {
   data () {
     return {
