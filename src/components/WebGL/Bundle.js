@@ -18,9 +18,11 @@ import SphereGeometry from './Geometry/SphereGeometry'
 import PointLight from './Light/PointLight'
 
 import ImageMesh from './Custom/ImageMesh'
+import VMS from './Custom/VMS'
 
 export default {
   ImageMesh,
+  VMS,
 
   Object3D,
 

@@ -2,17 +2,19 @@
 <span class="hidden">
   <ImageMesh
     ref="menu-open"
-    :position="{ x: 32.5 * aspect, y: 35.2, z: 0 }"
+    :gclick="() => { showFSMenu = !showFSMenu; }"
+    :vms="vms('/menu/menu-trigger')"
+    :position="{ x: 32.5 * aspect, y: 35.2, z: -0.00000001 }"
     :scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
     :link="require('./img/menu-open.png')"
   />
-  <Mesh
+  <!-- <Mesh
     ref="red-box"
     :gclick="() => { showFSMenu = !showFSMenu; }"
     :position="{ x: 32.5 * aspect, y: 35.2, z: 0.1 }">
     <PlaneGeometry :width="6" :height="6"  />
     <MeshBasicMaterial :opacity="0.0" :color="0x000000" />
-  </Mesh>
+  </Mesh> -->
 
   <transition
     @enter="menuIn"
@@ -21,7 +23,8 @@
     <keep-alive>
       <Object3D ref="nav-bar" v-if="!showFSMenu" :position="{ x: 0, y: 35.2, z: 0 }">
         <ImageMesh
-          :vms="vms('/menu/nike/logo')"
+          :vms="vms('/menu/nike-logo')"
+          :aspect="aspect"
           ref="nike-logo"
           :gclick="(v) => { $router.push('/nike/game') }"
           :position="{ x: -22.5 * aspect, y: 0, z: 0 }"

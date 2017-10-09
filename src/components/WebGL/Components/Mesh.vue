@@ -2,8 +2,10 @@
 <span class="mesh"><slot></slot>{{ vmsRefresh }}</span>
 </template>
 <script>
+import { mixin } from '../Mixins/llvms'
 import * as THREE from 'three'
 export default {
+  mixins: [mixin],
   props: ['position', 'gclick', 'scale', 'vms'],
   data () {
     return {
@@ -47,8 +49,17 @@ export default {
     },
     vmsRefresh () {
       if (this.vms && this.mesh) {
-        this.mesh.position.set(this.vms.position.x, this.vms.position.y, this.vms.position.z)
-        this.mesh.scale.set(this.vms.scale.x, this.vms.scale.y, this.vms.scale.z)
+        if (this.vms.position) {
+          this.mesh.position.set(
+            this.getV({ obj: this.vms.position, prop: 'x' }),
+            this.getV({ obj: this.vms.position, prop: 'y' }),
+            this.getV({ obj: this.vms.position, prop: 'z' }),
+          )
+        }
+
+        if (this.vms.scale) {
+          this.mesh.scale.set(this.vms.scale.x, this.vms.scale.y, this.vms.scale.z)
+        }
       }
     },
     position () {

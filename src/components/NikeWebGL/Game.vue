@@ -8,8 +8,7 @@
     :position="{ x: 0, y: 0, z: 50 }"
     @camera="(v) => { camera = v; }"
   />
-  <Scene @scene="(v) => { scene = v; }">
-
+  <Scene :aspect="aspect" @scene="(v) => { scene = v; }">
     <GLMenu
       :aspect="aspect"
       @exec="(v) => { execStack.glmenu = v }"
