@@ -1,13 +1,6 @@
 <template>
   <div class="container full" ref="container">
     <keep-alive>
-      <!-- <router-view
-        :aspect="aspect"
-        @refresh="(v) => { if (this.evlt) { this.evlt.resizer(); } }"
-        @exec="(v) => { exec = v }"
-        @scene="(v) => { scene = v }"
-        @camera="(v) => { camera = v }"
-      /> -->
       <component
         v-bind:is="'router-view'"
         :aspect="aspect"

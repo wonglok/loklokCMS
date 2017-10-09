@@ -5,18 +5,28 @@
     >
     <keep-alive>
       <Object3D ref="page-content">
+
         <ImageMesh
           dgclick="() => {  }"
-          :position="{ x: -20.5 * aspect, y: 26.0, z: 0 }"
-          :scale="{ x: 1, y: 1, z: 1.0 }"
-          :link="require('./img/hero/nike-boxing.svg')"
+          :position="{ x: -20.5 * aspect, y: 25.0, z: 0 }"
+          :scale="{ x: 0.5 * 1.25, y: 0.5 * 1.25, z: 1.0 }"
+          :link="require('./img/hero/nike-boxing.png')"
         />
+
         <ImageMesh
           dgclick="() => {  }"
           :position="{ x: 0, y: 14.5, z: -0.1 }"
-          :scale="{ x: 1 / 3 * 1.25, y: 1 / 3 * 1.25, z: 1.0 }"
+          :scale="{ x: 0.3333 * 1.25, y: 0.3333 * 1.25, z: 1.0 }"
           :link="require('./img/bg/boxing.jpg')"
         />
+
+        <ImageMesh
+          dgclick="() => {  }"
+          :position="{ x: 26 * aspect, y: 14.5, z: -0.1 }"
+          :scale="{ x: 0.5 * 1.25, y: 0.5 * 1.25, z: 1.0 }"
+          :link="require('./img/hero/camp.png')"
+        />
+
       </Object3D>
     </keep-alive>
   </transition>

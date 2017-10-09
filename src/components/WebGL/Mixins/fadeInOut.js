@@ -109,12 +109,67 @@ export default {
     updateTween () {
 
     },
+    o3dFadeIn (id) {
+      var o3dID = id || 'page-content'
+      return (el, done) => {
+        var updater = (mesh) => {
+          if (mesh) {
+            mesh.visible = true
+            this.fadeInTween((v) => {
+              this.tweening = true
+              mesh.material.opacity = v
+              if (mesh.material.uniforms) {
+                mesh.material.uniforms.opacity.value = v
+              }
+            }, () => {
+              done()
+              this.tweening = false
+            })
+          }
+        }
+        if (this.$refs[o3dID]) {
+          // this.__add(this.$refs[o3dID].object3d)
+          this.$refs[o3dID].object3d.children.forEach(updater)
+        }
+      }
+    },
+    o3dFadeOut (id) {
+      var o3dID = id || 'page-content'
+      return (el, done) => {
+        var updater = (mesh) => {
+          if (mesh) {
+            if (mesh.material.uniforms) {
+              mesh.material.depthTest = false
+            }
+            this.fadeOutTween((v) => {
+              this.tweening = true
+              mesh.material.opacity = v
+              if (mesh.material.uniforms) {
+                mesh.material.uniforms.opacity.value = v
+              }
+            }, () => {
+              done()
+              if (mesh.material.uniforms) {
+                mesh.material.depthTest = true
+              }
+              mesh.visible = false
+              this.tweening = false
+              // this.__remove(this.$refs['page-content'].object3d)
+            })
+          }
+        }
+        if (this.$refs[o3dID] && this.$refs[o3dID].object3d) {
+          this.$refs[o3dID].object3d.children.forEach(updater)
+        }
+      }
+    },
     pageFadeIn (el, done) {
       var updater = (mesh) => {
         if (mesh) {
           mesh.visible = true
           this.fadeInTween((v) => {
             this.tweening = true
+            mesh.material.opacity = v
             if (mesh.material.uniforms) {
               mesh.material.uniforms.opacity.value = v
             }
@@ -135,9 +190,9 @@ export default {
           if (mesh.material.uniforms) {
             mesh.material.depthTest = false
           }
-
           this.fadeOutTween((v) => {
             this.tweening = true
+            mesh.material.opacity = v
             if (mesh.material.uniforms) {
               mesh.material.uniforms.opacity.value = v
             }

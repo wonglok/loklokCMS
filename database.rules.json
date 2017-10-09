@@ -7,6 +7,10 @@
   	"cms-info": {
       ".read": "true",
     	".write": "auth != null && root.child('cms-admins').hasChild(auth.uid)"
-  	}
+  	},
+    "cms-data": {
+			".read": "true",
+    	".write": "auth != null && root.child('cms-admins').hasChild(auth.uid)"
+    }
   }
 }

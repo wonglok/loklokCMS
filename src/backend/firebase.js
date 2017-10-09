@@ -3,8 +3,6 @@ import VueFire from 'vuefire'
 import firebase from 'firebase'
 Vue.use(VueFire)
 
-export default firebase
-
 function isset (o) {
   return typeof o !== 'undefined'
 }
@@ -28,18 +26,7 @@ export const appState = {
   }
 }
 
-export const fire = firebase.initializeApp({
-  apiKey: 'AIzaSyBJaCgoUfzKM5be6DAQvB48tKmbqlqtHTE',
-  authDomain: 'loklokcms.firebaseapp.com',
-  databaseURL: 'https://loklokcms.firebaseio.com',
-  projectId: 'loklokcms',
-  storageBucket: 'loklokcms.appspot.com',
-  messagingSenderId: '902996908267'
-})
-
-export const googleLoginProvider = new firebase.auth.GoogleAuthProvider()
-
-export function hydrate () {
+export function restoreStates ({ done }) {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       // User is signed in.
@@ -58,10 +45,13 @@ export function hydrate () {
       //   path: '/'
       // })
     }
+    done()
   })
 }
 
+var googleLoginProvider
 export function loginGoogle () {
+  googleLoginProvider = googleLoginProvider || new firebase.auth.GoogleAuthProvider()
   firebase.auth().signInWithPopup(googleLoginProvider).then(function (result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
     // var token = result.credential.accessToken
@@ -93,8 +83,26 @@ export function logout () {
   })
 }
 
-export const db = fire.database()
+export function connectFirebase ({ done }) {
+  var api = {}
+  api.firebase = firebase.initializeApp({
+    apiKey: 'AIzaSyBJaCgoUfzKM5be6DAQvB48tKmbqlqtHTE',
+    authDomain: 'loklokcms.firebaseapp.com',
+    databaseURL: 'https://loklokcms.firebaseio.com',
+    projectId: 'loklokcms',
+    storageBucket: 'loklokcms.appspot.com',
+    messagingSenderId: '902996908267'
+  })
+  api.db = api.firebase.database()
+  api.storage = firebase.storage()
+  restoreStates({ done })
+  return api
+}
 
-export const storage = firebase.storage()
-export const images = db.ref('/cms/images')
-
+export function ready () {
+  return new Promise((resolve, reject) => {
+    connectFirebase({ done: () => {
+      resolve(appState)
+    } })
+  })
+}

@@ -70,7 +70,7 @@ void main()	{
   vec4 lastVel = texture2D( velocityInfo, uv );
   vec4 lastPos = texture2D( positionInfo, uv );
 
-  float noisiness = 3.0;
+  float noisiness = 9.0;
 
   float az = 0.0;
   float el = 0.0;
@@ -80,9 +80,9 @@ void main()	{
   if (rand(lastVel.xy) > 0.33333) {
     lastPos.xyz = fromBall(75.0, az, el);
   } else {
-    lastPos.xyz += fromBall(-5.0, az, el);
+    lastPos.xyz += fromBall(-6.0, az, el);
   }
 
-  lastPos.xyz += lastVel.xyz * noisiness * 2.0;
+  lastPos.xyz += lastVel.xyz * noisiness;
   gl_FragColor = lastPos;
 }

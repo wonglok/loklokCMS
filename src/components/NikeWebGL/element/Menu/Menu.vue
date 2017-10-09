@@ -1,6 +1,5 @@
 <template>
 <span class="hidden">
-
   <ImageMesh
     ref="menu-open"
     :position="{ x: 32.5 * aspect, y: 35.2, z: 0 }"
@@ -20,7 +19,6 @@
     @leave="menuOut"
   >
     <keep-alive>
-
       <Object3D ref="nav-bar" v-if="!showFSMenu" :position="{ x: 0, y: 35.2, z: 0 }">
         <ImageMesh
           ref="nike-logo"
@@ -38,6 +36,7 @@
       </Object3D>
     </keep-alive>
   </transition>
+
   <transition
     @enter="fsMenuIn"
     @leave="fsMenuOut"
@@ -49,8 +48,10 @@
           :gclick="() => { if (showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
           :position="{ x: 0, y: 0, z: 0 }"
           :translate="{ x: (w) => {
+            //return 1;
             return getSceneWidth() - w * 0.5
           }, y: (h) => {
+            //return 10;
             return -getSceneHeight() + h * 0.5
           }, z: 0.0 }"
           :scale="{ x: 1 / 2, y: 1 / 2, z: 1.0 }"
@@ -145,6 +146,9 @@ export default {
         if (mesh) {
           this.tweening = true
           this.fadeInTween((v) => {
+            if (mesh.material) {
+              mesh.material.opacity = v
+            }
             if (mesh.material.uniforms) {
               mesh.material.uniforms.opacity.value = v
             }
@@ -163,6 +167,9 @@ export default {
         if (mesh) {
           this.tweening = true
           this.fadeOutTween((v) => {
+            if (mesh.material) {
+              mesh.material.opacity = v
+            }
             if (mesh.material.uniforms) {
               mesh.material.uniforms.opacity.value = v
             }
@@ -182,6 +189,9 @@ export default {
           this.tweening = true
           mesh.visible = true
           this.fadeInTween((v) => {
+            if (mesh.material) {
+              mesh.material.opacity = v
+            }
             if (mesh.material.uniforms) {
               mesh.material.uniforms.opacity.value = v
             }
@@ -200,6 +210,9 @@ export default {
         if (mesh) {
           this.tweening = true
           this.fadeOutTween((v) => {
+            if (mesh.material) {
+              mesh.material.opacity = v
+            }
             if (mesh.material.uniforms) {
               mesh.material.uniforms.opacity.value = v
             }
