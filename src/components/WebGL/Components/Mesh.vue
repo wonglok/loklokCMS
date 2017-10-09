@@ -1,10 +1,10 @@
 <template>
-<span class="mesh"><slot></slot></span>
+<span class="mesh"><slot></slot>{{ vmsRefresh }}</span>
 </template>
 <script>
 import * as THREE from 'three'
 export default {
-  props: ['position', 'gclick', 'scale'],
+  props: ['position', 'gclick', 'scale', 'vms'],
   data () {
     return {
       mesh: null,
@@ -14,8 +14,18 @@ export default {
       }
     }
   },
+  computed: {
+    vmsRefresh () {
+      if (this.vms) {
+        return JSON.stringify(this.vms)
+      }
+    }
+  },
   created () {
     this.mesh = new THREE.Mesh()
+    if (this.vms) {
+      this.mesh.userData.vms = this.vms
+    }
     if (this.gclick) {
       this.mesh.userData.gclick = this.gclick
     }
@@ -30,6 +40,17 @@ export default {
     this.$emit('mesh', this.mesh)
   },
   watch: {
+    vms () {
+      if (this.vms && this.mesh) {
+        this.mesh.userData.vms = this.vms
+      }
+    },
+    vmsRefresh () {
+      if (this.vms && this.mesh) {
+        this.mesh.position.set(this.vms.position.x, this.vms.position.y, this.vms.position.z)
+        this.mesh.scale.set(this.vms.scale.x, this.vms.scale.y, this.vms.scale.z)
+      }
+    },
     position () {
       if (this.position) {
         this.mesh.position.set(this.position.x || 0, this.position.y || 0, this.position.z || 0)

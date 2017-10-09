@@ -1,7 +1,7 @@
 <template>
-  <Mesh @mesh="(v) => { mesh = v }" :position="position" :scale="scale" :gclick="gclick">
+  <Mesh :vms="vms" @mesh="(v) => { mesh = v }" :position="position" :scale="scale" :gclick="gclick">
     <PlaneGeometry v-if="ready" :width="sWidth" :height="sHeight" :translate="translate" :scale="scale" />
-    <MeshPictureMaterial  v-if="ready" :opacity="1" :color="0xffffff" :image="link" />
+    <MeshPictureMaterial v-if="ready" :opacity="1" :color="0xffffff" :image="link" />
   </Mesh>
 </template>
 
@@ -12,7 +12,7 @@ import MeshPictureMaterial from '../Material/MeshPictureMaterial'
 
 export default {
   name: 'ImageMesh',
-  props: ['position', 'link', 'scale', 'gclick', 'translate'],
+  props: ['position', 'link', 'scale', 'gclick', 'translate', 'vms'],
   components: {
     Mesh,
     PlaneGeometry,

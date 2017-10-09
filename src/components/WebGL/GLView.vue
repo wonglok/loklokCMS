@@ -6,7 +6,7 @@
         :aspect="aspect"
         :rect="rect"
         :renderer="renderer"
-        @gl-click="(v) => { $emit('gl-click', v) }"
+        @glClick="(v) => { $emit('glClick', v) }"
         @setMouse="(v) => { setMouse = v }"
         @exec="(v) => { exec = v }"
         @scene="(v) => { scene = v }"

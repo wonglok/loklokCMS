@@ -5,7 +5,7 @@
       <div class="baseline">
         <div class="maxer" v-show="isTallEnough">
           <div class="maxer-desc">iPhone 7 Plus</div>
-          <GLView @refresh="(v) => { refresh.maxer1 = v }" @gl-click="passer"></GLView>
+          <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
         </div>
         <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
           <div class="maxer-desc">iPhone 7 Plus Safari</div>

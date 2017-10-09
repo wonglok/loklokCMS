@@ -21,6 +21,7 @@
     <keep-alive>
       <Object3D ref="nav-bar" v-if="!showFSMenu" :position="{ x: 0, y: 35.2, z: 0 }">
         <ImageMesh
+          :vms="vms('/menu/nike/logo')"
           ref="nike-logo"
           :gclick="(v) => { $router.push('/nike/game') }"
           :position="{ x: -22.5 * aspect, y: 0, z: 0 }"
@@ -100,6 +101,7 @@
 </template>
 
 <script>
+import { style } from '@/components/WebGL/Mixins/llvms'
 import * as THREE from 'three'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import Bundle from '@/components/WebGL/Bundle'
@@ -112,6 +114,7 @@ export default {
   },
   data () {
     return {
+      style,
       tween: {},
       tweening: false,
       showFSMenu: false
@@ -127,6 +130,9 @@ export default {
   deactivated () {
   },
   methods: {
+    vms (name) {
+      return this.style[name]
+    },
     getSceneWidth () {
       var dist = 50
       var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
