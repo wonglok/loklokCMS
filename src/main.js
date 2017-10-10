@@ -3,7 +3,19 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import '@/backend/firebase'
+import * as backend from '@/backend/firebase'
+
+router.beforeEach((to, from, next) => {
+  if (to.fullPath.indexOf('/cms') === 0) {
+    backend.appState.useRT = true
+    backend.appState.useCMS = true
+    next()
+  } else if (backend.appState.useCMS) {
+    next({ path: to.fullPath.replace('/nike', '/cms') })
+  } else {
+    next()
+  }
+})
 
 Vue.config.productionTip = false
 
@@ -14,3 +26,5 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+export { router }

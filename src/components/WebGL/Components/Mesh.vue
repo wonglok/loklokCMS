@@ -2,10 +2,8 @@
 <span class="mesh"><slot></slot></span>
 </template>
 <script>
-import { llvmsMesh } from '../Mixins/llvms'
 import * as THREE from 'three'
 export default {
-  mixins: [llvmsMesh],
   props: ['position', 'gclick', 'scale'],
   data () {
     return {

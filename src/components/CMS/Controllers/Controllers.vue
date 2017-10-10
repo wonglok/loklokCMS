@@ -18,16 +18,19 @@
 
 <script>
 import * as llvms from '@/components/WebGL/Mixins/llvms'
-import { appState } from '@/backend/firebase'
+import * as backend from '@/backend/firebase'
 export default {
   data () {
     return {
       llvms,
-      appState,
+      appState: backend.appState,
       currentVMS: false
     }
   },
   created () {
+    if (this.$route.query.cms === 'true') {
+      this.appState.useRT = true
+    }
     this.$emit('api', this)
   },
   methods: {

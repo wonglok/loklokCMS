@@ -10,15 +10,45 @@ import Red from '@/components/Prototypes/Scene/Red'
 import Woody from '@/components/Prototypes/Scene/Woody'
 
 import NikeMobilerHTML from '@/components/LayoutHTML/Nike'
+
 import Game from '@/components/NikeWebGL/Game'
+
 import BoxingCamp from '@/components/NikeWebGL/Pages/BoxingCamp/BoxingCamp'
 import Agree from '@/components/NikeWebGL/Pages/Agree/Agree'
-
 import Play from '@/components/NikeWebGL/Pages/Play/Play'
 import Rules from '@/components/NikeWebGL/Pages/Rules/Rules'
 import Status from '@/components/NikeWebGL/Pages/Status/Status'
 
 Vue.use(Router)
+
+var nikeGame = [
+  {
+    path: 'game',
+    component: Game,
+    children: [
+      {
+        path: '',
+        component: BoxingCamp
+      },
+      {
+        path: 'agree',
+        component: Agree
+      },
+      {
+        path: 'play',
+        component: Play
+      },
+      {
+        path: 'status',
+        component: Status
+      },
+      {
+        path: 'rules',
+        component: Rules
+      }
+    ]
+  }
+]
 
 export default new Router({
   mode: 'history',
@@ -31,35 +61,12 @@ export default new Router({
     {
       path: '/nike',
       component: NikeMobilerHTML,
-      children: [
-        {
-          path: 'game',
-          name: 'nike-scene',
-          component: Game,
-          children: [
-            {
-              path: '',
-              component: BoxingCamp
-            },
-            {
-              path: 'agree',
-              component: Agree
-            },
-            {
-              path: 'play',
-              component: Play
-            },
-            {
-              path: 'status',
-              component: Status
-            },
-            {
-              path: 'rules',
-              component: Rules
-            }
-          ]
-        }
-      ]
+      children: nikeGame
+    },
+    {
+      path: '/cms',
+      component: NikeMobilerHTML,
+      children: nikeGame
     },
     {
       path: '/prototypes',

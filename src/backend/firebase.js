@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueFire from 'vuefire'
 import firebase from 'firebase'
+import axios from 'axios'
 Vue.use(VueFire)
 
 function isset (o) {
@@ -8,6 +9,8 @@ function isset (o) {
 }
 
 export const appState = {
+  useCMS: false,
+  useRT: false,
   loading: false,
   ready: false,
   user: null,
@@ -92,26 +95,55 @@ export function logout () {
   })
 }
 
+export const api = {}
 export function connectFirebase ({ done }) {
-  var api = {}
-  api.firebase = firebase.initializeApp({
-    apiKey: 'AIzaSyBJaCgoUfzKM5be6DAQvB48tKmbqlqtHTE',
-    authDomain: 'loklokcms.firebaseapp.com',
-    databaseURL: 'https://loklokcms.firebaseio.com',
-    projectId: 'loklokcms',
-    storageBucket: 'loklokcms.appspot.com',
-    messagingSenderId: '902996908267'
-  })
-  api.db = api.firebase.database()
-  api.storage = firebase.storage()
+  if (!api.firebase) {
+    api.firebase = firebase.initializeApp({
+      apiKey: 'AIzaSyBJaCgoUfzKM5be6DAQvB48tKmbqlqtHTE',
+      authDomain: 'loklokcms.firebaseapp.com',
+      databaseURL: 'https://loklokcms.firebaseio.com',
+      projectId: 'loklokcms',
+      storageBucket: 'loklokcms.appspot.com',
+      messagingSenderId: '902996908267'
+    })
+    api.db = api.firebase.database()
+    api.storage = firebase.storage()
+  }
   restoreStates({ done })
   return api
 }
 
-export function ready () {
+export function readyRT () {
   return new Promise((resolve, reject) => {
     connectFirebase({ done: () => {
       resolve(appState)
     } })
   })
+}
+
+export function cleanseForUpload (obj) {
+  obj = {
+    ...obj
+  }
+  delete obj['.key']
+  return obj
+}
+
+export function getStyles () {
+  return axios.get('https://loklokcms.firebaseio.com/cms-data/styles.json')
+  .then((response) => {
+    return transform(response.data)
+  })
+}
+
+export function transform (obj) {
+  var bucket = []
+  var keys = Object.keys(obj)
+  for (var i = 0; i < keys.length; i++) {
+    bucket.push({
+      '.key': keys[i],
+      ...obj[keys[i]]
+    })
+  }
+  return bucket
 }

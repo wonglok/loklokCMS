@@ -21,7 +21,7 @@ import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 // import * as THREE from 'three'
 import Bundle from '@/components/WebGL/Bundle'
 export default {
-  name: 'BoxingCamp',
+  name: 'Agree',
   mixins: [fadeInOut],
   components: {
     ...Bundle

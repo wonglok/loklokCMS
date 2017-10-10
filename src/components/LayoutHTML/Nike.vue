@@ -9,7 +9,7 @@
         </div>
         <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
           <div class="maxer-desc">iPhone 7 Plus Safari</div>
-          <GLView @refresh="(v) => { refresh.maxer2 = v }"></GLView>
+          <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
         </div>
       </div>
     </div>

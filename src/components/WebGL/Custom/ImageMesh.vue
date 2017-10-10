@@ -6,12 +6,14 @@
 </template>
 
 <script>
+import { llvmsMesh } from '../Mixins/llvms'
 import Mesh from '../Components/Mesh'
 import PlaneGeometry from '../Geometry/PlaneGeometry'
 import MeshPictureMaterial from '../Material/MeshPictureMaterial'
 
 export default {
   name: 'ImageMesh',
+  mixins: [llvmsMesh],
   props: ['position', 'link', 'scale', 'gclick', 'translate', 'vms'],
   components: {
     Mesh,
