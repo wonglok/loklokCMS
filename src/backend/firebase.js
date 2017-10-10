@@ -31,32 +31,35 @@ export const appState = {
   }
 }
 
-export function restoreStates ({ done }) {
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      // User is signed in.
-      // var displayName = user.displayName;
-      // var email = user.email;
-      // var emailVerified = user.emailVerified;
-      // var photoURL = user.photoURL;
-      // var isAnonymous = user.isAnonymous;
-      // var uid = user.uid;
-      // var providerData = user.providerData;
-      // ...
-      appState.user = user
-    } else {
-      appState.user = null
-      // router.push({
-      //   path: '/'
-      // })
-    }
-    appState.ready = true
-    done()
+export function restoreStates () {
+  return new Promise((resolve, reject) => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // User is signed in.
+        // var displayName = user.displayName;
+        // var email = user.email;
+        // var emailVerified = user.emailVerified;
+        // var photoURL = user.photoURL;
+        // var isAnonymous = user.isAnonymous;
+        // var uid = user.uid;
+        // var providerData = user.providerData;
+        // ...
+        appState.user = user
+        resolve(appState)
+      } else {
+        appState.user = null
+        // router.push({
+        //   path: '/'
+        // })
+        reject(appState)
+      }
+      appState.ready = true
+    })
   })
 }
 
 var googleLoginProvider
-export function loginGoogle () {
+export function loginToGoogle () {
   appState.loading = true
   googleLoginProvider = googleLoginProvider || new firebase.auth.GoogleAuthProvider()
   firebase.auth().signInWithPopup(googleLoginProvider).then(function (result) {
@@ -96,32 +99,33 @@ export function logout () {
 }
 
 export const api = {}
-export function connectFirebase ({ done }) {
-  if (!api.firebase) {
-    api.firebase = firebase.initializeApp({
-      apiKey: 'AIzaSyBJaCgoUfzKM5be6DAQvB48tKmbqlqtHTE',
-      authDomain: 'loklokcms.firebaseapp.com',
-      databaseURL: 'https://loklokcms.firebaseio.com',
-      projectId: 'loklokcms',
-      storageBucket: 'loklokcms.appspot.com',
-      messagingSenderId: '902996908267'
-    })
-    api.db = api.firebase.database()
-    api.storage = firebase.storage()
-  }
-  restoreStates({ done })
-  return api
-}
-
-export function readyRT () {
+export function connectFirebase () {
   return new Promise((resolve, reject) => {
-    connectFirebase({ done: () => {
-      resolve(appState)
-    } })
+    if (!api.firebase) {
+      api.firebase = firebase.initializeApp({
+        apiKey: 'AIzaSyBJaCgoUfzKM5be6DAQvB48tKmbqlqtHTE',
+        authDomain: 'loklokcms.firebaseapp.com',
+        databaseURL: 'https://loklokcms.firebaseio.com',
+        projectId: 'loklokcms',
+        storageBucket: 'loklokcms.appspot.com',
+        messagingSenderId: '902996908267'
+      })
+      api.db = api.firebase.database()
+      api.storage = firebase.storage()
+    }
+    resolve(api)
+  }).then(() => {
+    return restoreStates()
   })
 }
 
-export function cleanseForUpload (obj) {
+export function readyRT () {
+  return connectFirebase().catch(() => {
+    console.log('error: readyRealTime')
+  })
+}
+
+export function cleanKey (obj) {
   obj = {
     ...obj
   }

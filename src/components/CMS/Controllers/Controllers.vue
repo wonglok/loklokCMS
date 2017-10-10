@@ -1,11 +1,14 @@
 <template>
   <div class="controllers">
-    <div>
+    <div v-if="!appState.loggedIn">
+      <button @click="backend.loginToGoogle()">Login</button>
+    </div>
+    <div v-if="appState.loggedIn">
       <h3 v-if="!currentVMS">Click Object to Start Editing....</h3>
       <div class="rangers" v-if="currentVMS && currentVMS.position">
-        <input class="slider" type="range" step="0.1" min="-100" max="100" v-model="currentVMS.position.x" />
+        <input @change="save(currentVMS)" class="slider" type="range" step="0.1" min="-100" max="100" v-model="currentVMS.position.x" />
         <select class="eval-mode" v-model="currentVMS.position.x_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select>
-        <input class="slider" type="range" step="0.1" min="-100" max="100" v-model="currentVMS.position.y" />
+        <input @change="save(currentVMS)" class="slider" type="range" step="0.1" min="-100" max="100" v-model="currentVMS.position.y" />
         <select class="eval-mode" v-model="currentVMS.position.y_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select>
         <!-- <input class="slider" type="range" step="0.1" min="-100" max="100" v-model="currentVMS.position.z" /> -->
         <!-- <select class="eval-mode" v-model="currentVMS.position.z_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select> -->
@@ -23,17 +26,18 @@ export default {
   data () {
     return {
       llvms,
+      backend,
       appState: backend.appState,
       currentVMS: false
     }
   },
   created () {
-    if (this.$route.query.cms === 'true') {
-      this.appState.useRT = true
-    }
     this.$emit('api', this)
   },
   methods: {
+    save (visualSetting) {
+      llvms.updateVS(visualSetting)
+    },
     glClick ({ mouse, found }) {
       if (found.object.userData.vms) {
         var now = this.currentVMS = found.object.userData.vms

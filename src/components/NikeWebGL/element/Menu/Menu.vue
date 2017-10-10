@@ -4,8 +4,8 @@
     vms="@menu@menu-trigger"
     ref="menu-open"
     :gclick="() => { showFSMenu = !showFSMenu; }"
-    :position="{ x: 32.5 * aspect, y: 35.2, z: -0.00000001 }"
-    :scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
+    :d-position="{ x: 32.5 * aspect, y: 35.2, z: -0.00000001 }"
+    :d-scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
     :link="require('./img/menu-open.png')"
   />
 

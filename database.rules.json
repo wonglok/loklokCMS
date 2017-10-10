@@ -1,16 +1,20 @@
 {
   "rules": {
-    "cms-admins": {
+    "cms-admin": {
       ".read": "true",
     	".write": "auth != null && root.child('cms-system').hasChild(auth.uid)"
   	},
   	"cms-info": {
       ".read": "true",
-    	".write": "auth != null && root.child('cms-admins').hasChild(auth.uid)"
+    	".write": "auth != null && root.child('cms-admin').hasChild(auth.uid)"
   	},
     "cms-data": {
 			".read": "true",
-    	".write": "auth != null && root.child('cms-admins').hasChild(auth.uid)"
+    	".write": "auth != null && root.child('cms-admin').hasChild(auth.uid)",
+    	"styles": {
+        ".read": "true",
+        ".write": "auth != null && root.child('cms-admin').hasChild(auth.uid)"
+    	}
     }
   }
 }
