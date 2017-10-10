@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import * as llvms from '../Mixins/llvms'
+// import * as llvms from '../Mixins/llvms'
 export default {
   props: ['aspect', 'fov', 'z'],
   created () {
@@ -25,10 +25,10 @@ export default {
   },
   methods: {
     hydrate () {
-      llvms.info.aspect = this.aspect
-      llvms.info.fov = this.fov
-      llvms.info.z = this.z
-      console.log(llvms.info)
+      // llvms.info.aspect = this.aspect
+      // llvms.info.fov = this.fov
+      // llvms.info.z = this.z
+      // console.log(llvms.info)
     }
   }
 }

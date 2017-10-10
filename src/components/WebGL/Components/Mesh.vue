@@ -1,12 +1,12 @@
 <template>
-<span class="mesh"><slot></slot>{{ vmsRefresh }}</span>
+<span class="mesh"><slot></slot></span>
 </template>
 <script>
-import { mixin } from '../Mixins/llvms'
+import { llvmsMesh } from '../Mixins/llvms'
 import * as THREE from 'three'
 export default {
-  mixins: [mixin],
-  props: ['position', 'gclick', 'scale', 'vms'],
+  mixins: [llvmsMesh],
+  props: ['position', 'gclick', 'scale'],
   data () {
     return {
       mesh: null,
@@ -16,18 +16,8 @@ export default {
       }
     }
   },
-  computed: {
-    vmsRefresh () {
-      if (this.vms) {
-        return JSON.stringify(this.vms)
-      }
-    }
-  },
   created () {
     this.mesh = new THREE.Mesh()
-    if (this.vms) {
-      this.mesh.userData.vms = this.vms
-    }
     if (this.gclick) {
       this.mesh.userData.gclick = this.gclick
     }
@@ -42,26 +32,6 @@ export default {
     this.$emit('mesh', this.mesh)
   },
   watch: {
-    vms () {
-      if (this.vms && this.mesh) {
-        this.mesh.userData.vms = this.vms
-      }
-    },
-    vmsRefresh () {
-      if (this.vms && this.mesh) {
-        if (this.vms.position) {
-          this.mesh.position.set(
-            this.getV({ obj: this.vms.position, prop: 'x' }),
-            this.getV({ obj: this.vms.position, prop: 'y' }),
-            this.getV({ obj: this.vms.position, prop: 'z' }),
-          )
-        }
-
-        if (this.vms.scale) {
-          this.mesh.scale.set(this.vms.scale.x, this.vms.scale.y, this.vms.scale.z)
-        }
-      }
-    },
     position () {
       if (this.position) {
         this.mesh.position.set(this.position.x || 0, this.position.y || 0, this.position.z || 0)

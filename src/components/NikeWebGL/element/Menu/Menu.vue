@@ -104,20 +104,19 @@
 </template>
 
 <script>
-import { style } from '@/components/WebGL/Mixins/llvms'
+import { llvmsUsage } from '@/components/WebGL/Mixins/llvms'
 import * as THREE from 'three'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import Bundle from '@/components/WebGL/Bundle'
 export default {
   name: 'GLMenu',
   props: ['aspect'],
-  mixins: [fadeInOut],
+  mixins: [fadeInOut, llvmsUsage],
   components: {
     ...Bundle
   },
   data () {
     return {
-      style,
       tween: {},
       tweening: false,
       showFSMenu: false
@@ -133,9 +132,6 @@ export default {
   deactivated () {
   },
   methods: {
-    vms (name) {
-      return this.style[name]
-    },
     getSceneWidth () {
       var dist = 50
       var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
