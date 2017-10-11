@@ -53,7 +53,6 @@
         <ImageMesh
           ref="fs-menu-close"
           :gclick="() => { if (showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
-          :position="{ x: 0, y: 0, z: 0 }"
           :translate="{ x: (w) => {
             //return 1;
             return getSceneWidth() - w * 0.5

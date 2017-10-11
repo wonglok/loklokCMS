@@ -7,10 +7,21 @@
     <div v-if="appState.loggedIn">
       <h3 v-if="!getVMS()">Click Object to Start Editing....</h3>
       <div class="rangers" v-if="getVMS() && getVMS().position">
-        <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.x" />
-        <select @change="save(getVMS())" @input="refresher" class="eval-mode" v-model="getVMS().position.x_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select>
-        <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.y" />
-        <select @change="save(getVMS())" @input="refresher" class="eval-mode" v-model="getVMS().position.y_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select>
+        <div>
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.x" />
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="getVMS().position.x" />
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().position.x_formula" />
+        </div>
+        <div>
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.y" />
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="getVMS().position.y" />
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().position.y_formula" />
+        </div>
+        <div>
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.z" />
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="getVMS().position.z" />
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().position.z_formula" />
+        </div>
       </div>
       <div class="rangers" v-if="getVMS() && getVMS().scale">
         <div>
