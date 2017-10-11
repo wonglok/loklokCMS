@@ -4,16 +4,24 @@
       <button @click="backend.loginToGoogle()">Login</button>
     </div>
     <div v-if="appState.loggedIn">
-      <h3 v-if="!currentVMS">Click Object to Start Editing....</h3>
-      <div class="rangers" v-if="currentVMS && currentVMS.position">
-        <input @change="save(currentVMS)" class="slider" type="range" step="0.1" min="-100" max="100" v-model="currentVMS.position.x" />
-        <select class="eval-mode" v-model="currentVMS.position.x_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select>
-        <input @change="save(currentVMS)" class="slider" type="range" step="0.1" min="-100" max="100" v-model="currentVMS.position.y" />
-        <select class="eval-mode" v-model="currentVMS.position.y_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select>
-        <!-- <input class="slider" type="range" step="0.1" min="-100" max="100" v-model="currentVMS.position.z" /> -->
-        <!-- <select class="eval-mode" v-model="currentVMS.position.z_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select> -->
+      <h3 v-if="!getVMS()">Click Object to Start Editing....</h3>
+      <div class="rangers" v-if="getVMS() && getVMS().position">
+        <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.x" />
+        <select @change="save(getVMS())" @input="refresher" class="eval-mode" v-model="getVMS().position.x_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select>
+        <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.y" />
+        <select @change="save(getVMS())" @input="refresher" class="eval-mode" v-model="getVMS().position.y_mode"><option value="normal">Normal</option><option value="aspect">Aspect</option></select>
       </div>
-      <pre v-if="currentVMS">{{ currentVMS }}</pre>
+      <div class="rangers" v-if="getVMS() && getVMS().scale">
+        <div>
+          Scale X:
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().scale.x_formula" />
+        </div>
+        <div>
+          Scale Y:
+          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().scale.y_formula" />
+        </div>
+      </div>
+      <pre v-if="getVMS()">{{ getVMS() }}</pre>
       <!-- <pre>{{ llvms }}</pre> -->
     </div>
   </div>
@@ -28,22 +36,29 @@ export default {
       llvms,
       backend,
       appState: backend.appState,
-      currentVMS: false
+      currentObject: false
     }
   },
   created () {
     this.$emit('api', this)
   },
   methods: {
-    save (visualSetting) {
-      llvms.updateVS(visualSetting)
+    getVMS () {
+      if (this.currentObject) {
+        return this.currentObject.userData.vms
+      }
+    },
+    save (vmsObj) {
+      llvms.updateVS(vmsObj)
+    },
+    refresher () {
+      this.currentObject.userData.$component.localRefresher = Math.random()
     },
     glClick ({ mouse, found }) {
       if (found.object.userData.vms) {
-        var now = this.currentVMS = found.object.userData.vms
-        if (!now.position) {
-          now.position = { x: 0, y: 0, z: 0 }
-        }
+        // this.currentVMS = found.object.userData.vms
+        this.currentObject = found.object
+
         console.log({ mouse, found })
       }
     }

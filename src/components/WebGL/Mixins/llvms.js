@@ -1,4 +1,5 @@
 import * as backend from '@/backend/firebase'
+import { Parser } from 'expr-eval'
 
 export const __styleContainer = {
   random: Math.random(),
@@ -50,6 +51,12 @@ export function updateVisualSetting (key, obj) {
 }
 
 export function updateVS (obj) {
+  // if (obj.scale.x_formula) {
+  //   obj.scale.x = Parser.evaluate(obj.scale.x_formula, { x: 3 }) || 1
+  // }
+  // if (obj.scale.y_formula) {
+  //   obj.scale.y = Parser.evaluate(obj.scale.y_formula, { x: 3 }) || 1
+  // }
   updateVisualSetting(obj['.key'], obj)
 }
 
@@ -60,10 +67,15 @@ export const llvmsMesh = {
   data () {
     return {
       vmsObj: null,
+      localRefresher: 0,
       __styleContainer
     }
   },
   mounted () {
+    if (this.vms) {
+      this.mesh.visible = false
+    }
+    this.mesh.userData.$component = this
   },
   computed: {
     __llvms__readyStyles () {
@@ -72,7 +84,7 @@ export const llvmsMesh = {
       }
       return __styleContainer.ready
     },
-    __llvms__randomStyle () {
+    __llvms__styleRemoteRefresh () {
       if (this.__styleContainer) {
         return this.__styleContainer.random
       }
@@ -86,17 +98,20 @@ export const llvmsMesh = {
     },
     __llvms__vmsLocalRefresh () {
       if (this.vmsObj) {
-        return JSON.stringify(this.vmsObj)
+        return JSON.stringify(this.vmsObj) + this.localRefresher
       }
     },
     __llvms__vmsRemoteRefresh () {
       if (this.vmsObj) {
-        return JSON.stringify(this.__llvms__randomStyle)
+        return JSON.stringify(this.__llvms__styleRemoteRefresh)
       }
     }
   },
   watch: {
     __llvms__readyStyles () {
+      if (this.vms) {
+        this.mesh.visible = true
+      }
       this.__llvms__updateVMSObjRef()
     },
     __llvms__vmsRemoteRefresh () {
@@ -110,7 +125,6 @@ export const llvmsMesh = {
   methods: {
     __llvms__updateVMSObjRef () {
       if (this.vms && this.__llvms__readyStyles) {
-        // console.log(this.__llvms__styles)
         let vmsObj = this.vmsObj = this.mesh.userData.vms = this.__llvms__find(this.vms)
         if (!vmsObj) {
           createVisalSetting(this.__llvms__getTemplate({ name: this.vms }))
@@ -131,11 +145,11 @@ export const llvmsMesh = {
         },
         scale: {
           x: 1.0,
-          x_mode: 'normal',
+          x_formula: '1/3',
           y: 1.0,
-          y_mode: 'normal',
+          y_formula: '1/3',
           z: 1.0,
-          z_mode: 'normal'
+          z_formula: '1/3'
         }
       }
     },
@@ -145,6 +159,7 @@ export const llvmsMesh = {
       })[0]
     },
     __llvms__update () {
+      // console.log('update pos', this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'x' }))
       if (this.vmsObj && this.mesh) {
         if (this.vmsObj.position) {
           this.mesh.position.set(
@@ -155,9 +170,12 @@ export const llvmsMesh = {
         }
         if (this.vmsObj.scale) {
           this.mesh.scale.set(
-            this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'x' }),
-            this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'y' }),
-            this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'z' })
+            Parser.evaluate(this.vmsObj.scale.x_formula || '1.0', { }),
+            Parser.evaluate(this.vmsObj.scale.y_formula || '1.0', { }),
+            Parser.evaluate(this.vmsObj.scale.z_formula || '1.0', { })
+            // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'x' }),
+            // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'y' }),
+            // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'z' })
           )
         }
       }

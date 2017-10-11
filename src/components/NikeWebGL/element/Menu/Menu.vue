@@ -30,8 +30,8 @@
           :aspect="aspect"
           ref="nike-logo"
           :gclick="(v) => { $router.push('/nike/game') }"
-          :position="{ x: -22.5 * aspect, y: 0, z: 0 }"
-          :scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
+          :d-position="{ x: -22.5 * aspect, y: 0, z: 0 }"
+          :d-scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
           :link="require('./img/nike.png')"
         />
         <Mesh
