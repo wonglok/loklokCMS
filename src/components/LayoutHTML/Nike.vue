@@ -1,7 +1,7 @@
 <template>
   <div class="full">
-    <div class="full-v">
-      <Controllers @api="(v) => { apis.controllers = v }" />
+    <div :class="{'full-v' : appState.useCMS, 'full': !appState.useCMS }">
+      <Controllers v-if="appState.useCMS" @api="(v) => { apis.controllers = v }" />
       <div class="baseline">
         <div class="maxer" v-show="isTallEnough">
           <div class="maxer-desc">iPhone 7 Plus</div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import * as backend from '@/backend/firebase'
 import GLView from '@/components/WebGL/GLView'
 import Controllers from '@/components/CMS/Controllers/Controllers'
 export default {
@@ -26,6 +27,7 @@ export default {
   },
   data () {
     return {
+      appState: backend.appState,
       apis: {},
       refresh: {},
       isTallEnough: false,

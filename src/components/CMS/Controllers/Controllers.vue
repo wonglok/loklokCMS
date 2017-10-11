@@ -1,7 +1,8 @@
 <template>
   <div class="controllers">
     <div v-if="!appState.loggedIn">
-      <button @click="backend.loginToGoogle()">Login</button>
+      <h1 v-if="appState.loading">Loading....</h1>
+      <button v-if="!appState.loading" class="login-btn" @click="backend.loginToGoogle()">Login</button>
     </div>
     <div v-if="appState.loggedIn">
       <h3 v-if="!getVMS()">Click Object to Start Editing....</h3>
@@ -67,6 +68,10 @@ export default {
 </script>
 
 <style scoped>
+.login-btn{
+  width: 100px;
+  height: 100px;
+}
 .controllers{
   width: 100%;
   height: 200px;
