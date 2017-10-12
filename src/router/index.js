@@ -19,6 +19,9 @@ import Play from '@/components/NikeWebGL/Pages/Play/Play'
 import Rules from '@/components/NikeWebGL/Pages/Rules/Rules'
 import Status from '@/components/NikeWebGL/Pages/Status/Status'
 
+import ComicList from '@/components/NikeWebGL/Pages/ComicList/ComicList'
+import ComicDetail from '@/components/NikeWebGL/Pages/ComicDetail/ComicDetail'
+
 Vue.use(Router)
 
 var nikeGame = [
@@ -45,6 +48,14 @@ var nikeGame = [
       {
         path: 'rules',
         component: Rules
+      },
+      {
+        path: 'comic-list',
+        component: ComicList
+      },
+      {
+        path: 'comic-detail',
+        component: ComicDetail
       }
     ]
   }

@@ -28,7 +28,7 @@
           :link="require('./img/button-area/enter-now.png')"
         />
         <ImageMesh
-          :gclick="(v) => { $router.push('/nike/game') }"
+          :gclick="(v) => { $router.push('/nike/game/comic-list') }"
           vms="@landing@button-area@watch-comics"
           :link="require('./img/button-area/watch-comics.png')"
         />

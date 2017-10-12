@@ -196,9 +196,7 @@ export default {
             if (mesh.material.uniforms) {
               mesh.material.uniforms.opacity.value = 1.0
             }
-            if (!mesh.visible) {
-              mesh.visible = true
-            }
+            mesh.visible = true
             this.tweening = false
           }, this.mesh)
         }
@@ -224,7 +222,6 @@ export default {
             }
           }, () => {
             done()
-
             mesh.visible = false
             if (mesh.material.uniforms) {
               mesh.material.depthTest = true
