@@ -21,26 +21,31 @@
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.position.x" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.position.x" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.position.x_formula" />
+          X Pos
         </div>
         <div>
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.position.y" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.position.y" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.position.y_formula" />
+          Y Pos
         </div>
         <div>
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.position.z" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.position.z" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.position.z_formula" />
+          Z Pos
         </div>
         <div>
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.translate.x" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.translate.x" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.translate.x_formula" />
+          X Translate
         </div>
         <div>
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.translate.y" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.translate.y" />
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.translate.y_formula" />
+          Y Translate
         </div>
       </div>
       <div class="rangers" v-if="vmsObj && vmsObj.scale">

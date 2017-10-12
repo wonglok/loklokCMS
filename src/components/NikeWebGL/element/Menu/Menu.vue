@@ -4,8 +4,8 @@
     vms="@menu@menu-trigger"
     ref="menu-open"
     :gclick="() => { showFSMenu = !showFSMenu; }"
-    :d-position="{ x: 32.5 * aspect, y: 35.2, z: -0.00000001 }"
-    :d-scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
+    d-position="{ x: 32.5 * aspect, y: 35.2, z: 0.15 }"
+    d-scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
     :link="require('./img/menu-open.png')"
   />
 
@@ -49,7 +49,13 @@
     @leave="fsMenuOut"
   >
     <keep-alive>
-      <Object3D ref="fs-menu" v-if="showFSMenu" :position="{ x: 0, y: 0, z: 0 }">
+      <Object3D ref="fs-menu" v-if="showFSMenu" :position="{ x: 0, y: 0, z: 0.1 }">
+        <Mesh
+          ref="fs-menu-grunge"
+          :position="{ x: 0, y: 0, z: -0.1 }">
+          <PlaneGeometry :width="55" :height="120"  />
+          <MeshBasicMaterial :opacity="0.5" :color="0x010101" />
+        </Mesh>
         <ImageMesh
           vms="@menu@fs-menu-close"
           ref="fs-menu-close"
@@ -107,7 +113,7 @@
 </template>
 
 <script>
-// import * as THREE from 'three'
+import * as THREE from 'three'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import Bundle from '@/components/WebGL/Bundle'
 export default {
@@ -119,6 +125,7 @@ export default {
   },
   data () {
     return {
+      THREE,
       tween: {},
       tweening: false,
       showFSMenu: false

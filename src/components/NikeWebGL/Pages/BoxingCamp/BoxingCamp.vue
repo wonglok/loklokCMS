@@ -18,6 +18,20 @@
           vms="@landing@bg@boxing"
           :link="require('./img/bg/boxing.jpg')"
         />
+        <ImageMesh
+          vms="@landing@button-area@bg"
+          :link="require('./img/button-area/button-area.png')"
+        />
+        <ImageMesh
+          :gclick="(v) => { $router.push('/nike/game/agree') }"
+          vms="@landing@button-area@enter-now"
+          :link="require('./img/button-area/enter-now.png')"
+        />
+        <ImageMesh
+          :gclick="(v) => { $router.push('/nike/game') }"
+          vms="@landing@button-area@watch-comics"
+          :link="require('./img/button-area/watch-comics.png')"
+        />
 
       </Object3D>
     </keep-alive>
