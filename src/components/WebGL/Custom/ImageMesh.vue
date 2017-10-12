@@ -1,6 +1,6 @@
 <template>
-  <Mesh :vms="vms" @mesh="(v) => { mesh = v }" :position="position" :scale="scale" :gclick="gclick">
-    <PlaneGeometry v-if="ready" :width="sWidth" :height="sHeight" :translate="translate" :scale="scale" />
+  <Mesh :vms="vms" @mesh="(v) => { mesh = v }" :position="finalPosition" :scale="finalScale" :gclick="gclick">
+    <PlaneGeometry v-if="ready" :width="sWidth" :height="sHeight" :translate="finalTranslate" :scale="scale" />
     <MeshPictureMaterial v-if="ready" :opacity="1" :color="0xffffff" :image="link" />
   </Mesh>
 </template>

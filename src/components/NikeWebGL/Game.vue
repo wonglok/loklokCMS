@@ -40,6 +40,7 @@
 
 <script>
 import * as THREE from 'three'
+import * as backend from '@/backend/firebase'
 import { glSystem } from '@/components/WebGL/Shared/system'
 import GLMenu from '@/components/NikeWebGL/element/Menu/Menu'
 import Bundle from '@/components/WebGL/Bundle'
@@ -53,6 +54,7 @@ export default {
   },
   data () {
     return {
+      appState: backend.appState,
       glSystem,
       showPage: true,
       mouseStack: {},
@@ -119,8 +121,10 @@ export default {
       // console.log(found)
       if (found[0]) {
         // click handler
-        if (found[0].object.userData && found[0].object.userData.gclick) {
-          found[0].object.userData.gclick({ mouse, found: found[0] })
+        if (this.appState.useClick) {
+          if (found[0].object.userData && found[0].object.userData.gclick) {
+            found[0].object.userData.gclick({ mouse, found: found[0] })
+          }
         }
         this.$emit('glClick', { mouse, found: found[0] })
       }

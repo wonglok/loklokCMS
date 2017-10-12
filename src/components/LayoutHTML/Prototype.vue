@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { loginGoogle, appState } from '@/backend/firebase'
+import { loginToGoogle, appState } from '@/backend/firebase'
 
 export default {
   data () {
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     loginGoogle () {
-      loginGoogle()
+      loginToGoogle()
     }
   }
 }

@@ -51,52 +51,53 @@
     <keep-alive>
       <Object3D ref="fs-menu" v-if="showFSMenu" :position="{ x: 0, y: 0, z: 0 }">
         <ImageMesh
+          vms="@menu@fs-menu-close"
           ref="fs-menu-close"
           :gclick="() => { if (showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
-          :translate="{ x: (w) => {
+          d-translate="{ x: (w) => {
             //return 1;
             return getSceneWidth() - w * 0.5
           }, y: (h) => {
             //return 10;
             return -getSceneHeight() + h * 0.5
           }, z: 0.0 }"
-          :scale="{ x: 1 / 2, y: 1 / 2, z: 1.0 }"
+          d-scale="{ x: 1 / 2, y: 1 / 2, z: 1.0 }"
           :link="require('./img/red-btn.png')"
         />
         <ImageMesh
+          vms="@menu@items@home"
           :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game'); } }"
-          :position="{ x: 0, y: 25.0, z: 0 }"
-          :translate="{ x: (w) => {
+          d-position="{ x: 0, y: 25.0, z: 0 }"
+          d-translate="{ x: (w) => {
             return getSceneWidth() - w * 0.5
           }, y: 0.0, z: 0.0 }"
-          :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
+          d-scale="{ x: 0.5, y: 0.5, z: 1.0 }"
           :link="require('./img/items/home.png')"
         />
         <ImageMesh
+          vms="@menu@items@boxing-camp"
           :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/agree'); } }"
-          :position="{ x: 0, y: 20.0, z: 0 }"
-          :translate="{ x: (w) => {
+          d-position="{ x: 0, y: 20.0, z: 0 }"
+          d-translate="{ x: (w) => {
             return getSceneWidth() - w * 0.5
           }, y: 0.0, z: 0.0 }"
           :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
           :link="require('./img/items/boxing-camp.png')"
         />
         <ImageMesh
+          vms="@menu@items@rules"
           :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/rules'); } }"
-          :position="{ x: 0, y: 15.0, z: 0 }"
-          :translate="{ x: (w) => {
+          d-position="{ x: 0, y: 15.0, z: 0 }"
+          d-translate="{ x: (w) => {
             return getSceneWidth() - w * 0.5
           }, y: 0.0, z: 0.0 }"
-          :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
+          d-scale="{ x: 0.5, y: 0.5, z: 1.0 }"
           :link="require('./img/items/rules.png')"
         />
         <ImageMesh
+          vms="@menu@items@rewards"
           :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/status'); } }"
-          :position="{ x: 0, y: 10.0, z: 0 }"
-          :translate="{ x: (w) => {
-            return getSceneWidth() - w * 0.5
-          }, y: 0.0, z: 0.0 }"
-          :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
+          :aspect="aspect"
           :link="require('./img/items/rewards.png')"
         />
       </Object3D>
@@ -106,7 +107,7 @@
 </template>
 
 <script>
-import * as THREE from 'three'
+// import * as THREE from 'three'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import Bundle from '@/components/WebGL/Bundle'
 export default {
@@ -133,20 +134,20 @@ export default {
   deactivated () {
   },
   methods: {
-    getSceneWidth () {
-      var dist = 50
-      var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
-      var height = 2 * Math.tan(vFOV / 2) * dist // visible height
-      var width = height * this.aspect // visible width
-      return width
-    },
-    getSceneHeight () {
-      var dist = 50
-      var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
-      var height = 2 * Math.tan(vFOV / 2) * dist // visible height
-      // var width = height * this.aspect // visible width
-      return height
-    },
+    // getSceneWidth () {
+    //   var dist = 50
+    //   var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
+    //   var height = 2 * Math.tan(vFOV / 2) * dist // visible height
+    //   var width = height * this.aspect // visible width
+    //   return width
+    // },
+    // getSceneHeight () {
+    //   var dist = 50
+    //   var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
+    //   var height = 2 * Math.tan(vFOV / 2) * dist // visible height
+    //   // var width = height * this.aspect // visible width
+    //   return height
+    // },
     menuIn (el, done) {
       var updater = (mesh) => {
         if (mesh) {

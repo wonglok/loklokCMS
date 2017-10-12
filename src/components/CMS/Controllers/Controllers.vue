@@ -5,35 +5,55 @@
       <button v-if="!appState.loading" class="login-btn" @click="backend.loginToGoogle()">Login</button>
     </div>
     <div v-if="appState.loggedIn">
-      <h3 v-if="!getVMS()">Click Object to Start Editing....</h3>
-      <div class="rangers" v-if="getVMS() && getVMS().position">
+      <h3 v-if="!vmsObj">Select style or click an object to start editing</h3>
+      <div>
+        <select class="style-select" v-model="selectedStyle">
+          <option :selected="style.name === selectedStyle" :value="style.name" :key="key" v-for="(style, key) in filteredStyles">{{ style.name }}</option>
+        </select>
+        Filter Styles
+        <input type="text" v-model="styleFilterQuery" />
+        Use click action
+        <input type="checkbox" v-model="appState.useClick" />
+      </div>
+
+      <div class="rangers" v-if="vmsObj">
         <div>
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.x" />
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="getVMS().position.x" />
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().position.x_formula" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.position.x" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.position.x" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.position.x_formula" />
         </div>
         <div>
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.y" />
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="getVMS().position.y" />
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().position.y_formula" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.position.y" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.position.y" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.position.y_formula" />
         </div>
         <div>
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="getVMS().position.z" />
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="getVMS().position.z" />
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().position.z_formula" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.position.z" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.position.z" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.position.z_formula" />
+        </div>
+        <div>
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.translate.x" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.translate.x" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.translate.x_formula" />
+        </div>
+        <div>
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="-100" max="100" v-model="vmsObj.translate.y" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="-100" max="100" v-model="vmsObj.translate.y" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.translate.y_formula" />
         </div>
       </div>
-      <div class="rangers" v-if="getVMS() && getVMS().scale">
+      <div class="rangers" v-if="vmsObj && vmsObj.scale">
         <div>
           Scale X:
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().scale.x_formula" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.scale.x_formula" />
         </div>
         <div>
           Scale Y:
-          <input @change="save(getVMS())" @input="refresher" class="slider" type="text" v-model="getVMS().scale.y_formula" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.scale.y_formula" />
         </div>
       </div>
-      <pre v-if="getVMS()">{{ getVMS() }}</pre>
+      <pre v-if="vmsObj">{{ vmsObj }}</pre>
       <!-- <pre>{{ llvms }}</pre> -->
     </div>
   </div>
@@ -44,20 +64,39 @@ import * as llvms from '@/components/WebGL/Mixins/llvms'
 import * as backend from '@/backend/firebase'
 export default {
   data () {
+    var self = this
     return {
+      get vmsObj () {
+        return self.getVMS()
+      },
+      llvmsAPI: llvms.api,
       llvms,
       backend,
       appState: backend.appState,
-      currentObject: false
+      selectedStyle: false,
+      currentObject: false,
+      styleFilterQuery: ''
     }
   },
   created () {
     this.$emit('api', this)
   },
+  computed: {
+    filteredStyles () {
+      return this.llvmsAPI.listStyle().filter((item) => {
+        return item.name.indexOf(this.styleFilterQuery) !== -1
+      })
+    }
+  },
   methods: {
     getVMS () {
-      if (this.currentObject) {
-        return this.currentObject.userData.vms
+      if (this.selectedStyle) {
+        let style = this.llvmsAPI.getStyle(this.selectedStyle)
+        return style
+      }
+      if (this.currentObject && this.currentObject.userData.vms) {
+        let style = this.currentObject.userData.vms
+        return style
       }
     },
     save (vmsObj) {
@@ -70,7 +109,7 @@ export default {
       if (found.object.userData.vms) {
         // this.currentVMS = found.object.userData.vms
         this.currentObject = found.object
-
+        this.selectedStyle = found.object.userData.vms.name
         console.log({ mouse, found })
       }
     }
@@ -85,7 +124,7 @@ export default {
 }
 .controllers{
   width: 100%;
-  height: 200px;
+  height: 230px;
   overflow: auto;
 }
 .rangers{
@@ -97,5 +136,8 @@ export default {
 }
 .rangers input[type="range"]{
   width: 400px;
+}
+.style-select{
+  font-size: 20px;
 }
 </style>

@@ -22,25 +22,32 @@ export default {
     },
     height () {
       this.makeGeo()
+    },
+    translate () {
+      this.makeGeo()
+      this.$parent.__add(this.geometry, 'geometry')
+      this.$parent.__remove(this.geometry, 'geometry')
+      this.$parent.__add(this.geometry, 'geometry')
     }
   },
   methods: {
     makeGeo () {
       this.geometry = new THREE.PlaneBufferGeometry(this.width || 1.0, this.height || 1.0, this.wseg || 2.0, this.hseg || 2.0)
-      if (this.translate && this.scale) {
+      if (this.translate) {
         let x = this.translate.x
-        if (typeof this.translate.x === 'function') {
-          x = this.translate.x(this.width)
-        }
+        // if (typeof this.translate.x === 'function') {
+        //   x = this.translate.x(this.width)
+        // }
         let y = this.translate.y
-        if (typeof this.translate.y === 'function') {
-          y = this.translate.y(this.height)
-        }
+        // if (typeof this.translate.y === 'function') {
+        //   y = this.translate.y(this.height)
+        // }
         let z = this.translate.z
-        if (typeof this.translate.z === 'function') {
-          z = this.translate.z(1.0)
-        }
+        // if (typeof this.translate.z === 'function') {
+        //   z = this.translate.z(1.0)
+        // }
         this.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(x, y, z))
+        // this.$forceUpdate()
       }
     }
   },

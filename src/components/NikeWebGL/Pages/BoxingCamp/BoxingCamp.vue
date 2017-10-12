@@ -14,7 +14,6 @@
           vms="@landing@hero@camp"
           :link="require('./img/hero/camp.png')"
         />
-
         <ImageMesh
           vms="@landing@bg@boxing"
           :link="require('./img/bg/boxing.jpg')"

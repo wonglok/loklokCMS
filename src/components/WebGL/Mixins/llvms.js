@@ -8,9 +8,58 @@ export const __styleContainer = {
   data: []
 }
 
+export const api = {
+  // listStyle () {
+  //   return __styleContainer.data.reduce((accu, item ,key) => {
+  //     return accu
+  //   }, [])
+  // },
+  listStyle () {
+    return __styleContainer.data
+  },
+  getStyle (name) {
+    return __styleContainer.data.filter((item) => {
+      return item.name === name
+    })[0]
+  }
+}
+
+export function getTemplate ({ name, data }) {
+  return {
+    type: 'mesh',
+    name,
+    position: {
+      x: 0.0,
+      x_formula: 'x * aspect',
+      y: 0.0,
+      y_formula: 'y',
+      z: 0.0,
+      z_formula: 'z'
+    },
+    scale: {
+      x: 1 / 2,
+      x_formula: '1 / 2',
+      y: 1 / 2,
+      y_formula: '1 / 2',
+      z: 1.0,
+      z_formula: '1.0'
+    },
+    translate: {
+      x: 0.0,
+      x_formula: '0.0',
+      y: 0.0,
+      y_formula: '0.0',
+      z: 0.0,
+      z_formula: '0.0'
+    },
+    ...data
+  }
+}
+
 backend.getStyles().then((data) => {
   // console.log(data)
   __styleContainer.data = data
+  polyfill(__styleContainer.data)
   __styleContainer.ready = true
   useRealtime()
 }).catch(() => {
@@ -26,11 +75,18 @@ function useRealtime () {
       ref.on('value', function (snapshot) {
         var val = snapshot.val()
         __styleContainer.data = backend.transform(val)
+        polyfill(__styleContainer.data)
         __styleContainer.random = Math.random()
         console.log(__styleContainer.data)
       })
     })
   }
+}
+
+function polyfill (array) {
+  array.forEach((item, key) => {
+    array[key] = getTemplate({ name: item.name, data: item })
+  })
 }
 
 export function createVisalSetting (obj) {
@@ -79,6 +135,57 @@ export const llvmsMesh = {
     this.mesh.userData.$component = this
   },
   computed: {
+    finalPosition () {
+      if (this.vmsObj) {
+        var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
+        var params = { ...rectInfo, ...this.vmsObj.position }
+        try {
+          return {
+            x: Parser.evaluate(this.vmsObj.position.x_formula || ('0.0'), params),
+            y: Parser.evaluate(this.vmsObj.position.y_formula || ('0.0'), params),
+            z: Parser.evaluate(this.vmsObj.position.z_formula || ('0.0'), params)
+          }
+        } catch (e) {
+          return false
+        }
+      } else {
+        return this.position
+      }
+    },
+    finalScale () {
+      if (this.vmsObj) {
+        var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
+        var params = { ...rectInfo, ...this.vmsObj.scale }
+        try {
+          return {
+            x: Parser.evaluate(this.vmsObj.scale.x_formula || ('0.5'), params),
+            y: Parser.evaluate(this.vmsObj.scale.y_formula || ('0.5'), params),
+            z: Parser.evaluate(this.vmsObj.scale.z_formula || ('1.0'), params)
+          }
+        } catch (e) {
+          return false
+        }
+      } else {
+        return this.scale
+      }
+    },
+    finalTranslate () {
+      if (this.vmsObj) {
+        var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
+        var params = { ...rectInfo, ...this.vmsObj.transform }
+        try {
+          return {
+            x: Parser.evaluate(this.vmsObj.translate.x_formula || ('0.0'), params),
+            y: Parser.evaluate(this.vmsObj.translate.y_formula || ('0.0'), params),
+            z: Parser.evaluate(this.vmsObj.translate.z_formula || ('0.0'), params)
+          }
+        } catch (e) {
+          return false
+        }
+      } else {
+        return this.translate
+      }
+    },
     __llvms__readyStyles () {
       if (this.__styleContainer) {
         return this.__styleContainer.ready
@@ -109,10 +216,6 @@ export const llvmsMesh = {
     }
   },
   watch: {
-    vms () {
-      this.__llvms__updateVMSObjRef()
-      this.__llvms__update()
-    },
     __llvms__readyStyles () {
       if (this.vms) {
         this.mesh.visible = true
@@ -127,36 +230,20 @@ export const llvmsMesh = {
       this.__llvms__update()
     }
   },
+  activated () {
+    this.__llvms__updateVMSObjRef()
+  },
   methods: {
     __llvms__updateVMSObjRef () {
       if (this.vms && this.__llvms__readyStyles) {
         let vmsObj = this.vmsObj = this.mesh.userData.vms = this.__llvms__find(this.vms)
         if (!vmsObj) {
-          createVisalSetting(this.__llvms__getTemplate({ name: this.vms }))
+          createVisalSetting(this.__llvms__getTemplate({ name: this.vms, data: {} }))
         }
       }
     },
     __llvms__getTemplate ({ name }) {
-      return {
-        type: 'mesh',
-        name,
-        position: {
-          x: 0.0,
-          x_formula: 'x * aspect',
-          y: 0.0,
-          y_formula: 'y',
-          z: 0.0,
-          z_formula: 'z'
-        },
-        scale: {
-          x: 1 / 2,
-          x_formula: '1 / 2',
-          y: 1 / 2,
-          y_formula: '1 / 2',
-          z: 1.0,
-          z_formula: '1.0'
-        }
-      }
+      return getTemplate({ name })
     },
     __llvms__find (name) {
       return this.__llvms__styles.filter((item) => {
@@ -200,32 +287,43 @@ export const llvmsMesh = {
       }
     },
     __llvms__update () {
-      var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
-      // var camera = this.__llvms__getCamera()
+      // var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
+      // // var camera = this.__llvms__getCamera()
 
-      // console.log('update pos', this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'x' }))
-      if (this.vmsObj && this.mesh) {
-        if (this.vmsObj.position) {
-          this.mesh.position.set(
-            Parser.evaluate(this.vmsObj.position.x_formula || '0.0', { ...rectInfo, ...this.vmsObj.position }),
-            Parser.evaluate(this.vmsObj.position.y_formula || '0.0', { ...rectInfo, ...this.vmsObj.position }),
-            Parser.evaluate(this.vmsObj.position.z_formula || '0.0', { ...rectInfo, ...this.vmsObj.position })
-            // this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'x' }),
-            // this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'y' }),
-            // this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'z' })
-          )
-        }
-        if (this.vmsObj.scale) {
-          this.mesh.scale.set(
-            Parser.evaluate(this.vmsObj.scale.x_formula || '1.0', { ...rectInfo, ...this.vmsObj.scale }),
-            Parser.evaluate(this.vmsObj.scale.y_formula || '1.0', { ...rectInfo, ...this.vmsObj.scale }),
-            Parser.evaluate(this.vmsObj.scale.z_formula || '1.0', { ...rectInfo, ...this.vmsObj.scale })
-            // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'x' }),
-            // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'y' }),
-            // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'z' })
-          )
-        }
-      }
+      // // console.log('update pos', this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'x' }))
+      // if (this.vmsObj && this.mesh) {
+      //   if (this.vmsObj.position) {
+      //     this.mesh.position.set(
+      //       Parser.evaluate(this.vmsObj.position.x_formula || '0.0', { ...rectInfo, ...this.vmsObj.position }),
+      //       Parser.evaluate(this.vmsObj.position.y_formula || '0.0', { ...rectInfo, ...this.vmsObj.position }),
+      //       Parser.evaluate(this.vmsObj.position.z_formula || '0.0', { ...rectInfo, ...this.vmsObj.position })
+      //       // this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'x' }),
+      //       // this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'y' }),
+      //       // this.__llvms__calc({ obj: this.vmsObj, key: 'position', prop: 'z' })
+      //     )
+      //   }
+      //   if (this.vmsObj.scale) {
+      //     this.mesh.scale.set(
+      //       Parser.evaluate(this.vmsObj.scale.x_formula || '1.0', { ...rectInfo, ...this.vmsObj.scale }),
+      //       Parser.evaluate(this.vmsObj.scale.y_formula || '1.0', { ...rectInfo, ...this.vmsObj.scale }),
+      //       Parser.evaluate(this.vmsObj.scale.z_formula || '1.0', { ...rectInfo, ...this.vmsObj.scale })
+      //       // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'x' }),
+      //       // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'y' }),
+      //       // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'z' })
+      //     )
+      //   }
+
+      //   // if (this.vmsObj.transform) {
+      //   //   this.mesh.transform.set(
+      //   //     Parser.evaluate(this.vmsObj.transform.x_formula || '1.0', { ...rectInfo, ...this.vmsObj.transform }),
+      //   //     Parser.evaluate(this.vmsObj.transform.y_formula || '1.0', { ...rectInfo, ...this.vmsObj.transform }),
+      //   //     Parser.evaluate(this.vmsObj.transform.z_formula || '1.0', { ...rectInfo, ...this.vmsObj.transform })
+      //   //     // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'x' }),
+      //   //     // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'y' }),
+      //   //     // this.__llvms__calc({ obj: this.vmsObj, key: 'scale', prop: 'z' })
+      //   //   )
+      //   // }
+      // }
     },
     __llvms__calc ({ obj, key, prop }) {
       var mode = obj[key][prop + '_mode']
