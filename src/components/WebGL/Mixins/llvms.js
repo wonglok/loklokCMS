@@ -137,7 +137,7 @@ export const llvmsMesh = {
   computed: {
     finalPosition () {
       if (this.vmsObj) {
-        var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
+        var rectInfo = this.__llvms__getRect({ vms: this.vmsObj })
         var params = { ...rectInfo, ...this.vmsObj.position }
         try {
           return {
@@ -154,7 +154,7 @@ export const llvmsMesh = {
     },
     finalScale () {
       if (this.vmsObj) {
-        var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
+        var rectInfo = this.__llvms__getRect({ vms: this.vmsObj })
         var params = { ...rectInfo, ...this.vmsObj.scale }
         try {
           return {
@@ -171,7 +171,7 @@ export const llvmsMesh = {
     },
     finalTranslate () {
       if (this.vmsObj) {
-        var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
+        var rectInfo = this.__llvms__getRect({ vms: this.vmsObj })
         var params = { ...rectInfo, ...this.vmsObj.translate }
         try {
           return {
@@ -266,14 +266,14 @@ export const llvmsMesh = {
                     this.$parent.$parent.$parent.$parent.camera
       return camera
     },
-    __llvms__getRect ({ z }) {
+    __llvms__getRect ({ vms }) {
       var aspect = this.__llvms__getAspect()
       var camera = this.__llvms__getCamera()
 
       var meshWidth = this.sWidth
       var meshHeight = this.sHeight
 
-      var dist = camera.position.z - (z || 0.0)
+      var dist = camera.position.z - (vms.position.z || 0.0)
       var vFOV = THREE.Math.degToRad(camera.fov) // convert vertical fov to radians
       var screenHeight = 2 * Math.tan(vFOV / 2) * dist // visible height
       var screenWidth = screenHeight * aspect // visible width
@@ -283,7 +283,7 @@ export const llvmsMesh = {
       var bottom = -top
       var right = -left
 
-      return {
+      var api = {
         top,
         left,
         right,
@@ -292,8 +292,21 @@ export const llvmsMesh = {
         screenHeight,
         screenWidth,
         meshWidth,
-        meshHeight
+        meshHeight,
+        scaleX: 0.5,
+        scaleY: 0.5,
+        scaleZ: 1.0
       }
+
+      try {
+        api.scaleX = Parser.evaluate(vms.scale.x_formula || ('0.5'), api)
+        api.scaleY = Parser.evaluate(vms.scale.y_formula || ('0.5'), api)
+        api.scaleZ = Parser.evaluate(vms.scale.z_formula || ('1.0'), api)
+      } catch (e) {
+
+      }
+
+      return api
     },
     __llvms__update () {
       // var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
