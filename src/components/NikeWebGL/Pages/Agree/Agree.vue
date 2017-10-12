@@ -7,9 +7,12 @@
       <Object3D ref="page-content">
         <ImageMesh
           :gclick="() => { $router.push('/nike/game/play') }"
-          :position="{ x: 0, y: 20.0, z: -0.1 }"
-          :scale="{ x: 1 / 3 * 1.35, y: 1 / 3 * 1.35, z: 1.0 }"
+          vms="@agree@cta@enter-now"
           :link="require('./img/enter.png')"
+        />
+        <ImageMesh
+          vms="@agree@header@title"
+          :link="require('./img/header/title.png')"
         />
       </Object3D>
     </keep-alive>

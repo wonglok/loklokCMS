@@ -8,7 +8,7 @@
           <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
         </div>
         <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
-          <div class="maxer-desc">iPhone 7 Plus Safari</div>
+          <div class="maxer-desc">iPhone 7 Safari</div>
           <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
         </div>
       </div>
@@ -43,7 +43,7 @@ export default {
   },
   created () {
     var resizer = () => {
-      this.isTallEnough = window.innerHeight > 500
+      this.isTallEnough = window.innerHeight > 462
       this.isBigEnough = window.innerWidth > 828
       // auto refresh :D
       for (var exec in this.refresh) {
@@ -99,8 +99,8 @@ export default {
 .maxer2{
   width: 100%;
   height: 100%;
-  max-width: 414px;
-  max-height: 630px;
+  max-width: 375px;
+  max-height: 562px;
   outline: grey solid 1px;
   position: relative;
 }

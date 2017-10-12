@@ -172,7 +172,7 @@ export const llvmsMesh = {
     finalTranslate () {
       if (this.vmsObj) {
         var rectInfo = this.__llvms__getRect({ z: this.vmsObj.position.z })
-        var params = { ...rectInfo, ...this.vmsObj.transform }
+        var params = { ...rectInfo, ...this.vmsObj.translate }
         try {
           return {
             x: Parser.evaluate(this.vmsObj.translate.x_formula || ('0.0'), params),
@@ -278,7 +278,16 @@ export const llvmsMesh = {
       var screenHeight = 2 * Math.tan(vFOV / 2) * dist // visible height
       var screenWidth = screenHeight * aspect // visible width
 
+      var left = -screenWidth * 0.5
+      var top = screenHeight * 0.5
+      var bottom = -top
+      var right = -left
+
       return {
+        top,
+        left,
+        right,
+        bottom,
         aspect,
         screenHeight,
         screenWidth,
