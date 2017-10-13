@@ -1,6 +1,6 @@
 <template>
   <Mesh :vms="vms" @mesh="(v) => { mesh = v }" :position="finalPosition" :scale="finalScale" :gclick="gclick">
-    <PlaneGeometry v-if="ready" :width="sWidth" :height="sHeight" :translate="finalTranslate" :scale="scale" />
+    <PlaneGeometry v-if="ready" :width="finalSize.x" :height="finalSize.y" :translate="finalTranslate" :scale="scale" />
     <MeshGrungeMaterial v-if="ready" :gOpacity="gOpacity" :color="color" :image="link" @exec="(v) => { $emit('exec', v) }" />
   </Mesh>
 </template>
@@ -29,20 +29,20 @@ export default {
     }
   },
   mounted () {
-    if (this.link) {
-      var img = new Image()
-      img.onload = () => {
-        this.sWidth = img.width / 10
-        this.sHeight = img.height / 10
-        // if (this.scale) {
-        //   this.sWidth = img.width / 10 * (this.scale.x)
-        //   this.sHeight = img.height / 10 * (this.scale.y)
-        // } else {
-        // }
-        this.ready = true
-      }
-      img.src = this.link
-    }
+    // if (this.link) {
+    //   var img = new Image()
+    //   img.onload = () => {
+    //     this.sWidth = img.width / 10
+    //     this.sHeight = img.height / 10
+    //     // if (this.scale) {
+    //     //   this.sWidth = img.width / 10 * (this.scale.x)
+    //     //   this.sHeight = img.height / 10 * (this.scale.y)
+    //     // } else {
+    //     // }
+    //     this.ready = true
+    //   }
+    //   img.src = this.link
+    // }
     this.ready = true
   },
   computed: {

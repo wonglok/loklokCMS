@@ -52,6 +52,14 @@ export function getTemplate ({ name, data }) {
       z: 0.0,
       z_formula: '0.0'
     },
+    size: {
+      x: 0.0,
+      x_formula: 'meshWidth',
+      y: 0.0,
+      y_formula: 'meshHeight',
+      z: 0.0,
+      z_formula: '0.0'
+    },
     ...data
   }
 }
@@ -184,6 +192,27 @@ export const llvmsMesh = {
         }
       } else {
         return this.translate
+      }
+    },
+    finalSize () {
+      if (this.vmsObj && this.vmsObj.size) {
+        var rectInfo = this.__llvms__getRect({ vms: this.vmsObj })
+        var params = { ...rectInfo, ...this.vmsObj.size }
+        try {
+          return {
+            x: Parser.evaluate(this.vmsObj.size.x_formula || ('0.0'), params),
+            y: Parser.evaluate(this.vmsObj.size.y_formula || ('0.0'), params),
+            z: Parser.evaluate(this.vmsObj.size.z_formula || ('0.0'), params)
+          }
+        } catch (e) {
+          return false
+        }
+      } else {
+        return {
+          x: this.sWidth,
+          y: this.sHeight,
+          z: this.sDepth
+        }
       }
     },
     __llvms__readyStyles () {

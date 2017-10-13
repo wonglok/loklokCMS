@@ -52,10 +52,14 @@
         <div>
           Scale X:
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.scale.x_formula" />
-        </div>
-        <div>
           Scale Y:
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.scale.y_formula" />
+        </div>
+        <div>
+          Size X:
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.size.x_formula" />
+          Size Y:
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.size.y_formula" />
         </div>
       </div>
       <pre v-if="vmsObj">{{ vmsObj }}</pre>
@@ -115,6 +119,11 @@ export default {
         // this.currentVMS = found.object.userData.vms
         this.currentObject = found.object
         this.selectedStyle = found.object.userData.vms.name
+        this.currentObject = {
+          ...this.currentObject,
+          ...llvms.getTemplate({ name: found.object.userData.vms.name, data: found.object.userData.vms })
+        }
+
         console.log({ mouse, found })
       }
     }

@@ -31,6 +31,25 @@
           vms="@agree@desc@punch-about"
           :link="require('./img/desc/punch-about.png')"
         />
+        <GrungeMesh
+          vms="@agree@grunge@bg"
+          :gOpacity="0.53"
+          :color="0xbababa"
+          @exec="(v) => { execStack.grungeBg = v }"
+        />
+
+        <GrungeMesh
+          vms="@agree@grunge@punch-icon"
+          :gOpacity="0.53"
+          :color="0xbababa"
+          @exec="(v) => { execStack.grungePunchIcon = v }"
+        />
+        <GrungeMesh
+          vms="@agree@grunge@punch-about"
+          :gOpacity="0.53"
+          :color="0xbababa"
+          @exec="(v) => { execStack.grungePunchAbout = v }"
+        />
 
       </Object3D>
 
@@ -51,8 +70,17 @@ export default {
   props: ['aspect'],
   data () {
     return {
+      execStack: {
+        grungeBg () {}
+      },
       tweening: false
     }
+  },
+  activated () {
+    this.$emit('exec', this.exec)
+  },
+  deactivated () {
+    this.$emit('exec', () => {})
   },
   methods: {
     __add (v) {
@@ -60,6 +88,11 @@ export default {
     },
     __remove (v) {
       this.$parent.scene.remove(v)
+    },
+    exec () {
+      for (var exe in this.execStack) {
+        this.execStack[exe]()
+      }
     }
   }
 }
