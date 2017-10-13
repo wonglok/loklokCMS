@@ -106,6 +106,12 @@
           :aspect="aspect"
           :link="require('./img/items/rewards.png')"
         />
+        <ImageMesh
+          vms="@menu@items@comics"
+          :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/comic-list'); } }"
+          :aspect="aspect"
+          :link="require('./img/items/comics.png')"
+        />
       </Object3D>
     </keep-alive>
   </transition>

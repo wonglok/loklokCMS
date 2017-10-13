@@ -35,19 +35,19 @@
         <GrungeMesh
           vms="@agree@grunge@bg"
           :gOpacity="0.53"
-          :color="0xbababa"
+          :color="0xefefef"
           @exec="(v) => { execStack.grungeBg = v }"
         />
         <GrungeMesh
           vms="@agree@grunge@punch-icon"
-          :gOpacity="0.53"
-          :color="0xbababa"
+          :gOpacity="0.9"
+          :color="0xefefef"
           @exec="(v) => { execStack.grungePunchIcon = v }"
         />
         <GrungeMesh
           vms="@agree@grunge@punch-about"
-          :gOpacity="0.53"
-          :color="0xbababa"
+          :gOpacity="0.9"
+          :color="0xefefef"
           @exec="(v) => { execStack.grungePunchAbout = v }"
         />
 
