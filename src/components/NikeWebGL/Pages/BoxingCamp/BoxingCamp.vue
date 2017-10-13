@@ -32,6 +32,12 @@
           vms="@landing@button-area@watch-comics"
           :link="require('./img/button-area/watch-comics.png')"
         />
+        <GrungeMesh
+          vms="@landing@grunge@bg"
+          :gOpacity="0.53"
+          :color="0xbababa"
+          @exec="(v) => { execStack.grungeBg = v }"
+        />
 
       </Object3D>
     </keep-alive>
@@ -51,8 +57,17 @@ export default {
   props: ['aspect'],
   data () {
     return {
+      execStack: {
+        grungeBg () {}
+      },
       tweening: false
     }
+  },
+  activated () {
+    this.$emit('exec', this.exec)
+  },
+  deactivated () {
+    this.$emit('exec', () => {})
   },
   methods: {
     __add (v) {
@@ -60,6 +75,11 @@ export default {
     },
     __remove (v) {
       this.$parent.scene.remove(v)
+    },
+    exec () {
+      for (var exe in this.execStack) {
+        this.execStack[exe]()
+      }
     }
   }
 }

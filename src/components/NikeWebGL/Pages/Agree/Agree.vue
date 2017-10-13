@@ -14,7 +14,26 @@
           vms="@agree@header@title"
           :link="require('./img/header/title.png')"
         />
+        <ImageMesh
+          vms="@agree@bg@rex"
+          :link="require('./img/bg/rex.png')"
+        />
+        <ImageMesh
+          vms="@agree@tagline@title"
+          :link="require('./img/tagline/title.png')"
+        />
+
+        <ImageMesh
+          vms="@agree@desc@punch-icon"
+          :link="require('./img/desc/punch-icon.png')"
+        />
+        <ImageMesh
+          vms="@agree@desc@punch-about"
+          :link="require('./img/desc/punch-about.png')"
+        />
+
       </Object3D>
+
     </keep-alive>
   </transition>
 </template>

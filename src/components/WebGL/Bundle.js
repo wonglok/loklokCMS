@@ -10,6 +10,7 @@ import MeshPhongMaterial from './Material/MeshPhongMaterial'
 import MeshBasicMaterial from './Material/MeshBasicMaterial'
 import PointsMaterial from './Material/PointsMaterial'
 import MeshPictureMaterial from './Material/MeshPictureMaterial'
+import MeshGrungeMaterial from './Material/MeshGrungeMaterial'
 
 import PlaneGeometry from './Geometry/PlaneGeometry'
 import BoxGeometry from './Geometry/BoxGeometry'
@@ -18,9 +19,11 @@ import SphereGeometry from './Geometry/SphereGeometry'
 import PointLight from './Light/PointLight'
 
 import ImageMesh from './Custom/ImageMesh'
+import GrungeMesh from './Custom/GrungeMesh'
 import VMS from './Custom/VMS'
 
 export default {
+  GrungeMesh,
   ImageMesh,
   VMS,
 
@@ -37,6 +40,7 @@ export default {
   MeshPhongMaterial,
   MeshBasicMaterial,
   MeshPictureMaterial,
+  MeshGrungeMaterial,
 
   PointsMaterial,
   PerspectiveCamera,
