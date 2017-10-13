@@ -41,6 +41,7 @@ export default {
   mounted () {
     if (this.mesh) {
       this.mesh.visible = false
+      this.mesh.userData.$component = this
     }
     if (this.link) {
       var img = new Image()

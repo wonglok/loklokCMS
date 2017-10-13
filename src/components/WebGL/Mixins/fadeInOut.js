@@ -184,7 +184,11 @@ export default {
         // mesh.visible = true
         // done()
         if (mesh) {
-          mesh.visible = true
+          if (mesh.userData.$component) {
+            mesh.visible = mesh.userData.$component.visible
+          } else {
+            mesh.visible = true
+          }
           this.fadeInTween((v) => {
             this.tweening = true
             mesh.material.opacity = v
@@ -196,7 +200,11 @@ export default {
             if (mesh.material.uniforms) {
               mesh.material.uniforms.opacity.value = 1.0
             }
-            mesh.visible = true
+            if (mesh.userData.$component) {
+              mesh.visible = mesh.userData.$component.visible
+            } else {
+              mesh.visible = true
+            }
             this.tweening = false
           }, this.mesh)
         }
