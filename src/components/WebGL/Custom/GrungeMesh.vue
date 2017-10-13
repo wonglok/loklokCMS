@@ -14,7 +14,20 @@ import MeshGrungeMaterial from '../Material/MeshGrungeMaterial'
 export default {
   name: 'ImageMesh',
   mixins: [llvmsMesh],
-  props: ['position', 'link', 'scale', 'gclick', 'translate', 'vms', 'gOpacity', 'color'],
+  props: {
+    position: {},
+    link: {},
+    scale: {},
+    gclick: {},
+    translate: {},
+    vms: {},
+    visible: {
+      default: true
+    },
+    gOpacity: {},
+    color: {}
+  },
+  // ['position', 'link', 'scale', 'gclick', 'translate', 'vms', 'gOpacity', 'color'],
   components: {
     Mesh,
     PlaneGeometry,
