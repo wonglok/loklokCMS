@@ -31,13 +31,13 @@
           vms="@agree@desc@punch-about"
           :link="require('./img/desc/punch-about.png')"
         />
+
         <GrungeMesh
           vms="@agree@grunge@bg"
           :gOpacity="0.53"
           :color="0xbababa"
           @exec="(v) => { execStack.grungeBg = v }"
         />
-
         <GrungeMesh
           vms="@agree@grunge@punch-icon"
           :gOpacity="0.53"
@@ -49,6 +49,25 @@
           :gOpacity="0.53"
           :color="0xbababa"
           @exec="(v) => { execStack.grungePunchAbout = v }"
+        />
+
+        <ImageMesh
+          :visible="!checkedBox"
+          :gclick="() => { toggleBox() }"
+          vms="@agree@agree@box-unchecked"
+          :link="require('./img/agree/box-unchecked.png')"
+        />
+        <ImageMesh
+          :visible="checkedBox"
+          :gclick="() => { toggleBox() }"
+          vms="@agree@agree@box-checked"
+          :link="require('./img/agree/box-checked.png')"
+        />
+
+        <ImageMesh
+          :gclick="() => { $router.push('/nike/game/rules') }"
+          vms="@agree@agree@agree-rule"
+          :link="require('./img/agree/agree-rule.png')"
         />
 
       </Object3D>
@@ -70,11 +89,15 @@ export default {
   props: ['aspect'],
   data () {
     return {
+      readyAgree: false,
+      checkedBox: false,
       execStack: {
         grungeBg () {}
       },
       tweening: false
     }
+  },
+  mounted () {
   },
   activated () {
     this.$emit('exec', this.exec)
@@ -84,10 +107,17 @@ export default {
   },
   methods: {
     __add (v) {
-      this.$parent.scene.add(v)
+      this.$nextTick(() => {
+        this.$parent.scene.add(v)
+      })
     },
     __remove (v) {
-      this.$parent.scene.remove(v)
+      this.$nextTick(() => {
+        this.$parent.scene.remove(v)
+      })
+    },
+    toggleBox () {
+      this.checkedBox = !this.checkedBox
     },
     exec () {
       for (var exe in this.execStack) {

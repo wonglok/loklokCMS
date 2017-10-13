@@ -247,7 +247,7 @@ export const llvmsMesh = {
   watch: {
     __llvms__readyStyles () {
       if (this.vms) {
-        this.mesh.visible = true
+        this.mesh.visible = this.visible
       }
       this.__llvms__updateVMSObjRef()
     },

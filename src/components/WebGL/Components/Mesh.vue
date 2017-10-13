@@ -4,7 +4,14 @@
 <script>
 import * as THREE from 'three'
 export default {
-  props: ['position', 'gclick', 'scale'],
+  props: {
+    'position': {},
+    'gclick': {},
+    'scale': {},
+    'visible': {
+      default: true
+    }
+  },
   data () {
     return {
       mesh: null,
@@ -39,10 +46,14 @@ export default {
       if (this.scale) {
         this.mesh.scale.set(this.scale.x || 1, this.scale.y || 1, this.scale.z || 1)
       }
+    },
+    visible () {
+      this.mesh.visible = this.visible
     }
   },
   // calling parent methods.
   mounted () {
+    this.mesh.visible = this.visible
     this.$parent.__add(this.mesh)
   },
   beforeDestroy () {
