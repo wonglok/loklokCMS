@@ -39,7 +39,8 @@ export default {
       depthTest: this.depthTest,
 
       uniforms: {
-        // image: { value: new THREE.TextureLoader().load(this.image) },
+        image: { value: new THREE.TextureLoader().load(this.image) },
+        useImage: { value: typeof this.image !== 'undefined' },
         time: { value: 0.0 },
         color: { value: new THREE.Color(this.color) },
         opacity: { value: 1.0 },
@@ -57,23 +58,38 @@ export default {
       fragmentShader: `
         #include <common>
 
-        // uniform sampler2D image;
+        uniform bool useImage;
+        uniform sampler2D image;
+
+
         varying vec2 vUv;
         uniform float gOpacity;
         uniform float opacity;
         uniform float time;
         uniform vec3 color;
-        void main () {
 
-          float noise = rand(vec2(vUv) + time);
-          float noise2 = rand(vec2(vUv + vec2(0.3, 0.2) + noise) + time);
-          float noise3 = rand(vec2(vUv + vec2(0.5, -0.6) + noise2) + time);
-          float noise4 = noise * noise2 * noise3;
-          if (noise4 <= 0.1) {
-            discard;
+
+        void main () {
+          if (useImage) {
+            vec4 imageColor = texture2D(image, vUv);
+
+            float noise = rand(vec2(vUv) + time);
+            float noise2 = rand(vec2(vUv + vec2(0.3, 0.2) + noise) + time);
+            float noise3 = rand(vec2(vUv + vec2(0.5, -0.6) + noise2) + time);
+            float noise4 = noise * noise2 * noise3;
+            gl_FragColor = vec4(vec3(vec3(imageColor) - noise4 * 0.5), opacity);
           } else {
-            gl_FragColor = vec4(vec3(noise4 * color), gOpacity * opacity);
+            float noise = rand(vec2(vUv) + time);
+            float noise2 = rand(vec2(vUv + vec2(0.3, 0.2) + noise) + time);
+            float noise3 = rand(vec2(vUv + vec2(0.5, -0.6) + noise2) + time);
+            float noise4 = noise * noise2 * noise3;
+            if (noise4 <= 0.1) {
+              discard;
+            } else {
+              gl_FragColor = vec4(vec3(noise4 * color), gOpacity * opacity);
+            }
           }
+
 
         }
       `

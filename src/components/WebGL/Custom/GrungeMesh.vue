@@ -42,21 +42,22 @@ export default {
     }
   },
   mounted () {
-    // if (this.link) {
-    //   var img = new Image()
-    //   img.onload = () => {
-    //     this.sWidth = img.width / 10
-    //     this.sHeight = img.height / 10
-    //     // if (this.scale) {
-    //     //   this.sWidth = img.width / 10 * (this.scale.x)
-    //     //   this.sHeight = img.height / 10 * (this.scale.y)
-    //     // } else {
-    //     // }
-    //     this.ready = true
-    //   }
-    //   img.src = this.link
-    // }
-    this.ready = true
+    if (this.link) {
+      var img = new Image()
+      img.onload = () => {
+        this.sWidth = img.width / 10
+        this.sHeight = img.height / 10
+        // if (this.scale) {
+        //   this.sWidth = img.width / 10 * (this.scale.x)
+        //   this.sHeight = img.height / 10 * (this.scale.y)
+        // } else {
+        // }
+        this.ready = true
+      }
+      img.src = this.link
+    } else {
+      this.ready = true
+    }
   },
   computed: {
   },

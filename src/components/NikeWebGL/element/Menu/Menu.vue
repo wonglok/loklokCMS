@@ -8,7 +8,6 @@
     d-scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
     :link="require('./img/menu-open.png')"
   />
-
   <!--
     <Mesh
     ref="red-box"
@@ -18,7 +17,6 @@
       <MeshBasicMaterial :opacity="0.0" :color="0x000000" />
     </Mesh>
   -->
-
   <transition
     @enter="menuIn"
     @leave="menuOut"

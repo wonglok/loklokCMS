@@ -5,11 +5,11 @@
     >
     <keep-alive>
       <Object3D ref="page-content">
-        <ImageMesh
+        <!-- <ImageMesh
           :gclick="() => { $router.push('/nike/game/play') }"
           vms="@agree@cta@enter-now"
           :link="require('./img/enter.png')"
-        />
+        /> -->
         <ImageMesh
           vms="@agree@header@title"
           :link="require('./img/header/title.png')"
@@ -51,12 +51,22 @@
           @exec="(v) => { execStack.grungePunchAbout = v }"
         />
 
+        <GrungeMesh
+          vms="@agree@grunge@enter-now"
+          :link="require('./img/enter.png')"
+          :gclick="() => { $router.push('/nike/game/play') }"
+          :gOpacity="1.0"
+          :color="0xbababa"
+          @exec="(v) => { execStack.grungeEnterNow = v }"
+        />
+
         <ImageMesh
           :visible="!checkedBox"
           :gclick="() => { toggleBox() }"
           vms="@agree@agree@box-unchecked"
           :link="require('./img/agree/box-unchecked.png')"
         />
+
         <ImageMesh
           :visible="checkedBox"
           :gclick="() => { toggleBox() }"
