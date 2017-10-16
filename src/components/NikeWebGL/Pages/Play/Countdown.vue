@@ -14,10 +14,11 @@
         <RingCounter
           ref="ring"
           :progress="progress"
-          @done="() => { $router.push({ path: '/nike/game/play' }) }"
+          @done="() => { if (isViewingPage) {
+            $router.push({ path: '/nike/game/play' })
+          } }"
           vms="@play@countdown@ring-counter"
         />
-
       </Object3D>
     </keep-alive>
   </transition>
@@ -46,7 +47,9 @@ export default {
     }
   },
   computed: {
-
+    isViewingPage () {
+      return this.$router.currentRoute.fullPath.indexOf('game/play/countdown') !== -1
+    }
   },
   activated () {
     this.$emit('exec', () => {

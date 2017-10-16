@@ -47,6 +47,16 @@
           <input @change="save(vmsObj)" @input="refresher" class="formula" type="text" v-model="vmsObj.translate.y_formula" />
           Y Translate
         </div>
+        <div>
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="range" step="0.1" min="0.1" max="100" v-model="vmsObj.grunge.gOpacity" />
+          <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" step="0.1" min="0.1" max="100" v-model="vmsObj.grunge.gOpacity" />
+          <input @change="save(vmsObj)" @input="refresher" class="formula" type="text" v-model="vmsObj.grunge.gOpacity_formula" />
+          Grunge Opacity
+        </div>
+        <div>
+          <input @change="save(vmsObj)" @input="refresher" class="formula" type="text" v-model="vmsObj.grunge.gColor_formula" />
+          Grunge Hex Color e.g.) 0xbababa
+        </div>
       </div>
       <div class="rangers" v-if="vmsObj && vmsObj.scale">
         <div>

@@ -1,11 +1,12 @@
 <template>
   <Mesh :visible="visible" :vms="vms" @mesh="(v) => { mesh = v; }" :position="finalPosition" :scale="finalScale" :gclick="gclick">
     <PlaneGeometry v-if="ready" :width="sWidth" :height="sHeight" :translate="finalTranslate" :scale="scale" />
-    <MeshPictureMaterial :opacity="1" :color="0xffffff" :image="link" />
+    <MeshPictureMaterial :opacity="1" :color="0xffffff" :image="link" :blending="THREE.NormalBlending" />
   </Mesh>
 </template>
 
 <script>
+import * as THREE from 'three'
 import { llvmsMesh } from '../Mixins/llvms'
 import Mesh from '../Components/Mesh'
 import PlaneGeometry from '../Geometry/PlaneGeometry'
@@ -32,6 +33,7 @@ export default {
   },
   data () {
     return {
+      THREE,
       mesh: false,
       ready: false,
       sWidth: 1,

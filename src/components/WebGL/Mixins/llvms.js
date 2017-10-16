@@ -60,6 +60,12 @@ export function getTemplate ({ name, data }) {
       z: 0.0,
       z_formula: '0.0'
     },
+    grunge: {
+      gOpacity: 50,
+      gOpacity_formula: 'gOpacity / 100',
+      gColor: 0xbababa,
+      gColor_formula: '0xbababa'
+    },
     ...data
   }
 }
@@ -212,6 +218,25 @@ export const llvmsMesh = {
           x: this.sWidth,
           y: this.sHeight,
           z: this.sDepth
+        }
+      }
+    },
+    finalGrunge () {
+      if (this.vmsObj && this.vmsObj.grunge) {
+        var rectInfo = this.__llvms__getRect({ vms: this.vmsObj })
+        var params = { ...rectInfo, ...this.vmsObj.grunge }
+        try {
+          return {
+            gOpacity: Parser.evaluate(this.vmsObj.grunge.gOpacity_formula || ('0.0'), params),
+            gColor: Parser.evaluate(this.vmsObj.grunge.gColor_formula || ('0.0'), params)
+          }
+        } catch (e) {
+          return false
+        }
+      } else {
+        return {
+          gOpacity: this.gOpacity,
+          gColor: this.color
         }
       }
     },

@@ -14,7 +14,6 @@
       @exec="(v) => { execStack.glmenu = v }"
       @showPage="(v) => { showPage = v }"
     />
-
     <keep-alive>
       <component
         v-if="showPage"

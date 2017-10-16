@@ -37,7 +37,6 @@ export default {
       // blending: THREE.AdditiveBlending,
       blending: THREE.NormalBlending,
       depthTest: this.depthTest,
-
       uniforms: {
         image: { value: new THREE.TextureLoader().load(this.image) },
         useImage: { value: typeof this.image !== 'undefined' },

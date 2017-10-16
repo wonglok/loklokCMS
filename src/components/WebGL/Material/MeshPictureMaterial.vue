@@ -21,7 +21,7 @@ export default {
     },
     blending: {
       default () {
-        return THREE.AdditiveBlending
+        return THREE.NormalBlending
         // return null
       }
     }
@@ -35,7 +35,7 @@ export default {
     this.material = new THREE.ShaderMaterial({
       transparent: true,
       // blending: THREE.AdditiveBlending,
-      blending: THREE.NormalBlending,
+      blending: this.blending,
       depthTest: this.depthTest,
       uniforms: {
         image: { value: textureCache.getTexture(this.image) },

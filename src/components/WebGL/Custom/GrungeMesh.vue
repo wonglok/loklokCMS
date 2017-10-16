@@ -1,7 +1,7 @@
 <template>
   <Mesh :vms="vms" @mesh="(v) => { mesh = v }" :position="finalPosition" :scale="finalScale" :gclick="gclick">
     <PlaneGeometry v-if="ready" :width="finalSize.x" :height="finalSize.y" :translate="finalTranslate" :scale="scale" />
-    <MeshGrungeMaterial v-if="ready" :gOpacity="gOpacity" :color="color" :image="link" @exec="(v) => { $emit('exec', v) }" />
+    <MeshGrungeMaterial v-if="ready" :gOpacity="finalGrunge.gOpacity" :color="finalGrunge.gColor" :image="link" @exec="(v) => { $emit('exec', v) }" />
   </Mesh>
 </template>
 
