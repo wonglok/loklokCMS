@@ -1,4 +1,5 @@
 <script>
+import { textureCache } from '../Shared/cache'
 import * as THREE from 'three'
 export default {
   abstract: true,
@@ -37,7 +38,7 @@ export default {
       blending: THREE.NormalBlending,
       depthTest: this.depthTest,
       uniforms: {
-        image: { value: new THREE.TextureLoader().load(this.image) },
+        image: { value: textureCache.getTexture(this.image) },
         opacity: { value: this.opacity }
       },
       vertexShader: `

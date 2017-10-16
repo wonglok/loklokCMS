@@ -27,7 +27,6 @@ export default {
   },
   watch: {
     texture () {
-      console.log(this.texture)
     }
   },
   methods: {

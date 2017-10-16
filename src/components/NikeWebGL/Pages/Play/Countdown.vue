@@ -65,7 +65,9 @@ export default {
   methods: {
     onPageEnter (v, done) {
       this.pageFadeIn(v, done)
-      this.$refs['ring'].start()
+      setTimeout(() => {
+        this.$refs['ring'].start()
+      }, 1000)
     },
     __add (v) {
       this.$parent.$parent.$parent.scene.add(v)
