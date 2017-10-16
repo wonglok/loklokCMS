@@ -15,7 +15,11 @@ import Game from '@/components/NikeWebGL/Game'
 
 import BoxingCamp from '@/components/NikeWebGL/Pages/BoxingCamp/BoxingCamp'
 import Agree from '@/components/NikeWebGL/Pages/Agree/Agree'
+
 import Play from '@/components/NikeWebGL/Pages/Play/Play'
+import PlayStart from '@/components/NikeWebGL/Pages/Play/Start'
+import PlayCountdown from '@/components/NikeWebGL/Pages/Play/Countdown'
+
 import Rules from '@/components/NikeWebGL/Pages/Rules/Rules'
 import Status from '@/components/NikeWebGL/Pages/Status/Status'
 import Login from '@/components/NikeWebGL/Pages/Login/Login'
@@ -40,7 +44,17 @@ var nikeGame = [
       },
       {
         path: 'play',
-        component: Play
+        component: Play,
+        children: [
+          {
+            path: '',
+            component: PlayStart
+          },
+          {
+            path: 'countdown',
+            component: PlayCountdown
+          }
+        ]
       },
       {
         path: 'status',

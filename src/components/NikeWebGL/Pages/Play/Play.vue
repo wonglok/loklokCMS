@@ -14,7 +14,23 @@
 
         <Woody ref="woody" :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
 
+        <component
+          ref="sub-page-content"
+          v-bind:is="'router-view'"
+          @exec="(v) => { execStack.currentSubPage = v }"
+          :aspect="aspect"
+          :camera="camera"
+        >
+        </component>
+        <!-- <transition
+          @enter="pageFadeIn"
+          @leave="pageFadeOut"
+        >
+          <keep-alive>
+          </keep-alive>
+        </transition> -->
       </Object3D>
+
     </keep-alive>
   </transition>
 </template>
@@ -32,7 +48,7 @@ export default {
     Woody,
     ...Bundle
   },
-  props: ['aspect'],
+  props: ['aspect', 'camera'],
   data () {
     return {
       execStack: {},

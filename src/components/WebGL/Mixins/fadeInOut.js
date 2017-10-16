@@ -213,6 +213,14 @@ export default {
         // this.__add(this.$refs['page-content'].object3d)
         this.$refs['page-content'].object3d.children.forEach(updater)
       }
+
+      if (this.$refs['sub-page-content'] && this.$refs['sub-page-content'].object3d) {
+        this.$refs['sub-page-content'].object3d.children.forEach(updater)
+      }
+
+      if (this.$refs['sub-page-content'] && this.$refs['sub-page-content'].$refs['sub-page-content'] && this.$refs['sub-page-content'].$refs['sub-page-content'].object3d) {
+        this.$refs['sub-page-content'].$refs['sub-page-content'].object3d.children.forEach(updater)
+      }
     },
     pageFadeOut (el, done) {
       var updater = (mesh) => {
@@ -241,8 +249,17 @@ export default {
           }, this.mesh)
         }
       }
-      if (this.$refs['page-content'] && this.$refs['page-content'].object3d) {
+      if (this.$refs['page-content']) {
+        // this.__add(this.$refs['page-content'].object3d)
         this.$refs['page-content'].object3d.children.forEach(updater)
+      }
+
+      if (this.$refs['sub-page-content'] && this.$refs['sub-page-content'].object3d) {
+        this.$refs['sub-page-content'].object3d.children.forEach(updater)
+      }
+
+      if (this.$refs['sub-page-content'] && this.$refs['sub-page-content'].$refs['sub-page-content'] && this.$refs['sub-page-content'].$refs['sub-page-content'].object3d) {
+        this.$refs['sub-page-content'].$refs['sub-page-content'].object3d.children.forEach(updater)
       }
     }
   }

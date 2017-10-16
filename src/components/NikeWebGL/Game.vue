@@ -14,6 +14,7 @@
       @exec="(v) => { execStack.glmenu = v }"
       @showPage="(v) => { showPage = v }"
     />
+
     <keep-alive>
       <component
         v-if="showPage"
@@ -21,6 +22,7 @@
         v-bind:is="'router-view'"
         @exec="(v) => { execStack.currentPage = v }"
         :aspect="aspect"
+        :camera="camera"
       >
       </component>
     </keep-alive>

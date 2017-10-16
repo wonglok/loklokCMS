@@ -284,7 +284,8 @@ export const llvmsMesh = {
                     this.$parent.aspect ||
                     this.$parent.$parent.aspect ||
                     this.$parent.$parent.$parent.aspect ||
-                    this.$parent.$parent.$parent.$parent.aspect
+                    this.$parent.$parent.$parent.$parent.aspect ||
+                    this.$parent.$parent.$parent.$parent.$parent.aspect
       return aspect
     },
     __llvms__getCamera () {
@@ -292,7 +293,8 @@ export const llvmsMesh = {
                     this.$parent.camera ||
                     this.$parent.$parent.camera ||
                     this.$parent.$parent.$parent.camera ||
-                    this.$parent.$parent.$parent.$parent.camera
+                    this.$parent.$parent.$parent.$parent.camera ||
+                    this.$parent.$parent.$parent.$parent.$parent.camera
       return camera
     },
     __llvms__getRect ({ vms }) {

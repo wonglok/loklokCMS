@@ -58,6 +58,7 @@ export default function () {
     }
 
     var points = api.points = new THREE.Points(geometry, shaderMaterial)
+    points.$skipRayCaster = true
     api.updateRect({ rect })
     api.setPosition({ position })
     return {
