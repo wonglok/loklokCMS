@@ -36,7 +36,20 @@ export default {
     finder () {
       if (this.camera && this.scene && this.mouse) {
         this.raycaster.setFromCamera(this.mouse, this.camera)
+        var restore = []
+        this.scene.traverse((ele) => {
+          if (ele.$skipRayCaster === true) {
+            restore.push({
+              parent: ele.parent,
+              ele: ele
+            })
+            ele.parent.remove(ele)
+          }
+        })
         var intersects = this.raycaster.intersectObjects(this.scene.children, true)
+        restore.forEach((item) => {
+          item.parent.add(item.ele)
+        })
         // console.log(intersects)
         return intersects
       } else {

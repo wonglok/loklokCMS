@@ -44,6 +44,7 @@
           :color="0xefefef"
           @exec="(v) => { execStack.grungePunchIcon = v }"
         />
+
         <GrungeMesh
           vms="@agree@grunge@punch-about"
           :gOpacity="0.9"
@@ -54,7 +55,7 @@
         <GrungeMesh
           vms="@agree@grunge@enter-now"
           :link="require('./img/enter.png')"
-          :gclick="() => { $router.push('/nike/game/play') }"
+          :gclick="() => { $router.push('/nike/game/login') }"
           :gOpacity="1.0"
           :color="0xbababa"
           @exec="(v) => { execStack.grungeEnterNow = v }"
@@ -79,6 +80,7 @@
           vms="@agree@agree@agree-rule"
           :link="require('./img/agree/agree-rule.png')"
         />
+
 
       </Object3D>
 

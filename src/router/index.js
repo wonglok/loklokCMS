@@ -18,6 +18,7 @@ import Agree from '@/components/NikeWebGL/Pages/Agree/Agree'
 import Play from '@/components/NikeWebGL/Pages/Play/Play'
 import Rules from '@/components/NikeWebGL/Pages/Rules/Rules'
 import Status from '@/components/NikeWebGL/Pages/Status/Status'
+import Login from '@/components/NikeWebGL/Pages/Login/Login'
 
 import ComicList from '@/components/NikeWebGL/Pages/ComicList/ComicList'
 import ComicDetail from '@/components/NikeWebGL/Pages/ComicDetail/ComicDetail'
@@ -56,6 +57,10 @@ var nikeGame = [
       {
         path: 'comic-detail',
         component: ComicDetail
+      },
+      {
+        path: 'login',
+        component: Login
       }
     ]
   }

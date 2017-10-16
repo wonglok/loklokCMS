@@ -58,7 +58,6 @@ export default function () {
     }
 
     var points = api.points = new THREE.Points(geometry, shaderMaterial)
-
     api.updateRect({ rect })
     api.setPosition({ position })
     return {

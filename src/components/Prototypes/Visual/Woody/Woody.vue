@@ -23,6 +23,7 @@ export default {
     }
 
     this.$emit('api', this.api)
+    this.info.points.$skipRayCaster = true
     this.$parent.__add(this.info.points)
     // this.mesh = new THREE.Mesh()
     // this.$emit('mesh', this.mesh)
