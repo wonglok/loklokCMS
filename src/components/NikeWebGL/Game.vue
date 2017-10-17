@@ -19,6 +19,7 @@
         v-if="showPage"
         ref="page-content"
         v-bind:is="'router-view'"
+        @setMouse="(v) => { mouseStack.currentPage = v; }"
         @exec="(v) => { execStack.currentPage = v }"
         :aspect="aspect"
         :camera="camera"

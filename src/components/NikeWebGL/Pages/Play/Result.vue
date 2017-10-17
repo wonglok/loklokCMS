@@ -1,7 +1,7 @@
 <template>
   <transition
     @enter="onPageEnter"
-    @leave="pageFadeOut"
+    @leave="onPageLeave"
   >
     <keep-alive>
       <Object3D ref="sub-page-content">
@@ -83,12 +83,13 @@
 
 <script>
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
+import scroller from '@/components/WebGL/Mixins/scroller'
 import Bundle from '@/components/WebGL/Bundle'
 import RingCounter from './RingCounter/RingCounter'
 import NumberCounter from './NumberCounter/NumberCounter.vue'
 export default {
   name: 'Result',
-  mixins: [fadeInOut],
+  mixins: [fadeInOut, scroller],
   components: {
     ...Bundle,
     RingCounter,
@@ -108,14 +109,14 @@ export default {
   },
   activated () {
     this.$nextTick(() => {
-      this.startBoth()
+      this.startApp()
     })
   },
   deactivated () {
     this.$emit('exec', () => {})
   },
   methods: {
-    startBoth () {
+    startApp () {
       if (this.$refs['number-counter']) {
         this.$refs['number-counter'].draw()
       }
@@ -127,12 +128,17 @@ export default {
           }
         }
       })
+      this.setupScroller({ target: this.$refs['sub-page-content'] })
     },
     onPageEnter (v, done) {
       this.pageFadeIn(v, done)
       setTimeout(() => {
-        this.startBoth()
+        this.startApp()
       }, 500)
+    },
+    onPageLeave (v, done) {
+      this.pageFadeOut(v, done)
+      this.cleanupScroller()
     },
     __add (v) {
       this.$parent.$parent.$parent.scene.add(v)

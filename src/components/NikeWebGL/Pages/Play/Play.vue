@@ -17,6 +17,7 @@
         <component
           ref="sub-page-content"
           v-bind:is="'router-view'"
+          @setMouse="(v) => { mouseStack.currentSubPage = v }"
           @exec="(v) => { execStack.currentSubPage = v }"
           @punched="tweenWoody"
           :aspect="aspect"
@@ -53,6 +54,7 @@ export default {
   data () {
     return {
       execStack: {},
+      mouseStack: {},
       glSystem,
       tweening: false
     }
@@ -66,11 +68,20 @@ export default {
         }
       }
     })
+    this.$emit('setMouse', (args) => {
+      for (var name in this.mouseStack) {
+        let exec = this.mouseStack[name]
+        if (exec) {
+          exec(args)
+        }
+      }
+    })
   },
   deactivated () {
 
   },
   methods: {
+
     tweenWoody () {
       this.$refs.woody.punch({ magnitude: Math.abs(1.5 - Math.random()) })
     },
