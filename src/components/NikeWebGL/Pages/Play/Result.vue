@@ -40,14 +40,14 @@
         />
 
         <GrungeMesh
-          :gclick="() => {  }"
+          :gclick="() => { $router.push({ path: '/nike/game/play' }) }"
           vms="@play@result@try-again"
           :link="require('./img/result/try-again.png')"
           @exec="(v) => { execStack.tryAgain = v }"
         />
 
         <GrungeMesh
-          :gclick="() => {  }"
+          :gclick="() => { $router.push({ path: '/nike/game/status' }) }"
           vms="@play@result@check-coupon"
           :link="require('./img/result/check-coupon.png')"
           @exec="(v) => { execStack.checkCoupon = v }"
@@ -103,18 +103,10 @@ export default {
   },
   computed: {
     isViewingPage () {
-      return this.$router.currentRoute.fullPath.indexOf('game/play/countdown') !== -1
+      return this.$router.currentRoute.fullPath.indexOf('game/play/result') !== -1
     }
   },
   activated () {
-    this.$emit('exec', () => {
-      for (var execItem in this.execStack) {
-        let exec = this.execStack[execItem]
-        if (exec) {
-          exec()
-        }
-      }
-    })
     this.$nextTick(() => {
       this.startBoth()
     })
@@ -127,6 +119,14 @@ export default {
       if (this.$refs['number-counter']) {
         this.$refs['number-counter'].draw()
       }
+      this.$emit('exec', () => {
+        for (var execItem in this.execStack) {
+          let exec = this.execStack[execItem]
+          if (exec) {
+            exec()
+          }
+        }
+      })
     },
     onPageEnter (v, done) {
       this.pageFadeIn(v, done)
