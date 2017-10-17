@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     isViewingPage () {
-      return this.$router.currentRoute.fullPath.indexOf('game/play/countdown') !== -1
+      return this.$router.currentRoute.fullPath.indexOf('game/play/record') !== -1
     }
   },
   activated () {
@@ -91,7 +91,9 @@ export default {
       setTimeout(function funfun () {
         vm.punchNumber++
         vm.$emit('punched', Math.random())
-        setTimeout(funfun, Math.random() * 5000)
+        if (vm.isViewingPage) {
+          setTimeout(funfun, Math.random() * 5000)
+        }
       }, Math.abs(Math.random()) * 5000)
     },
     onPageEnter (v, done) {
