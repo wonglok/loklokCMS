@@ -6,6 +6,7 @@
 import arcCanvasMaker from './ArcCanvas'
 import Bundle from '@/components/WebGL/Bundle'
 export default {
+  name: 'RingCounter',
   props: {
     vms: {
       type: String

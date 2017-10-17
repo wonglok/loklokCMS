@@ -12,12 +12,13 @@
           :link="require('./img/bg/rex.png')"
         /> -->
 
-        <Woody ref="woody" :gclick="tweenWoody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
+        <Woody ref="woody" @api="(v) => { execStack.woody = v.render; /*mouseStack.woody = v.setMouse*/ }" :position="{ x: 0, y: 0, z: 0.0 }" />
 
         <component
           ref="sub-page-content"
           v-bind:is="'router-view'"
           @exec="(v) => { execStack.currentSubPage = v }"
+          @punched="tweenWoody"
           :aspect="aspect"
           :camera="camera"
         >
@@ -70,18 +71,8 @@ export default {
 
   },
   methods: {
-    tweenWoody ({ found }) {
-      this.glSystem.busy = true
-      var magnitude = Math.abs(1.5 - Math.random())
-      this.punchInTween((v) => {
-        found.object.material.uniforms.mousePos.value.x = v
-      }, () => {
-        this.punchOutTween((v) => {
-          found.object.material.uniforms.mousePos.value.x = v
-        }, () => {
-          this.glSystem.busy = false
-        }, magnitude)
-      }, magnitude)
+    tweenWoody () {
+      this.$refs.woody.punch({ magnitude: Math.abs(1.5 - Math.random()) })
     },
     __add (v) {
       this.$parent.scene.add(v)

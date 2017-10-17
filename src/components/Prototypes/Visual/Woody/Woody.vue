@@ -4,13 +4,15 @@
 
 <script>
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.js'
+import TWEEN from '@tweenjs/tween.js'
 
 export default {
   props: ['renderer', 'rect', 'position', 'scale', 'gclick'],
   data () {
     return {
       api: Woody(),
-      info: false
+      info: false,
+      punchTween: false
       // mesh: null
     }
   },
@@ -36,6 +38,66 @@ export default {
   methods: {
     exec () {
       this.api.render()
+    },
+    punch ({ magnitude }) {
+      this.punchInTween((v) => {
+        this.api.material.uniforms.mousePos.value.x = v
+      }, () => {
+        this.punchOutTween((v) => {
+          this.api.material.uniforms.mousePos.value.x = v
+        }, () => {
+        }, magnitude)
+      }, magnitude)
+    },
+    punchOutTween (update, done, magnitude) {
+      var factor = 1000
+      var varying = {
+        opacity: 1 * factor
+      }
+
+      //
+      if (this.punchTween) {
+        this.punchTween.stop()
+      }
+
+      this.punchTween = new TWEEN.Tween(varying)
+                    .to({ opacity: 0 * factor }, 1500 * (magnitude || 1))
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .onUpdate(() => {
+                      update(varying.opacity / factor)
+                    })
+                    .onStop(() => {
+                      done()
+                    })
+                    .onComplete(() => {
+                      done()
+                    })
+      this.punchTween.start()
+    },
+    punchInTween (update, done, magnitude) {
+      var factor = 1000
+      var varying = {
+        opacity: 0 * factor
+      }
+
+      if (this.punchTween) {
+        this.punchTween.stop()
+      }
+
+      this.punchTween = new TWEEN.Tween(varying)
+                    .to({ opacity: 1 * factor }, 1500 * (magnitude || 1))
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .onUpdate(() => {
+                      update(varying.opacity / factor)
+                    })
+                    .onStop(() => {
+                      done()
+                    })
+                    .onComplete(() => {
+                      done()
+                    })
+
+      this.punchTween.start()
     }
   },
   watch: {

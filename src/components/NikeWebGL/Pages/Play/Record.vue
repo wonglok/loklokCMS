@@ -18,8 +18,24 @@
           @done="() => { if (isViewingPage) {
             // $router.push({ path: '/nike/game/play' })
           } }"
-          vms="@play@countdown@ring-counter"
+          vms="@play@record@ring-counter"
         />
+        <NumberCounter
+          ref="number-counter"
+          :totalTime="30000"
+          @done="() => { if (isViewingPage) {
+            // $router.push({ path: '/nike/game/play/record' })
+          } }"
+          vms="@play@record@number-counter"
+        >
+        </NumberCounter>
+        <NumberCounter
+          ref="punch-counter"
+          :word="punchNumber"
+          vms="@play@record@punch-counter"
+        >
+        </NumberCounter>
+
       </Object3D>
     </keep-alive>
   </transition>
@@ -29,16 +45,19 @@
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import Bundle from '@/components/WebGL/Bundle'
 import RingCounter from './RingCounter/RingCounter'
+import NumberCounter from './NumberCounter/NumberCounter.vue'
 export default {
   name: 'Record',
   mixins: [fadeInOut],
   components: {
     ...Bundle,
-    RingCounter
+    RingCounter,
+    NumberCounter
   },
   props: ['aspect', 'camera'],
   data () {
     return {
+      punchNumber: 0,
       execStack: {},
       tweening: false
     }
@@ -57,17 +76,29 @@ export default {
         }
       }
     })
-    this.$refs['ring'].start()
+
+    this.initCanvas()
   },
   deactivated () {
     this.$emit('exec', () => {})
   },
   methods: {
+    initCanvas () {
+      this.$refs['ring'].start()
+      this.$refs['number-counter'].start()
+      this.$refs['punch-counter'].draw()
+      var vm = this
+      setTimeout(function funfun () {
+        vm.punchNumber++
+        vm.$emit('punched', Math.random())
+        setTimeout(funfun, Math.random() * 5000)
+      }, Math.abs(Math.random()) * 5000)
+    },
     onPageEnter (v, done) {
       this.pageFadeIn(v, done)
       setTimeout(() => {
-        this.$refs['ring'].start()
-      }, 500)
+        this.initCanvas()
+      }, 100)
     },
     __add (v) {
       this.$parent.$parent.$parent.scene.add(v)
