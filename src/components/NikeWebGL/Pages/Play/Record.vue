@@ -123,23 +123,26 @@ export default {
       this.state.punchData = gReduce.getTrack()
 
       var gn = new GyroNorm()
-      gn.init({ frequency: 20 })
-      gReduce.setAccelThres(20)
-      gReduce.setCallback((err, count, force) => {
-        if (err) {
-          console.log(err)
-        }
-        this.$emit('punched', Math.random())
-        this.state.count = count
-        this.state.force = force
-        this.state.punchData = gReduce.getTrack()
+      gn.init({ frequency: 20 }).then(() => {
+        gReduce.setAccelThres(20)
+        gReduce.setCallback((err, count, force) => {
+          if (err) {
+            console.log(err)
+          }
+          this.$emit('punched', Math.random())
+          this.state.count = count
+          this.state.force = force
+          this.state.punchData = gReduce.getTrack()
 
-        navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate
-        if (navigator.vibrate) {
-          navigator.vibrate(500)
-        }
+          if (this.isViewingPage) {
+            navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate
+            if (navigator.vibrate) {
+              navigator.vibrate(500)
+            }
+          }
+        })
+        gn.start(gReduce.digest)
       })
-      gn.start(gReduce.digest)
     },
     onPageEnter (v, done) {
       this.pageFadeIn(v, done)
