@@ -20,6 +20,7 @@ import Play from '@/components/NikeWebGL/Pages/Play/Play'
 import PlayStart from '@/components/NikeWebGL/Pages/Play/Start'
 import PlayCountdown from '@/components/NikeWebGL/Pages/Play/Countdown'
 import PlayRecord from '@/components/NikeWebGL/Pages/Play/Record'
+import PlayResult from '@/components/NikeWebGL/Pages/Play/Result'
 
 import Rules from '@/components/NikeWebGL/Pages/Rules/Rules'
 import Status from '@/components/NikeWebGL/Pages/Status/Status'
@@ -58,6 +59,10 @@ var nikeGame = [
           {
             path: 'record',
             component: PlayRecord
+          },
+          {
+            path: 'result',
+            component: PlayResult
           }
         ]
       },
