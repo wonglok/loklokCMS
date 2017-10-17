@@ -122,7 +122,9 @@ export default {
       llvms.updateVS(vmsObj)
     },
     refresher () {
-      this.currentObject.userData.$component.localRefresher = Math.random()
+      if (this.currentObject.userData.$component) {
+        this.currentObject.userData.$component.localRefresher = Math.random()
+      }
     },
     glClick ({ mouse, found }) {
       if (found.object.userData.vms) {
