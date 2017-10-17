@@ -5,11 +5,16 @@
   >
     <keep-alive>
       <Object3D ref="sub-page-content">
-        <!-- <ImageMesh
+        <ImageMesh
           :gclick="() => {  }"
-          vms="@play@start@hold-tight"
-          :link="require('./img/start/hold-tight.png')"
-        /> -->
+          vms="@play@record@punch-num-desc"
+          :link="require('./img/record/punch-num-desc.png')"
+        />
+        <ImageMesh
+          :gclick="() => {  }"
+          vms="@play@record@time-remain-desc"
+          :link="require('./img/record/time-remain-desc.png')"
+        />
 
         <!-- @o@ -->
         <RingCounter
@@ -92,7 +97,7 @@ export default {
         vm.punchNumber++
         vm.$emit('punched', Math.random())
         if (vm.isViewingPage) {
-          setTimeout(funfun, Math.random() * 5000)
+          setTimeout(funfun, Math.random() * 10000)
         }
       }, Math.abs(Math.random()) * 5000)
     },
