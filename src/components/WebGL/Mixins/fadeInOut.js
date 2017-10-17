@@ -228,6 +228,7 @@ export default {
           // mesh.visible = false
           // done()
           if (mesh.material.uniforms) {
+            mesh.material.userData.__depthTest = mesh.material.depthTest
             mesh.material.depthTest = false
           }
           this.fadeOutTween((v) => {
@@ -240,7 +241,7 @@ export default {
             done()
             mesh.visible = false
             if (mesh.material.uniforms) {
-              mesh.material.depthTest = true
+              mesh.material.depthTest = mesh.material.userData.__depthTest
               mesh.material.uniforms.opacity.value = 0.0
             }
 

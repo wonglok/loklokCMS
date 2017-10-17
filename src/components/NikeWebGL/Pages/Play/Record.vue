@@ -11,11 +11,12 @@
           :link="require('./img/start/hold-tight.png')"
         /> -->
 
+        <!-- @o@ -->
         <RingCounter
           ref="ring"
-          :totalTime="3000"
+          :totalTime="30000"
           @done="() => { if (isViewingPage) {
-            // $router.push({ path: '/nike/game/play/record' })
+            // $router.push({ path: '/nike/game/play' })
           } }"
           vms="@play@countdown@ring-counter"
         />
@@ -29,7 +30,7 @@ import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import Bundle from '@/components/WebGL/Bundle'
 import RingCounter from './RingCounter/RingCounter'
 export default {
-  name: 'Countdown',
+  name: 'Record',
   mixins: [fadeInOut],
   components: {
     ...Bundle,

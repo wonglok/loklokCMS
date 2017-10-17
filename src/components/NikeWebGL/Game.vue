@@ -150,8 +150,22 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .scene-root{
   display: none;
 }
+
+@font-face {
+  font-family: DINCond-Regular;
+  src: url("./Fonts/DinCondense/regular.otf") format("opentype");
+ }
+ @font-face {
+  font-family: DINCond-Medium;
+  src: url("./Fonts/DinCondense/medium.otf") format("opentype");
+ }
+
+ @font-face {
+  font-family: Futura-CondensedMedium;
+  src: url("./Fonts/Futura/condensed-medium.ttf") format("truetype");
+ }
 </style>
