@@ -50,11 +50,11 @@ export default {
       var rAF = () => {
         if (this.scrollerState.enable.y) {
           this.scrollerTarget.object3d.position.y -= this.scrollerState.dY
-          this.scrollerState.dY *= 0.54321
+          this.scrollerState.dY *= 0.954321
         }
         if (this.scrollerState.enable.x) {
           this.scrollerTarget.object3d.position.x += this.scrollerState.dX
-          this.scrollerState.dX *= 0.54321
+          this.scrollerState.dX *= 0.954321
         }
 
         this.scrollerPY({ bound: bound || this.bound })
