@@ -128,7 +128,16 @@ export default {
           }
         }
       })
-      this.setupScroller({ target: this.$refs['sub-page-content'] })
+      this.setupScroller({
+        target: this.$refs['sub-page-content'],
+        enable: { x: false, y: true },
+        bound: {
+          yMax: 36 * this.aspect,
+          yMin: 0,
+          xMax: 0,
+          xMin: 0
+        }
+      })
     },
     onPageEnter (v, done) {
       this.pageFadeIn(v, done)

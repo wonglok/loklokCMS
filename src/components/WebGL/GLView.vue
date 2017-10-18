@@ -99,21 +99,14 @@ export default {
         tmData: false,
         onTS: (evt) => {
           evt.preventDefault()
-          ev.tsData = { type: 'click', isIn: true, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect }
+          this.setMouse({ type: 'click', isIn: true, touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
           this.setMouse({ type: 'ts', isIn: true, touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
         },
         onTM: (evt) => {
           evt.preventDefault()
-          ev.tmData = { type: 'click', isIn: true, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect }
           this.setMouse({ type: 'tm', touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
         },
         onTE: (evt) => {
-          var deltaX = Math.abs(ev.tsData.pageX - ev.tmData.pageX)
-          var deltaY = Math.abs(ev.tsData.pageY - ev.tmData.pageY)
-          var totalDetal = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
-          if (totalDetal < 10) {
-            this.setMouse(ev.tsData)
-          }
           this.setMouse({ type: 'te', isIn: false })
         },
         onMV: (evt) => {
@@ -131,6 +124,9 @@ export default {
         },
         onCL: (evt) => {
           this.setMouse({ type: 'click', pageX: evt.pageX, pageY: evt.pageY, rect: this.rect })
+        },
+        onWHL: (evt) => {
+          this.setMouse({ type: 'wheel', deltaX: evt.deltaX, deltaY: evt.deltaY })
         }
       }
       ev.resizer()
@@ -145,6 +141,7 @@ export default {
       container.addEventListener('mousemove', ev.onMV, false)
 
       container.addEventListener('click', ev.onCL, false)
+      container.addEventListener('wheel', ev.onWHL, false)
 
       container.addEventListener('touchstart', ev.onTS, false)
       container.addEventListener('touchmove', ev.onTM, false)
@@ -158,6 +155,7 @@ export default {
         container.removeEventListener('mousemove', ev.onMV)
 
         container.removeEventListener('click', ev.onCL)
+        container.removeEventListener('wheel', ev.onWHL)
 
         container.removeEventListener('touchstart', ev.onTS)
         container.removeEventListener('touchmove', ev.onTM)

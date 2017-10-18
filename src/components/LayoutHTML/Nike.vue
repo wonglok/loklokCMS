@@ -64,6 +64,20 @@ export default {
 </script>
 
 <style scoped>
+
+@font-face {
+  font-family: DINCond-Regular;
+  src: url("../NikeWebGL/Fonts/DinCondense/regular.otf") format("opentype");
+}
+@font-face {
+  font-family: DINCond-Medium;
+  src: url("../NikeWebGL/Fonts/DinCondense/medium.otf") format("opentype");
+}
+@font-face {
+  font-family: Futura-CondensedMedium;
+  src: url("../NikeWebGL/Fonts/Futura/condensed-medium.ttf") format("truetype");
+}
+
 .full{
   width: 100%;
   height: 100%;
@@ -89,6 +103,7 @@ export default {
   align-items: baseline;
 }
 .maxer{
+  font-family: DINCond-Regular;
   width: 100%;
   height: 100%;
   max-width: 414px;
@@ -97,6 +112,7 @@ export default {
   position: relative;
 }
 .maxer2{
+  font-family: DINCond-Medium;
   width: 100%;
   height: 100%;
   max-width: 375px;

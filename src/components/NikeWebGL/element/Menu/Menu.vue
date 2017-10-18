@@ -34,7 +34,7 @@
         />
         <Mesh
           ref="nav-red-line"
-          :position="{ x: 0, y: -3.3, z: 0 }">
+          :position="{ x: 0, y: -3.3, z: 0.3 }">
           <PlaneGeometry :width="55" :height="0.2"  />
           <MeshBasicMaterial :opacity="1" :color="0xee3932" />
         </Mesh>
