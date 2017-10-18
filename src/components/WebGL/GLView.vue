@@ -97,9 +97,14 @@ export default {
         },
         tsData: false,
         tmData: false,
+        emitClick: false,
         onTS: (evt) => {
           evt.preventDefault()
-          this.setMouse({ type: 'click', isIn: true, touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
+          ev.tsData = { type: 'click', isIn: true, touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect }
+          ev.emitClick = true
+          setTimeout(() => {
+            ev.emitClick = false
+          }, 300)
           this.setMouse({ type: 'ts', isIn: true, touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
         },
         onTM: (evt) => {
@@ -107,6 +112,10 @@ export default {
           this.setMouse({ type: 'tm', touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
         },
         onTE: (evt) => {
+          if (ev.emitClick) {
+            ev.emitClick = false
+            this.setMouse(ev.tsData)
+          }
           this.setMouse({ type: 'te', isIn: false })
         },
         onMV: (evt) => {
