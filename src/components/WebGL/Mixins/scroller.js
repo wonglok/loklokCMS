@@ -41,6 +41,7 @@ export default {
           }
         }
       })
+      this.scrollerState.bound = bound
       this.scrollStack.scrollMe = this.scrollMe
       this.scrollerTarget = target
       if (this.scrollerState.enable) {
@@ -56,8 +57,6 @@ export default {
           this.scrollerTarget.object3d.position.x += this.scrollerState.dX
           this.scrollerState.dX *= 0.954321
         }
-
-        this.scrollerPY({ bound: bound || this.bound })
 
         this.srAFID = window.requestAnimationFrame(rAF)
       }
@@ -75,7 +74,12 @@ export default {
             .to({ x: 0, y: bound.yMax, z: 0 }, 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onUpdate(() => {
+              this.scrollerState.tween.scrollerPYLoading = true
               this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
+            })
+            .onComplete(() => {
+              this.scrollerState.tween.scrollerPYLoading = false
+              this.scrollerState.tween.scrollerPY = false
             })
             .start()
         }
@@ -86,7 +90,12 @@ export default {
             .to({ x: 0, y: bound.yMin, z: 0 }, 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onUpdate(() => {
+              this.scrollerState.tween.scrollerPYLoading = true
               this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
+            })
+            .onComplete(() => {
+              this.scrollerState.tween.scrollerPYLoading = false
+              this.scrollerState.tween.scrollerPY = false
             })
             .start()
         }
@@ -133,9 +142,11 @@ export default {
 
       this.scrollerState.dX *= 0.1
       this.scrollerState.dY *= 0.1
+
+      this.scrollerPY({ bound: this.scrollerState.bound })
     },
     scrollerTouchEnd () {
-
+      this.scrollerPY({ bound: this.scrollerState.bound })
     },
     cleanupScroller () {
       this.$emit('setMouse', () => {
