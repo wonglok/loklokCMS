@@ -111,7 +111,7 @@ export default {
       target: this.$refs['page-content'],
       enable: { x: false, y: true },
       bound: {
-        yMax: 55 * this.aspect,
+        yMax: 65 * this.aspect,
         yMin: 0,
         xMax: 0,
         xMin: 0

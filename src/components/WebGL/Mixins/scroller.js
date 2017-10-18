@@ -50,9 +50,11 @@ export default {
 
       var rAF = () => {
         if (this.scrollerState.enable.y) {
-          this.scrollerTarget.object3d.position.y -= this.scrollerState.dY
-          this.scrollerState.dY *= 0.954321
-          this.scrollerPY({ bound: this.scrollerState.bound })
+          var ans = this.scrollerPYFast({ bound: this.scrollerState.bound })
+          if (ans !== 'up' || ans !== 'down') {
+            this.scrollerTarget.object3d.position.y -= this.scrollerState.dY
+            this.scrollerState.dY *= 0.954321
+          }
         }
         if (this.scrollerState.enable.x) {
           this.scrollerTarget.object3d.position.x += this.scrollerState.dX
@@ -62,11 +64,30 @@ export default {
       }
       this.srAFID = window.requestAnimationFrame(rAF)
     },
-    scrollerPY ({ bound }) {
+    scrollerPYStopper () {
       if (this.scrollerTarget) {
         if (this.scrollerState.tween.scrollerPY) {
           this.scrollerState.tween.scrollerPY.stop()
         }
+      }
+    },
+    scrollerPYFast ({ bound }) {
+      if (this.scrollerTarget) {
+        if (this.scrollerTarget.object3d.position.y > bound.yMax) {
+          let varying = { ...this.scrollerTarget.object3d.position }
+          varying.y -= (varying.y - bound.yMax) * 0.24
+          this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
+        }
+        if (this.scrollerTarget.object3d.position.y < bound.yMin) {
+          let varying = { ...this.scrollerTarget.object3d.position }
+          varying.y -= (varying.y - bound.yMin) * 0.24
+          this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
+        }
+      }
+    },
+    scrollerPY ({ bound }) {
+      if (this.scrollerTarget) {
+        this.scrollerPYStopper()
         if (this.scrollerTarget.object3d.position.y > bound.yMax) {
           let varying = { ...this.scrollerTarget.object3d.position }
           this.scrollerState.tween.scrollerPY = new TWEEN
@@ -74,12 +95,11 @@ export default {
             .to({ x: 0, y: bound.yMax, z: 0 }, 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onUpdate(() => {
-              this.scrollerState.tween.scrollerPYLoading = true
               this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
             })
+            .onStop(() => {
+            })
             .onComplete(() => {
-              this.scrollerState.tween.scrollerPYLoading = false
-              this.scrollerState.tween.scrollerPY = false
             })
             .start()
         }
@@ -90,12 +110,11 @@ export default {
             .to({ x: 0, y: bound.yMin, z: 0 }, 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onUpdate(() => {
-              this.scrollerState.tween.scrollerPYLoading = true
               this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
             })
+            .onStop(() => {
+            })
             .onComplete(() => {
-              this.scrollerState.tween.scrollerPYLoading = false
-              this.scrollerState.tween.scrollerPY = false
             })
             .start()
         }
