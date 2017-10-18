@@ -24,12 +24,12 @@
           :link="require('./img/result/coupon-box-text.png')"
         />
         <ImageMesh
-          :gclick="() => {  }"
+          :gclick="() => { $router.push({ path: '/nike/game/rules' }) }"
           vms="@play@result@coupon-box-btn-rule"
           :link="require('./img/result/coupon-box-btn-rule.png')"
         />
         <ImageMesh
-          :gclick="() => {  }"
+          :gclick="() => { go('https://nike.com/justdoit') }"
           vms="@play@result@coupon-box-btn-nike"
           :link="require('./img/result/coupon-box-btn-nike.png')"
         />
@@ -116,6 +116,9 @@ export default {
     this.$emit('exec', () => {})
   },
   methods: {
+    go (location) {
+      window.location.assign(location)
+    },
     startApp () {
       if (this.$refs['number-counter']) {
         this.$refs['number-counter'].draw()
