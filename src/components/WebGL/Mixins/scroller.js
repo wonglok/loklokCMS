@@ -121,6 +121,7 @@ export default {
       this.scrollerState.status = 'ts'
       this.scrollerState.tsX = pageX - rect.left
       this.scrollerState.tsY = pageY - rect.top
+      this.scrollerPY({ bound: this.scrollerState.bound })
     },
     scrollerTouchMove ({ pageX, pageY, rect }) {
       this.scrollerState.status = 'tm'
