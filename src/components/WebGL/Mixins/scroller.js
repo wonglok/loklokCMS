@@ -52,12 +52,12 @@ export default {
         if (this.scrollerState.enable.y) {
           this.scrollerTarget.object3d.position.y -= this.scrollerState.dY
           this.scrollerState.dY *= 0.954321
+          this.scrollerPY({ bound: this.scrollerState.bound })
         }
         if (this.scrollerState.enable.x) {
           this.scrollerTarget.object3d.position.x += this.scrollerState.dX
           this.scrollerState.dX *= 0.954321
         }
-
         this.srAFID = window.requestAnimationFrame(rAF)
       }
       this.srAFID = window.requestAnimationFrame(rAF)
@@ -121,7 +121,6 @@ export default {
       this.scrollerState.status = 'ts'
       this.scrollerState.tsX = pageX - rect.left
       this.scrollerState.tsY = pageY - rect.top
-      this.scrollerPY({ bound: this.scrollerState.bound })
     },
     scrollerTouchMove ({ pageX, pageY, rect }) {
       this.scrollerState.status = 'tm'
@@ -143,11 +142,9 @@ export default {
 
       this.scrollerState.dX *= 0.1
       this.scrollerState.dY *= 0.1
-
-      this.scrollerPY({ bound: this.scrollerState.bound })
     },
     scrollerTouchEnd () {
-      this.scrollerPY({ bound: this.scrollerState.bound })
+
     },
     cleanupScroller () {
       this.$emit('setMouse', () => {
