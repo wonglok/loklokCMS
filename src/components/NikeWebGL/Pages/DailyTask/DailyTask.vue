@@ -6,62 +6,36 @@
     <keep-alive>
       <Object3D ref="page-content">
         <ImageMesh
-          vms="@status@checkstatus@my-records"
           :gclick="() => {  }"
-          :link="require('./img/checkstatus/my-records.png')"
+          vms="@daily-task@top@title"
+          :link="require('./img/top/title.png')"
         />
         <ImageMesh
-          vms="@status@checkstatus@j5"
           :gclick="() => {  }"
-          :link="require('./img/checkstatus/j5.png')"
+          vms="@daily-task@task@daily-task"
+          :link="require('./img/task/daily-task.png')"
         />
         <ImageMesh
-          vms="@status@checkstatus@j7"
           :gclick="() => {  }"
-          :link="require('./img/checkstatus/j7.png')"
+          vms="@daily-task@slider@arrow-btn"
+          :link="require('./img/slider/arrow-btn.png')"
         />
         <ImageMesh
-          vms="@status@checkstatus@j9"
+          :visible="!slider.redeemed"
           :gclick="() => {  }"
-          :link="require('./img/checkstatus/j9.png')"
+          vms="@daily-task@slider@staff-only"
+          :link="require('./img/slider/staff-only.png')"
+        />
+        <ImageMesh
+          :visible="slider.redeemed"
+          :gclick="() => {  }"
+          vms="@daily-task@slider@redeemed"
+          :link="require('./img/slider/redeemed.png')"
         />
 
-        <ImageMesh
-          vms="@status@checkstatus@btn-rule"
-          :gclick="() => {  }"
-          :link="require('./img/checkstatus/btn-rule.png')"
-        />
-
-        <ImageMesh
-          vms="@status@checkstatus@btn-nike"
-          :gclick="() => {  }"
-          :link="require('./img/checkstatus/btn-nike.png')"
-        />
-
-        <ImageMesh
-          vms="@status@checkstatus@btn-nike"
-          :gclick="() => {  }"
-          :link="require('./img/checkstatus/btn-nike.png')"
-        />
-
-        <ImageMesh
-          vms="@status@checkstatus@rules-text"
-          :gclick="() => {  }"
-          :link="require('./img/checkstatus/rules-text.png')"
-        />
         <GrungeMesh
-          vms="@status@grunge@coupon-box-j5"
-          @exec="(v) => { execStack.j5 = v }"
-          :gclick="() => {  }"
-        />
-        <GrungeMesh
-          vms="@status@grunge@coupon-box-j7"
-          @exec="(v) => { execStack.j7 = v }"
-          :gclick="() => {  }"
-        />
-        <GrungeMesh
-          vms="@status@grunge@coupon-box-j9"
-          @exec="(v) => { execStack.j9 = v }"
+          vms="@daily-task@grunge@slider"
+          @exec="(v) => { execStack.slider = v }"
           :gclick="() => {  }"
         />
 
@@ -76,7 +50,7 @@ import scroller from '@/components/WebGL/Mixins/scroller'
 
 import Bundle from '@/components/WebGL/Bundle'
 export default {
-  name: 'Status',
+  name: 'DailyTask',
   mixins: [fadeInOut, scroller],
   components: {
     ...Bundle
@@ -84,6 +58,10 @@ export default {
   props: ['aspect'],
   data () {
     return {
+      slider: {
+        redeemed: false,
+        sliderX: false
+      },
       mouseStack: {},
       execStack: {},
       tweening: false
@@ -110,7 +88,7 @@ export default {
       target: this.$refs['page-content'],
       enable: { x: false, y: true },
       bound: {
-        yMax: 65,
+        yMax: 15,
         yMin: 0,
         xMax: 0,
         xMin: 0

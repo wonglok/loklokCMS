@@ -65,7 +65,7 @@
           :link="require('./img/result/share-box.png')"
         />
         <ImageMesh
-          :gclick="() => {  }"
+          :gclick="() => { $router.push({ path: '/nike/game/daily-task' }) }"
           vms="@play@result@daily-task-box"
           :link="require('./img/result/daily-task-box.png')"
         />
@@ -135,7 +135,7 @@ export default {
         target: this.$refs['sub-page-content'],
         enable: { x: false, y: true },
         bound: {
-          yMax: 39 * this.aspect,
+          yMax: 30,
           yMin: 0,
           xMax: 0,
           xMin: 0

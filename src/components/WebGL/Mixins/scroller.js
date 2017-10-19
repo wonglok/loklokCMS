@@ -21,7 +21,7 @@ export default {
           scrollerPX: false
         },
         bound: {
-          yMax: 30,
+          yMax: 0,
           yMin: 0,
           xMax: 0,
           xMin: 0
@@ -50,11 +50,9 @@ export default {
 
       var rAF = () => {
         if (this.scrollerState.enable.y) {
-          var ans = this.scrollerPYFast({ bound: this.scrollerState.bound })
-          if (ans !== 'up' || ans !== 'down') {
-            this.scrollerTarget.object3d.position.y -= this.scrollerState.dY
-            this.scrollerState.dY *= 0.954321
-          }
+          this.scrollerTarget.object3d.position.y -= this.scrollerState.dY
+          this.scrollerState.dY *= 0.954321
+          this.scrollerPYFast({ bound: this.scrollerState.bound })
         }
         if (this.scrollerState.enable.x) {
           this.scrollerTarget.object3d.position.x += this.scrollerState.dX

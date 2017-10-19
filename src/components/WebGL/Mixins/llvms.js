@@ -32,15 +32,15 @@ export function getTemplate ({ name, data }) {
       x: 0.0,
       x_formula: 'x * aspect',
       y: 0.0,
-      y_formula: 'y',
+      y_formula: '-y * aspect + top - (meshHeight * scaleY) * 0.5 + 50 * scaleY * 0',
       z: 0.0,
       z_formula: 'z'
     },
     scale: {
       x: 1 / 2,
-      x_formula: '1 / 2',
+      x_formula: 'aspect',
       y: 1 / 2,
-      y_formula: '1 / 2',
+      y_formula: 'aspect',
       z: 1.0,
       z_formula: '1.0'
     },

@@ -23,6 +23,7 @@ import PlayRecord from '@/components/NikeWebGL/Pages/Play/Record'
 import PlayResult from '@/components/NikeWebGL/Pages/Play/Result'
 
 import Rules from '@/components/NikeWebGL/Pages/Rules/Rules'
+import DailyTask from '@/components/NikeWebGL/Pages/DailyTask/DailyTask'
 import Status from '@/components/NikeWebGL/Pages/Status/Status'
 import Login from '@/components/NikeWebGL/Pages/Login/Login'
 
@@ -81,6 +82,10 @@ var nikeGame = [
       {
         path: 'comic-detail',
         component: ComicDetail
+      },
+      {
+        path: 'daily-task',
+        component: DailyTask
       },
       {
         path: 'login',
