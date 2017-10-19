@@ -1,8 +1,8 @@
-import TWEEN from '@tweenjs/tween.js'
+// import TWEEN from '@tweenjs/tween.js'
 export default {
   data () {
     return {
-      TWEEN,
+      // TWEEN,
       scrollerTarget: false,
       scrollStack: {},
       srAFID: 0,
@@ -64,13 +64,6 @@ export default {
       }
       this.srAFID = window.requestAnimationFrame(rAF)
     },
-    scrollerPYStopper () {
-      if (this.scrollerTarget) {
-        if (this.scrollerState.tween.scrollerPY) {
-          this.scrollerState.tween.scrollerPY.stop()
-        }
-      }
-    },
     scrollerPYFast ({ bound }) {
       if (this.scrollerTarget) {
         if (this.scrollerTarget.object3d.position.y > bound.yMax) {
@@ -82,41 +75,6 @@ export default {
           let varying = { ...this.scrollerTarget.object3d.position }
           varying.y -= (varying.y - bound.yMin) * 0.24
           this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
-        }
-      }
-    },
-    scrollerPY ({ bound }) {
-      if (this.scrollerTarget) {
-        this.scrollerPYStopper()
-        if (this.scrollerTarget.object3d.position.y > bound.yMax) {
-          let varying = { ...this.scrollerTarget.object3d.position }
-          this.scrollerState.tween.scrollerPY = new TWEEN
-            .Tween(varying)
-            .to({ x: 0, y: bound.yMax, z: 0 }, 1000)
-            .easing(TWEEN.Easing.Quadratic.Out)
-            .onUpdate(() => {
-              this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
-            })
-            .onStop(() => {
-            })
-            .onComplete(() => {
-            })
-            .start()
-        }
-        if (this.scrollerTarget.object3d.position.y < bound.yMin) {
-          let varying = { ...this.scrollerTarget.object3d.position }
-          this.scrollerState.tween.scrollerPY = new TWEEN
-            .Tween(varying)
-            .to({ x: 0, y: bound.yMin, z: 0 }, 1000)
-            .easing(TWEEN.Easing.Quadratic.Out)
-            .onUpdate(() => {
-              this.scrollerTarget.object3d.position.set(varying.x, varying.y, varying.z)
-            })
-            .onStop(() => {
-            })
-            .onComplete(() => {
-            })
-            .start()
         }
       }
     },

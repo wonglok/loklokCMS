@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     makeGeo () {
-      this.geometry = new THREE.PlaneBufferGeometry(this.width || 1.0, this.height || 1.0, this.wseg || 2.0, this.hseg || 2.0)
+      this.geometry = new THREE.PlaneBufferGeometry(this.width || 1.0, this.height || 1.0, this.wseg || 20.0, this.hseg || 20.0)
       if (this.translate) {
         let x = this.translate.x
         // if (typeof this.translate.x === 'function') {

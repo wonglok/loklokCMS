@@ -49,7 +49,6 @@
           :gclick="() => {  }"
           :link="require('./img/checkstatus/rules-text.png')"
         />
-
         <GrungeMesh
           vms="@status@grunge@coupon-box-j5"
           @exec="(v) => { execStack.j5 = v }"
