@@ -9,28 +9,28 @@
         <Object3D ref="comics-content">
           <ImageMesh
             ref="s-1"
-            :gTS="onGTS"
+
             :visible="isAtPage(1)"
             vms="@comic-detail@comics@s-1"
             :link="require('./img/comics/s-1.jpg')"
           />
           <ImageMesh
             ref="s-2"
-            :gTS="onGTS"
+
             :visible="isAtPage(2)"
             vms="@comic-detail@comics@s-2"
             :link="require('./img/comics/s-2.jpg')"
           />
           <ImageMesh
             ref="s-3"
-            :gTS="onGTS"
+
             :visible="isAtPage(3)"
             vms="@comic-detail@comics@s-3"
             :link="require('./img/comics/s-3.jpg')"
           />
           <ImageMesh
             ref="s-4"
-            :gTS="onGTS"
+
             :visible="isAtPage(4)"
             vms="@comic-detail@comics@s-4"
             :link="require('./img/comics/s-4.jpg')"
@@ -166,16 +166,21 @@ export default {
       }
     })
     this.$emit('setMouse', (args) => {
+      // this.mouseStack.scroller(args)
+      // this.mouseStack.comics(args)
       for (var name in this.mouseStack) {
         let exec = this.mouseStack[name]
         if (exec) {
+          // console.log(this.mouseStack)
           exec(args)
         }
       }
     })
 
     this.mouseStack.scroller = (args) => {
-      this.scrollEntry(args)
+      if (!this.comics.isDraggin || Math.abs(this.comics.state.aY) > 3.0) {
+        this.scrollEntry(args)
+      }
     }
 
     this.rAF = () => {
@@ -184,10 +189,31 @@ export default {
 
       pos.x += this.comics.state.dX
 
-      this.comics.state.aX += this.comics.state.dX
-      this.comics.state.aY += this.comics.state.dY
-      this.comics.state.dX *= 0.96
-      this.comics.state.dY *= 0.96
+      var needReset = false
+      if (pos.x > 0) {
+        let goal = -pos.x
+        pos.x = pos.x + goal
+        needReset = true
+      }
+      var currentComic = this.getCurrentComic()
+      if (currentComic && currentComic.vmsObj) {
+        var info = currentComic.readRectInfo
+        if (pos.x < -(info.meshWidth * info.aspect - info.screenWidth)) {
+          let goal = Math.abs(pos.x + (info.meshWidth * info.aspect - info.screenWidth))
+          pos.x = pos.x + goal
+          needReset = true
+        }
+      }
+
+      if (!needReset) {
+        this.comics.state.aX += this.comics.state.dX
+        this.comics.state.aY += this.comics.state.dY
+        this.comics.state.dX *= 0.96
+        this.comics.state.dY *= 0.96
+      } else {
+        this.comics.state.dX = 0
+        this.comics.state.dY = 0
+      }
     }
     this.rAFID = window.requestAnimationFrame(this.rAF)
 
@@ -208,6 +234,8 @@ export default {
   },
   deactivated () {
     this.cleanupScroller()
+    this.mouseStack = {}
+    this.execStack = {}
   },
   methods: {
     eventHandler (args) {
@@ -223,14 +251,18 @@ export default {
           break
       }
     },
-    onGTS (v) {
-      console.log(v)
-      this.comics.found = v
-      this.comics.isDraggin = true
-    },
+    // onGTS (v) {
+    //   console.log(v)
+    //   this.comics.found = v
+    //   this.comics.isDraggin = true
+    // },
     onTS ({ pageX, pageY, rect }) {
       var raycaster = this.getRayCaster()
-      raycaster.run = true
+      // raycaster.run = true
+      this.comics.found = raycaster.raycastNow()
+      if (this.comics.found.found[0] && this.comics.found.found[0].object.userData.$component.vms.indexOf('@comic-detail@comics@s-') === 0) {
+        this.comics.isDraggin = true
+      }
 
       this.comics.state.status = 'ts'
       this.comics.state.tsX = pageX - rect.left
@@ -254,24 +286,27 @@ export default {
     onTE () {
       this.comics.isDraggin = false
       // if (this.comics.state.tweening) { return }
-      // var pos = this.$refs['comics-content'].object3d.position
-      // var to = {}
+      // var to = { x: pos.x }
       // // var to = { x: pos.x - this.comics.state.aX }
       // // if (Math.abs(pos.x - this.comics.state.originalX) > (-this.comics.state.originalX * 2 * 0.75)) {
       // //   to = { x: -this.comics.state.originalX }
       // // }
 
-      // this.comics.state.tweening = true
-      // var tween = new TWEEN.Tween(pos)
+      // if (needReset) {
+      //   this.comics.state.tweening = true
+      //   var tween = new TWEEN.Tween(pos)
       //   .to(to, 1000)
       //   .onUpdate(() => {
-      //     // this.comics.state.dX = 0
-      //     // this.comics.state.aX = 0
+      //     this.comics.state.aX = 0
+      //     this.comics.state.aY = 0
+      //     this.comics.state.dX = 0
+      //     this.comics.state.dY = 0
       //   })
       //   .onComplete(() => {
       //     this.comics.state.tweening = false
       //   })
-      // tween.start()
+      //   tween.start()
+      // }
     },
     getCurrentComic () {
       return this.$refs['s-' + this.$route.params.id]

@@ -40,9 +40,9 @@ export default {
       this.$emit('setMouse', this.scrollEntry)
     },
     setupScroller ({ target, enable, bound }) {
-      if (!this.mouseStack) {
-        this.$emit('setMouse', this.scrollEntry)
-      }
+      // if (!this.mouseStack) {
+      //   this.$emit('setMouse', this.scrollEntry)
+      // }
 
       this.scrollerState.bound = bound
       this.scrollStack.scrollMe = this.scrollMe

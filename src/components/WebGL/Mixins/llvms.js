@@ -240,6 +240,10 @@ export const llvmsMesh = {
         }
       }
     },
+    readRectInfo () {
+      var rectInfo = this.__llvms__getRect({ vms: this.vmsObj })
+      return rectInfo
+    },
     __llvms__readyStyles () {
       if (this.__styleContainer) {
         return this.__styleContainer.ready

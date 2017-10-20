@@ -79,13 +79,13 @@ export default {
       }
     },
     raycast () {
-      if (this.run && !this.glSystem.isBusy) {
+      if (this.run) {
         this.run = false
-        this.glSystem.busy = true
+        // this.glSystem.busy = true
         var result = this.finder()
-        if (typeof result[0] === 'undefined') {
-          this.glSystem.busy = false
-        }
+        // if (typeof result[0] === 'undefined') {
+        //   this.glSystem.busy = false
+        // }
         this.$emit('glClick', { mouse: this.mouse, found: result })
         this.$emit('glTouchStart', { mouse: this.mouse, found: result })
       }

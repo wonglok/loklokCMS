@@ -7,7 +7,7 @@ export const glSystem = {
       clearTimeout(glSystem._busy_timer)
       glSystem._busy_timer = setTimeout(() => {
         glSystem._busy = false
-      }, 1000)
+      }, 100)
     } else {
       glSystem._busy = false
     }

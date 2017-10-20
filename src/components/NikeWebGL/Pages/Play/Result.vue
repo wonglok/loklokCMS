@@ -141,6 +141,7 @@ export default {
           xMin: 0
         }
       })
+      this.emitHandler()
     },
     onPageEnter (v, done) {
       this.pageFadeIn(v, done)
