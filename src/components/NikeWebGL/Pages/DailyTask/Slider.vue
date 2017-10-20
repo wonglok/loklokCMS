@@ -115,6 +115,9 @@ export default {
       this.slider.isDraggin = true
     },
     onTS ({ pageX, pageY, rect }) {
+      if (this.slider.redeemed) {
+        return
+      }
       if (!this.slider.state.tweening) {
         this.slider.state.originalX = this.$refs['slider-handle'].mesh.position.x
       }
@@ -136,8 +139,8 @@ export default {
       this.slider.state.tsX = pageX - rect.left
       this.slider.state.tsY = pageY - rect.top
 
-      this.slider.state.dX *= 0.1
-      this.slider.state.dY *= 0.1
+      this.slider.state.dX *= 0.5
+      this.slider.state.dY *= 0.5
     },
     onTE () {
       this.slider.isDraggin = false
