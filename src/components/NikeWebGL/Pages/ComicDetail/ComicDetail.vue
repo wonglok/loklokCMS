@@ -9,28 +9,24 @@
         <Object3D ref="comics-content">
           <ImageMesh
             ref="s-1"
-
             :visible="isAtPage(1)"
             vms="@comic-detail@comics@s-1"
             :link="require('./img/comics/s-1.jpg')"
           />
           <ImageMesh
             ref="s-2"
-
             :visible="isAtPage(2)"
             vms="@comic-detail@comics@s-2"
             :link="require('./img/comics/s-2.jpg')"
           />
           <ImageMesh
             ref="s-3"
-
             :visible="isAtPage(3)"
             vms="@comic-detail@comics@s-3"
             :link="require('./img/comics/s-3.jpg')"
           />
           <ImageMesh
             ref="s-4"
-
             :visible="isAtPage(4)"
             vms="@comic-detail@comics@s-4"
             :link="require('./img/comics/s-4.jpg')"
@@ -157,6 +153,8 @@ export default {
     }
   },
   activated () {
+    this.$refs['comics-content']
+
     this.$emit('exec', () => {
       for (var execItem in this.execStack) {
         let exec = this.execStack[execItem]

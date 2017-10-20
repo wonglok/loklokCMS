@@ -114,6 +114,10 @@ export default {
         this.$refs['page-content'].object3d.children.forEach(updater)
       }
 
+      if (this.$refs['comics-content']) {
+        this.$refs['comics-content'].object3d.children.forEach(updater)
+      }
+
       if (this.$refs['sub-page-content'] && this.$refs['sub-page-content'].object3d) {
         this.$refs['sub-page-content'].object3d.children.forEach(updater)
       }
@@ -156,6 +160,10 @@ export default {
       if (this.$refs['page-content']) {
         // this.__add(this.$refs['page-content'].object3d)
         this.$refs['page-content'].object3d.children.forEach(updater)
+      }
+
+      if (this.$refs['comics-content']) {
+        this.$refs['comics-content'].object3d.children.forEach(updater)
       }
 
       if (this.$refs['sub-page-content'] && this.$refs['sub-page-content'].object3d) {
