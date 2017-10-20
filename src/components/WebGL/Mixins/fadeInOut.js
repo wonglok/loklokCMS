@@ -80,7 +80,7 @@ export default {
       var updater = (mesh) => {
         // mesh.visible = true
         // done()
-        if (mesh) {
+        if (mesh && mesh.material) {
           if (mesh.userData.$component) {
             mesh.visible = mesh.userData.$component.visible
           } else {
@@ -104,6 +104,9 @@ export default {
             }
             this.tweening = false
           }, this.mesh)
+        } else {
+          mesh.visible = true
+          done()
         }
       }
       if (this.$refs['page-content']) {
@@ -121,7 +124,7 @@ export default {
     },
     pageFadeOut (el, done) {
       var updater = (mesh) => {
-        if (mesh) {
+        if (mesh && mesh.material) {
           // mesh.visible = false
           // done()
           if (mesh.material.uniforms) {
@@ -145,6 +148,9 @@ export default {
             this.tweening = false
             // this.__remove(this.$refs['page-content'].object3d)
           }, this.mesh)
+        } else {
+          mesh.visible = false
+          done()
         }
       }
       if (this.$refs['page-content']) {

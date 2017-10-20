@@ -5,38 +5,22 @@
     >
     <keep-alive>
       <Object3D ref="page-content">
+
         <ImageMesh
           :gclick="() => {  }"
           vms="@daily-task@top@title"
           :link="require('./img/top/title.png')"
         />
+
         <ImageMesh
           :gclick="() => {  }"
           vms="@daily-task@task@daily-task"
           :link="require('./img/task/daily-task.png')"
         />
-        <ImageMesh
-          :gclick="() => {  }"
-          vms="@daily-task@slider@arrow-btn"
-          :link="require('./img/slider/arrow-btn.png')"
-        />
-        <ImageMesh
-          :visible="!slider.redeemed"
-          :gclick="() => {  }"
-          vms="@daily-task@slider@staff-only"
-          :link="require('./img/slider/staff-only.png')"
-        />
-        <ImageMesh
-          :visible="slider.redeemed"
-          :gclick="() => {  }"
-          vms="@daily-task@slider@redeemed"
-          :link="require('./img/slider/redeemed.png')"
-        />
 
-        <GrungeMesh
-          vms="@daily-task@grunge@slider"
+        <Slider
           @exec="(v) => { execStack.slider = v }"
-          :gclick="() => {  }"
+          @setMouse="(v) => { mouseStack.slider = v }"
         />
 
       </Object3D>
@@ -49,19 +33,17 @@ import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import scroller from '@/components/WebGL/Mixins/scroller'
 
 import Bundle from '@/components/WebGL/Bundle'
+import Slider from '@/components/NikeWebGL/Pages/DailyTask/Slider'
 export default {
   name: 'DailyTask',
   mixins: [fadeInOut, scroller],
   components: {
-    ...Bundle
+    ...Bundle,
+    Slider
   },
-  props: ['aspect'],
+  props: ['aspect', 'raycaster'],
   data () {
     return {
-      slider: {
-        redeemed: false,
-        sliderX: false
-      },
       mouseStack: {},
       execStack: {},
       tweening: false
@@ -84,6 +66,10 @@ export default {
         }
       }
     })
+    this.mouseStack.scroller = (args) => {
+      this.scrollEntry(args)
+    }
+
     this.setupScroller({
       target: this.$refs['page-content'],
       enable: { x: false, y: true },

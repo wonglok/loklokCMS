@@ -91,6 +91,7 @@ export default {
         }
       }
     })
+
     this.$emit('setMouse', (args) => {
       for (var name in this.mouseStack) {
         let exec = this.mouseStack[name]
@@ -99,6 +100,7 @@ export default {
         }
       }
     })
+
     this.setupScroller({
       target: this.$refs['page-content'],
       enable: { x: false, y: true },

@@ -21,6 +21,7 @@ export default {
   created () {
     this.raycaster = new THREE.Raycaster()
     this.mouse.isIn = false
+    this.$emit('raycaster', this)
     this.$emit('raycast', this.raycast)
     this.$emit('setMouse', this.setMouse)
     // this.$emit('finder', this.finder)
@@ -86,7 +87,12 @@ export default {
           this.glSystem.busy = false
         }
         this.$emit('glClick', { mouse: this.mouse, found: result })
+        this.$emit('glTouchStart', { mouse: this.mouse, found: result })
       }
+    },
+    raycastNow () {
+      var result = this.finder()
+      return { mouse: this.mouse, found: result }
     }
   }
 }

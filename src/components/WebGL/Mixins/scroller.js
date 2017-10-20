@@ -16,10 +16,6 @@ export default {
           x: false,
           y: true
         },
-        tween: {
-          scrollerPY: false,
-          scrollerPX: false
-        },
         bound: {
           yMax: 0,
           yMin: 0,
@@ -32,15 +28,19 @@ export default {
   computed: {
   },
   methods: {
-    setupScroller ({ target, enable, bound }) {
-      this.$emit('setMouse', (args) => {
-        for (var stackKey in this.scrollStack) {
-          let setMouse = this.scrollStack[stackKey]
-          if (setMouse) {
-            setMouse(args)
-          }
+    scrollEntry (args) {
+      for (var stackKey in this.scrollStack) {
+        let setMouse = this.scrollStack[stackKey]
+        if (setMouse) {
+          setMouse(args)
         }
-      })
+      }
+    },
+    setupScroller ({ target, enable, bound }) {
+      if (!this.mouseStack) {
+        this.$emit('setMouse', this.scrollEntry)
+      }
+
       this.scrollerState.bound = bound
       this.scrollStack.scrollMe = this.scrollMe
       this.scrollerTarget = target

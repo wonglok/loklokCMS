@@ -23,6 +23,7 @@
         @exec="(v) => { execStack.currentPage = v }"
         :aspect="aspect"
         :camera="camera"
+        :raycaster="raycaster"
       >
       </component>
     </keep-alive>
@@ -31,10 +32,12 @@
     v-if="camera && scene"
     :camera="camera"
     :scene="scene"
+    @raycaster="(v) => { raycaster = v; }"
     @raycast="(v) => { execStack.raycast = v; }"
     @setMouse="(v) => { mouseStack.raycaster = v; }"
     @hover="(v) => { hover = v }"
     @glClick="handleHit"
+    @glTouchStart="handleTouchStart"
   />
 </span>
 </template>
@@ -62,6 +65,7 @@ export default {
       execStack: {},
       camera: false,
       scene: false,
+      raycaster: false,
       setMouse: () => {},
       hover: () => { return [] },
       lastResult: []
@@ -108,25 +112,38 @@ export default {
     this.$emit('exec', () => {})
   },
   methods: {
-    alert ({ found }) {
-      this.fadeOutTween((v) => {
-        found.object.material.opacity = v
-      }, () => {
-        this.fadeInTween((v) => {
-          found.object.material.opacity = v
-        }, () => {
-        })
-      })
+    // alert ({ found }) {
+    //   this.fadeOutTween((v) => {
+    //     found.object.material.opacity = v
+    //   }, () => {
+    //     this.fadeInTween((v) => {
+    //       found.object.material.opacity = v
+    //     }, () => {
+    //     })
+    //   })
+    // },
+    handleTouchStart ({ mouse, found }) {
+      if (found[0]) {
+        // click handler
+        // useClick is for CMS
+        if (found[0].object.userData && found[0].object.userData.gTS) {
+          found[0].object.userData.gTS({ mouse, found: found[0] })
+        }
+        // this.$emit('glTouchStart', { mouse, found: found[0] })
+      }
     },
     handleHit ({ mouse, found }) {
       // console.log(found)
       if (found[0]) {
         // click handler
+        // useClick is for CMS
         if (this.appState.useClick) {
           if (found[0].object.userData && found[0].object.userData.gclick) {
             found[0].object.userData.gclick({ mouse, found: found[0] })
           }
         }
+
+        // for cms
         this.$emit('glClick', { mouse, found: found[0] })
       }
     },

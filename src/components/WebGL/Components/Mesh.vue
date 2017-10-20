@@ -7,6 +7,7 @@ export default {
   props: {
     'position': {},
     'gclick': {},
+    'gTS': {},
     'scale': {},
     'visible': {
       default: true
@@ -25,6 +26,9 @@ export default {
     this.mesh = new THREE.Mesh()
     if (this.gclick) {
       this.mesh.userData.gclick = this.gclick
+    }
+    if (this.gTS) {
+      this.mesh.userData.gTS = this.gTS
     }
     if (this.position) {
       this.mesh.position.set(this.position.x || 0, this.position.y || 0, this.position.z || 0)

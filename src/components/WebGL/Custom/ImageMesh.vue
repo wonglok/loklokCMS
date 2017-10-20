@@ -1,5 +1,5 @@
 <template>
-  <Mesh :visible="visible" :vms="vms" @mesh="(v) => { mesh = v; }" :position="finalPosition" :scale="finalScale" :gclick="gclick">
+  <Mesh :visible="visible" :vms="vms" @mesh="(v) => { mesh = v; }" :position="finalPosition" :scale="finalScale" :gclick="gclick" :gTS="gTS">
     <PlaneGeometry v-if="ready" :width="sWidth" :height="sHeight" :translate="finalTranslate" :scale="scale" />
     <MeshPictureMaterial :opacity="1" :color="0xffffff" :image="link" :blending="THREE.NormalBlending" />
   </Mesh>
@@ -20,6 +20,7 @@ export default {
     link: {},
     scale: {},
     gclick: {},
+    gTS: {},
     translate: {},
     vms: {},
     visible: {
