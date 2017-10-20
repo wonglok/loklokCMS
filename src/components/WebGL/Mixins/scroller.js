@@ -36,6 +36,9 @@ export default {
         }
       }
     },
+    emitHandler () {
+      this.$emit('setMouse', this.scrollEntry)
+    },
     setupScroller ({ target, enable, bound }) {
       if (!this.mouseStack) {
         this.$emit('setMouse', this.scrollEntry)

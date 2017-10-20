@@ -116,6 +116,7 @@ export default {
         xMin: 0
       }
     })
+    this.emitHandler()
   },
   deactivated () {
     this.cleanupScroller()
