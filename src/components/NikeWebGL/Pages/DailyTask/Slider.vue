@@ -139,8 +139,8 @@ export default {
       this.slider.state.tsX = pageX - rect.left
       this.slider.state.tsY = pageY - rect.top
 
-      this.slider.state.dX *= 0.5
-      this.slider.state.dY *= 0.5
+      this.slider.state.dX *= 0.2
+      this.slider.state.dY *= 0.2
     },
     onTE () {
       this.slider.isDraggin = false
