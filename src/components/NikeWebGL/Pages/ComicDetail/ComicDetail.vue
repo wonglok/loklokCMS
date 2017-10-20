@@ -5,34 +5,286 @@
     >
     <keep-alive>
       <Object3D ref="page-content">
+
+        <Object3D ref="comics-content">
+          <ImageMesh
+            ref="s-1"
+            :gTS="onGTS"
+            :visible="isAtPage(1)"
+            vms="@comic-detail@comics@s-1"
+            :link="require('./img/comics/s-1.jpg')"
+          />
+          <ImageMesh
+            ref="s-2"
+            :gTS="onGTS"
+            :visible="isAtPage(2)"
+            vms="@comic-detail@comics@s-2"
+            :link="require('./img/comics/s-2.jpg')"
+          />
+          <ImageMesh
+            ref="s-3"
+            :gTS="onGTS"
+            :visible="isAtPage(3)"
+            vms="@comic-detail@comics@s-3"
+            :link="require('./img/comics/s-3.jpg')"
+          />
+          <ImageMesh
+            ref="s-4"
+            :gTS="onGTS"
+            :visible="isAtPage(4)"
+            vms="@comic-detail@comics@s-4"
+            :link="require('./img/comics/s-4.jpg')"
+          />
+        </Object3D>
+
+
         <ImageMesh
-          d-gclick="() => {  }"
-          :position="{ x: 0, y: 20.0, z: -0.1 }"
-          :scale="{ x: 1 / 3 * 1.35, y: 1 / 3 * 1.35, z: 1.0 }"
-          :link="require('./img/bg/rex.png')"
+          :visible="!isAtPage(1)"
+          :gclick="() => { goComics('1') }"
+          vms="@comic-detail@link@l-1"
+          :link="require('../ComicList/img/link/l-1.png')"
         />
+        <ImageMesh
+          :visible="!isAtPage(2)"
+          :gclick="() => { goComics('2') }"
+          vms="@comic-detail@link@l-2"
+          :link="require('../ComicList/img/link/l-2.png')"
+        />
+        <ImageMesh
+          :visible="!isAtPage(3)"
+          :gclick="() => { goComics('3') }"
+          vms="@comic-detail@link@l-3"
+          :link="require('../ComicList/img/link/l-3.png')"
+        />
+        <ImageMesh
+          :visible="!isAtPage(4)"
+          :gclick="() => { goComics('4') }"
+          vms="@comic-detail@link@l-4"
+          :link="require('../ComicList/img/link/l-4.png')"
+        />
+
+        <ImageMesh
+          :visible="isAtPage(1)"
+          :gclick="() => { goComics('1') }"
+          vms="@comic-detail@active-link@l-1"
+          :link="require('./img/link-active/la-1.png')"
+        />
+        <ImageMesh
+          :visible="isAtPage(2)"
+          :gclick="() => { goComics('2') }"
+          vms="@comic-detail@active-link@l-2"
+          :link="require('./img/link-active/la-2.png')"
+        />
+        <ImageMesh
+          :visible="isAtPage(3)"
+          :gclick="() => { goComics('3') }"
+          vms="@comic-detail@active-link@l-3"
+          :link="require('./img/link-active/la-3.png')"
+        />
+        <ImageMesh
+          :visible="isAtPage(4)"
+          :gclick="() => { goComics('4') }"
+          vms="@comic-detail@active-link@l-4"
+          :link="require('./img/link-active/la-4.png')"
+        />
+        <ImageMesh
+          :gclick="() => {  }"
+          vms="@comic-detail@share@share"
+          :link="require('./img/share/share.png')"
+        />
+
+        <GrungeMesh
+          vms="@comic-detail@grunge@share-fb"
+          :gOpacity="0.9"
+          :color="0xefefef"
+          @exec="(v) => { execStack.grungeShareFB = v }"
+        />
+
       </Object3D>
     </keep-alive>
   </transition>
 </template>
 
 <script>
+import TWEEN from '@tweenjs/tween.js'
+
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 
 import Bundle from '@/components/WebGL/Bundle'
+import scroller from '@/components/WebGL/Mixins/scroller'
+
 export default {
-  name: 'Status',
-  mixins: [fadeInOut],
+  name: 'ComicList',
+  mixins: [fadeInOut, scroller],
   components: {
     ...Bundle
   },
   props: ['aspect'],
   data () {
     return {
-      tweening: false
+      TWEEN,
+      mouseStack: {},
+      execStack: {},
+      tweening: false,
+      raycaster: false,
+
+      rAFID: 0,
+      comics: {
+        defaultXPos: 0,
+        defaultYPos: 0,
+        isDraggin: false,
+        found: false,
+        state: {
+          status: 'ready',
+          tsX: 0,
+          tsY: 0,
+          dX: 0,
+          dY: 0,
+          aX: 0,
+          aY: 0
+        }
+      }
     }
   },
+  watch: {
+    // fullPath () {
+    //   this.$forceUpdate()
+    // }
+  },
+  computed: {
+    fullPath () {
+      return this.$router.currentRoute.fullPath
+    }
+  },
+  activated () {
+    this.$emit('exec', () => {
+      for (var execItem in this.execStack) {
+        let exec = this.execStack[execItem]
+        if (exec) {
+          exec()
+        }
+      }
+    })
+    this.$emit('setMouse', (args) => {
+      for (var name in this.mouseStack) {
+        let exec = this.mouseStack[name]
+        if (exec) {
+          exec(args)
+        }
+      }
+    })
+
+    this.mouseStack.scroller = (args) => {
+      this.scrollEntry(args)
+    }
+
+    this.rAF = () => {
+      this.rAFID = window.requestAnimationFrame(this.rAF)
+      var pos = this.$refs['comics-content'].object3d.position
+
+      pos.x += this.comics.state.dX
+
+      this.comics.state.aX += this.comics.state.dX
+      this.comics.state.aY += this.comics.state.dY
+      this.comics.state.dX *= 0.96
+      this.comics.state.dY *= 0.96
+    }
+    this.rAFID = window.requestAnimationFrame(this.rAF)
+
+    this.mouseStack.comics = (args) => {
+      this.eventHandler(args)
+    }
+
+    this.setupScroller({
+      target: this.$refs['page-content'],
+      enable: { x: false, y: true },
+      bound: {
+        yMax: 50,
+        yMin: 0,
+        xMax: 0,
+        xMin: 0
+      }
+    })
+  },
+  deactivated () {
+    this.cleanupScroller()
+  },
   methods: {
+    eventHandler (args) {
+      switch (args.type) {
+        case 'ts':
+          this.onTS(args)
+          break
+        case 'tm':
+          this.onTM(args)
+          break
+        case 'te':
+          this.onTE(args)
+          break
+      }
+    },
+    onGTS (v) {
+      console.log(v)
+      this.comics.found = v
+      this.comics.isDraggin = true
+    },
+    onTS ({ pageX, pageY, rect }) {
+      var raycaster = this.getRayCaster()
+      raycaster.run = true
+
+      this.comics.state.status = 'ts'
+      this.comics.state.tsX = pageX - rect.left
+      this.comics.state.tsY = pageY - rect.top
+    },
+    onTM ({ pageX, pageY, rect }) {
+      if (!this.comics.isDraggin) {
+        return
+      }
+      this.comics.state.status = 'tm'
+
+      this.comics.state.dX = pageX - rect.left - this.comics.state.tsX
+      this.comics.state.dY = pageY - rect.top - this.comics.state.tsY
+
+      this.comics.state.tsX = pageX - rect.left
+      this.comics.state.tsY = pageY - rect.top
+
+      this.comics.state.dX *= 0.14
+      this.comics.state.dY *= 0.14
+    },
+    onTE () {
+      this.comics.isDraggin = false
+      // if (this.comics.state.tweening) { return }
+      // var pos = this.$refs['comics-content'].object3d.position
+      // var to = {}
+      // // var to = { x: pos.x - this.comics.state.aX }
+      // // if (Math.abs(pos.x - this.comics.state.originalX) > (-this.comics.state.originalX * 2 * 0.75)) {
+      // //   to = { x: -this.comics.state.originalX }
+      // // }
+
+      // this.comics.state.tweening = true
+      // var tween = new TWEEN.Tween(pos)
+      //   .to(to, 1000)
+      //   .onUpdate(() => {
+      //     // this.comics.state.dX = 0
+      //     // this.comics.state.aX = 0
+      //   })
+      //   .onComplete(() => {
+      //     this.comics.state.tweening = false
+      //   })
+      // tween.start()
+    },
+    getCurrentComic () {
+      return this.$refs['s-' + this.$route.params.id]
+    },
+    getRayCaster () {
+      return this.$parent.$parent.raycaster
+    },
+    goComics (id) {
+      this.$router.push({ path: '/nike/game/comic-detail/' + id })
+    },
+    isAtPage (page) {
+      return page + '' === this.$route.params.id + ''
+    },
     __add (v) {
       this.$parent.scene.add(v)
     },

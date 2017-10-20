@@ -80,7 +80,7 @@ var nikeGame = [
         component: ComicList
       },
       {
-        path: 'comic-detail',
+        path: 'comic-detail/:id',
         component: ComicDetail
       },
       {
