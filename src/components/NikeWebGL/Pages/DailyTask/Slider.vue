@@ -130,7 +130,7 @@ export default {
       this.slider.state.tsY = pageY - rect.top
     },
     onTM ({ pageX, pageY, rect }) {
-      if (this.slider.redeemed) {
+      if (this.slider.redeemed || !this.slider.isDraggin) {
         return
       }
       // console.log(args)
