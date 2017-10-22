@@ -118,9 +118,15 @@ export default {
           }
           this.setMouse({ type: 'te', isIn: false })
         },
+        onMDN: (evt) => {
+          this.setMouse({ type: 'mdn', pageX: evt.clientX, pageY: evt.clientY, rect: this.rect })
+        },
+        onMUP: (evt) => {
+          this.setMouse({ type: 'mup', pageX: evt.clientX, pageY: evt.clientY, rect: this.rect })
+        },
         onMV: (evt) => {
           evt.preventDefault()
-          this.setMouse({ pageX: evt.pageX, pageY: evt.pageY, rect: this.rect })
+          this.setMouse({ type: 'mv', pageX: evt.pageX, pageY: evt.pageY, rect: this.rect })
         },
         onMO: (evt) => {
           this.setMouse({ isIn: true })
@@ -147,7 +153,10 @@ export default {
       container.addEventListener('mouseover', ev.onMO, false)
       container.addEventListener('mouseenter', ev.onME, false)
       container.addEventListener('mouseleave', ev.onML, false)
+
       container.addEventListener('mousemove', ev.onMV, false)
+      container.addEventListener('mousedown', ev.onMDN, false)
+      container.addEventListener('mouseup', ev.onMUP, false)
 
       container.addEventListener('click', ev.onCL, false)
       container.addEventListener('wheel', ev.onWHL, false)
@@ -161,7 +170,10 @@ export default {
         container.removeEventListener('mouseover', ev.onMO)
         container.removeEventListener('mouseenter', ev.onME)
         container.removeEventListener('mouseleave', ev.onML)
+
         container.removeEventListener('mousemove', ev.onMV)
+        container.removeEventListener('mousedown', ev.onMDN)
+        container.removeEventListener('mouseup', ev.onMUP)
 
         container.removeEventListener('click', ev.onCL)
         container.removeEventListener('wheel', ev.onWHL)

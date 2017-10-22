@@ -38,6 +38,7 @@
           :color="0xefefef"
           @exec="(v) => { execStack.grungeBg = v }"
         />
+
         <GrungeMesh
           vms="@agree@grunge@punch-icon"
           :gOpacity="0.9"
@@ -80,7 +81,6 @@
           vms="@agree@agree@agree-rule"
           :link="require('./img/agree/agree-rule.png')"
         />
-
 
       </Object3D>
 

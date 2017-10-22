@@ -103,11 +103,23 @@
 
 <script>
 import TWEEN from '@tweenjs/tween.js'
-
+import { textureCache } from '@/components/WebGL/Shared/cache.js'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 
 import Bundle from '@/components/WebGL/Bundle'
 import scroller from '@/components/WebGL/Mixins/scroller'
+
+function cacheStuff () {
+  textureCache.setCache(require('../ComicList/img/link/l-1.png'))
+  textureCache.setCache(require('../ComicList/img/link/l-2.png'))
+  textureCache.setCache(require('../ComicList/img/link/l-3.png'))
+  textureCache.setCache(require('../ComicList/img/link/l-4.png'))
+
+  textureCache.setCache(require('./img/link-active/la-1.png'))
+  textureCache.setCache(require('./img/link-active/la-2.png'))
+  textureCache.setCache(require('./img/link-active/la-3.png'))
+  textureCache.setCache(require('./img/link-active/la-4.png'))
+}
 
 export default {
   name: 'ComicList',
@@ -116,6 +128,9 @@ export default {
     ...Bundle
   },
   props: ['aspect'],
+  created () {
+    cacheStuff()
+  },
   data () {
     return {
       TWEEN,
@@ -143,13 +158,16 @@ export default {
     }
   },
   watch: {
-    // fullPath () {
-    //   this.$forceUpdate()
-    // }
+    params () {
+      this.scrollerState.dY = 10
+      setTimeout(() => {
+        this.intro()
+      }, 0)
+    }
   },
   computed: {
-    fullPath () {
-      return this.$router.currentRoute.fullPath
+    params () {
+      return this.$route.params.id
     }
   },
   activated () {
@@ -215,6 +233,19 @@ export default {
     }
     this.rAFID = window.requestAnimationFrame(this.rAF)
 
+    var intro = this.intro = () => {
+      var pos = this.$refs['comics-content'].object3d.position
+      var currentComic = this.getCurrentComic()
+      if (currentComic && currentComic.vmsObj) {
+        var info = currentComic.readRectInfo
+        pos.x = -(info.meshWidth * info.aspect + info.screenWidth)
+      }
+      setTimeout(() => {
+        this.comics.state.dX = 5.5
+      }, 100)
+    }
+    setTimeout(intro, 1000)
+
     this.mouseStack.comics = (args) => {
       this.eventHandler(args)
     }
@@ -234,6 +265,7 @@ export default {
     this.cleanupScroller()
     this.mouseStack = {}
     this.execStack = {}
+    window.cancelAnimationFrame(this.rAFID)
   },
   methods: {
     eventHandler (args) {
@@ -246,6 +278,16 @@ export default {
           break
         case 'te':
           this.onTE(args)
+          break
+
+        case 'mdn':
+          this.onTS(args)
+          break
+        case 'mup':
+          this.onTE(args)
+          break
+        case 'mv':
+          this.onTM(args)
           break
       }
     },
@@ -283,28 +325,6 @@ export default {
     },
     onTE () {
       this.comics.isDraggin = false
-      // if (this.comics.state.tweening) { return }
-      // var to = { x: pos.x }
-      // // var to = { x: pos.x - this.comics.state.aX }
-      // // if (Math.abs(pos.x - this.comics.state.originalX) > (-this.comics.state.originalX * 2 * 0.75)) {
-      // //   to = { x: -this.comics.state.originalX }
-      // // }
-
-      // if (needReset) {
-      //   this.comics.state.tweening = true
-      //   var tween = new TWEEN.Tween(pos)
-      //   .to(to, 1000)
-      //   .onUpdate(() => {
-      //     this.comics.state.aX = 0
-      //     this.comics.state.aY = 0
-      //     this.comics.state.dX = 0
-      //     this.comics.state.dY = 0
-      //   })
-      //   .onComplete(() => {
-      //     this.comics.state.tweening = false
-      //   })
-      //   tween.start()
-      // }
     },
     getCurrentComic () {
       return this.$refs['s-' + this.$route.params.id]
