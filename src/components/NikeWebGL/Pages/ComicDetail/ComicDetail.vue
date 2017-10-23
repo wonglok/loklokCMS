@@ -171,7 +171,7 @@ export default {
     }
   },
   activated () {
-    this.$refs['comics-content']
+    // this.$refs['comics-content']
 
     this.$emit('exec', () => {
       for (var execItem in this.execStack) {
@@ -244,7 +244,7 @@ export default {
         this.comics.state.dX = 5.5
       }, 100)
     }
-    setTimeout(intro, 1000)
+    setTimeout(intro, 0)
 
     this.mouseStack.comics = (args) => {
       this.eventHandler(args)

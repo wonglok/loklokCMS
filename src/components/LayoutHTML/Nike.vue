@@ -4,11 +4,15 @@
       <Controllers v-if="appState.useCMS" @api="(v) => { apis.controllers = v }" />
       <div class="baseline">
         <div class="maxer" v-show="isTallEnough">
-          <div class="maxer-desc">iPhone 7 Plus</div>
+          <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
         </div>
-        <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
-          <div class="maxer-desc">iPhone 7 Safari</div>
+        <div class="maxer" v-show="isTallEnough" v-if="isBigEnough">
+          <div class="maxer-desc"></div>
+          <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
+        </div>
+        <div class="maxer" v-show="isTallEnough" v-if="isBigEnough">
+          <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
         </div>
       </div>
@@ -45,7 +49,7 @@ export default {
     var resizer = () => {
       this.isTallEnough = window.innerHeight > 462
       this.isBigEnough = window.innerWidth > 828
-      // auto refresh :D
+      // auto refresh size info :D
       for (var exec in this.refresh) {
         var exe = this.refresh[exec]
         if (exe) {
