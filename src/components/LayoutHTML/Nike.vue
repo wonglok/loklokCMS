@@ -7,14 +7,14 @@
           <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
         </div>
-        <div class="maxer" v-show="isTallEnough" v-if="isBigEnough">
+        <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
           <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
         </div>
-        <div class="maxer" v-show="isTallEnough" v-if="isBigEnough">
+        <!-- <div class="maxer" v-show="isTallEnough" v-if="isBigEnough">
           <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
