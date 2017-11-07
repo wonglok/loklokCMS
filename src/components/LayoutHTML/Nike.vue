@@ -7,7 +7,7 @@
           <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
         </div>
-        <div class="maxer2" v-show="isTallEnough" v-if="isBigEnough">
+        <div class="maxer2" v-show="isTallEnough && isBigEnough" v-if="isBigEnough || isBigEnoughAtStart">
           <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
         </div>
@@ -34,6 +34,7 @@ export default {
       appState: backend.appState,
       apis: {},
       refresh: {},
+      isBigEnoughAtStart: window.innerWidth > 828,
       isTallEnough: false,
       isBigEnough: false
     }
