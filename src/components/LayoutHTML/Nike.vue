@@ -83,14 +83,14 @@ export default {
   src: url("../NikeWebGL/Fonts/Futura/condensed-medium.ttf") format("truetype");
 }
 
-.full{
+.full {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-.full-v{
+.full-v {
   width: 100%;
   height: 100%;
   display: flex;
@@ -99,7 +99,7 @@ export default {
   align-items: center;
 }
 
-.baseline{
+.baseline {
   max-height: 736px;
   width: 100%;
   height: 100%;
@@ -107,16 +107,16 @@ export default {
   justify-content: space-around;
   align-items: baseline;
 }
-.maxer{
+.maxer {
   font-family: DINCond-Regular;
   width: 100%;
   height: 100%;
   max-width: 414px;
-  max-height: 736px;
+  max-height: 628px;
   outline: grey solid 1px;
   position: relative;
 }
-.maxer2{
+.maxer2 {
   font-family: DINCond-Medium;
   width: 100%;
   height: 100%;
@@ -126,7 +126,7 @@ export default {
   position: relative;
 }
 
-.maxer-desc{
+.maxer-desc {
   position: absolute;
   top: -40px;
   left: 0px;
