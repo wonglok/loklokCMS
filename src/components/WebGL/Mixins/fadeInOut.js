@@ -86,24 +86,35 @@ export default {
           } else {
             mesh.visible = true
           }
-          this.fadeInTween((v) => {
-            this.tweening = true
-            mesh.material.opacity = v
-            if (mesh.material.uniforms) {
-              mesh.material.uniforms.opacity.value = v
-            }
-          }, () => {
-            done()
-            if (mesh.material.uniforms) {
-              mesh.material.uniforms.opacity.value = 1.0
-            }
-            if (mesh.userData.$component) {
-              mesh.visible = mesh.userData.$component.visible
-            } else {
-              mesh.visible = true
-            }
-            this.tweening = false
-          }, this.mesh)
+          mesh.material.opacity = 1.0
+          if (mesh.material.uniforms) {
+            mesh.material.uniforms.opacity.value = 1.0
+          }
+          done()
+
+          // if (mesh.userData.$component) {
+          //   mesh.visible = mesh.userData.$component.visible
+          // } else {
+          //   mesh.visible = true
+          // }
+          // this.fadeInTween((v) => {
+          //   this.tweening = true
+          //   mesh.material.opacity = v
+          //   if (mesh.material.uniforms) {
+          //     mesh.material.uniforms.opacity.value = v
+          //   }
+          // }, () => {
+          //   done()
+          //   if (mesh.material.uniforms) {
+          //     mesh.material.uniforms.opacity.value = 1.0
+          //   }
+          //   if (mesh.userData.$component) {
+          //     mesh.visible = mesh.userData.$component.visible
+          //   } else {
+          //     mesh.visible = true
+          //   }
+          //   this.tweening = false
+          // }, this.mesh)
         } else {
           mesh.visible = true
           done()
@@ -129,29 +140,34 @@ export default {
     pageFadeOut (el, done) {
       var updater = (mesh) => {
         if (mesh && mesh.material) {
-          // mesh.visible = false
-          // done()
+          mesh.material.opacity = 0.0
           if (mesh.material.uniforms) {
-            mesh.material.userData.__depthTest = mesh.material.depthTest
-            mesh.material.depthTest = false
+            mesh.material.uniforms.opacity.value = 0.0
           }
-          this.fadeOutTween((v) => {
-            this.tweening = true
-            mesh.material.opacity = v
-            if (mesh.material.uniforms) {
-              mesh.material.uniforms.opacity.value = v
-            }
-          }, () => {
-            done()
-            mesh.visible = false
-            if (mesh.material.uniforms) {
-              mesh.material.depthTest = mesh.material.userData.__depthTest
-              mesh.material.uniforms.opacity.value = 0.0
-            }
+          mesh.visible = false
+          done()
 
-            this.tweening = false
-            // this.__remove(this.$refs['page-content'].object3d)
-          }, this.mesh)
+          // if (mesh.material.uniforms) {
+          //   mesh.material.userData.__depthTest = mesh.material.depthTest
+          //   mesh.material.depthTest = false
+          // }
+          // this.fadeOutTween((v) => {
+          //   this.tweening = true
+          //   mesh.material.opacity = v
+          //   if (mesh.material.uniforms) {
+          //     mesh.material.uniforms.opacity.value = v
+          //   }
+          // }, () => {
+          //   done()
+          //   mesh.visible = false
+          //   if (mesh.material.uniforms) {
+          //     mesh.material.depthTest = mesh.material.userData.__depthTest
+          //     mesh.material.uniforms.opacity.value = 0.0
+          //   }
+
+          //   this.tweening = false
+          //   // this.__remove(this.$refs['page-content'].object3d)
+          // }, this.mesh)
         } else {
           mesh.visible = false
           done()

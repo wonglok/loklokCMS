@@ -1,7 +1,7 @@
 <template>
   <div class="new-page">
     <router-link to="/prototypes">Prototypes</router-link>
-    <router-link to="/nike/game">Game</router-link>
+    <a href="/nike/game">Game</a>
   </div>
 </template>
 

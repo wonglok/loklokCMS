@@ -3,20 +3,28 @@
   <ImageMesh
     vms="@menu@menu-trigger"
     ref="menu-open"
-    :gclick="() => { showFSMenu = !showFSMenu; }"
-    d-position="{ x: 32.5 * aspect, y: 35.2, z: 0.15 }"
-    d-scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
+    d-gclick="() => { showFSMenu = !showFSMenu; }"
     :link="require('./img/menu-open.png')"
   />
-  <!--
-    <Mesh
-    ref="red-box"
-    :gclick="() => { showFSMenu = !showFSMenu; }"
-    :position="{ x: 32.5 * aspect, y: 35.2, z: 0.1 }">
-      <PlaneGeometry :width="6" :height="6"  />
-      <MeshBasicMaterial :opacity="0.0" :color="0x000000" />
-    </Mesh>
-  -->
+  <ImageMesh
+    :depthTest="false"
+    :blending="THREE.NormalBlending"
+    vms="@menu@red-gradient"
+    ref="menu-gradient"
+    :opacity="0.5"
+    :gclick="() => {}"
+    :link="require('./img/red-gradient.svg')"
+  />
+
+  <Mesh
+  ref="red-box"
+  :gclick="() => { showFSMenu = !showFSMenu; }"
+  :position="{ x: 32.5 * aspect, y: 35.2, z: 0.3 }">
+    <PlaneGeometry :width="6" :height="6"  />
+    <MeshBasicMaterial :opacity="0.0" :color="0x000000" />
+  </Mesh>
+
+
   <transition
     @enter="menuIn"
     @leave="menuOut"
@@ -32,12 +40,21 @@
           :d-scale="{ x: 1 / 3, y: 1 / 3, z: 1.0 }"
           :link="require('./img/nike.png')"
         />
+
         <Mesh
           ref="nav-red-line"
           :position="{ x: 0, y: -3.3, z: 0.3 }">
           <PlaneGeometry :width="55" :height="0.2"  />
           <MeshBasicMaterial :opacity="1" :color="0xee3932" />
         </Mesh>
+
+        <Mesh
+          ref="nav-grey-box"
+          :position="{ x: 0, y: 0, z: 0.05 }">
+          <PlaneGeometry :width="55" :height="6.45"  />
+          <MeshBasicMaterial :opacity="0.7" :blending="THREE.NormalBlending" :color="0x010101" />
+        </Mesh>
+
       </Object3D>
     </keep-alive>
   </transition>
@@ -48,54 +65,47 @@
   >
     <keep-alive>
       <Object3D ref="fs-menu" v-if="showFSMenu" :position="{ x: 0, y: 0, z: 0.1 }">
+
         <Mesh
+          ref="nav-grey-box"
+          :position="{ x: 0, y: 0, z: 0.05 }">
+          <PlaneGeometry :width="55" :height="155"  />
+          <MeshBasicMaterial :opacity="0.7" :blending="THREE.NormalBlending" :color="0x010101" />
+        </Mesh>
+
+        <GrungeMesh
+          vms="@menu@content@grunge@menu-bg"
+          :gclick="() => {  }"
+          @exec="(v) => { execStack.grungeCouponBox = v; }"
+        />
+
+        <!-- <Mesh
           ref="fs-menu-grunge"
-          :position="{ x: 0, y: 0, z: -0.1 }">
+          :position="{ x: 0, y: 0, z: 0.1 }">
           <PlaneGeometry :width="55" :height="120"  />
           <MeshBasicMaterial :opacity="0.5" :color="0x010101" />
-        </Mesh>
+        </Mesh> -->
+
         <ImageMesh
           vms="@menu@fs-menu-close"
           ref="fs-menu-close"
           :gclick="() => { if (showFSMenu || !tweening) { showFSMenu = !showFSMenu; } }"
-          d-translate="{ x: (w) => {
-            //return 1;
-            return getSceneWidth() - w * 0.5
-          }, y: (h) => {
-            //return 10;
-            return -getSceneHeight() + h * 0.5
-          }, z: 0.0 }"
-          d-scale="{ x: 1 / 2, y: 1 / 2, z: 1.0 }"
           :link="require('./img/red-btn.png')"
         />
         <ImageMesh
           vms="@menu@items@home"
           :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game'); } }"
-          d-position="{ x: 0, y: 25.0, z: 0 }"
-          d-translate="{ x: (w) => {
-            return getSceneWidth() - w * 0.5
-          }, y: 0.0, z: 0.0 }"
-          d-scale="{ x: 0.5, y: 0.5, z: 1.0 }"
           :link="require('./img/items/home.png')"
         />
         <ImageMesh
           vms="@menu@items@boxing-camp"
           :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/agree'); } }"
-          d-position="{ x: 0, y: 20.0, z: 0 }"
-          d-translate="{ x: (w) => {
-            return getSceneWidth() - w * 0.5
-          }, y: 0.0, z: 0.0 }"
           :scale="{ x: 0.5, y: 0.5, z: 1.0 }"
           :link="require('./img/items/boxing-camp.png')"
         />
         <ImageMesh
           vms="@menu@items@rules"
           :gclick="() => { if (showFSMenu) { showFSMenu = !showFSMenu; $router.push('/nike/game/rules'); } }"
-          d-position="{ x: 0, y: 15.0, z: 0 }"
-          d-translate="{ x: (w) => {
-            return getSceneWidth() - w * 0.5
-          }, y: 0.0, z: 0.0 }"
-          d-scale="{ x: 0.5, y: 0.5, z: 1.0 }"
           :link="require('./img/items/rules.png')"
         />
         <ImageMesh
@@ -130,6 +140,7 @@ export default {
   data () {
     return {
       THREE,
+      execStack: {},
       tween: {},
       tweening: false,
       showFSMenu: false
@@ -141,8 +152,20 @@ export default {
     }
   },
   activated () {
+    this.$emit('exec', () => {
+      for (var execItem in this.execStack) {
+        let exec = this.execStack[execItem]
+        if (exec) {
+          exec()
+        }
+      }
+    })
   },
   deactivated () {
+    this.$emit('exec', () => {
+    })
+  },
+  mounted () {
   },
   methods: {
     // getSceneWidth () {
@@ -162,18 +185,21 @@ export default {
     menuIn (el, done) {
       var updater = (mesh) => {
         if (mesh) {
-          this.tweening = true
-          this.fadeInTween((v) => {
-            if (mesh.material) {
-              mesh.material.opacity = v
-            }
-            if (mesh.material.uniforms) {
-              mesh.material.uniforms.opacity.value = v
-            }
-          }, () => {
-            done()
-            this.tweening = false
-          })
+          mesh.visible = true
+          done()
+
+          // this.tweening = true
+          // this.fadeInTween((v) => {
+          //   if (mesh.material) {
+          //     mesh.material.opacity = v
+          //   }
+          //   if (mesh.material.uniforms) {
+          //     mesh.material.uniforms.opacity.value = v
+          //   }
+          // }, () => {
+          //   done()
+          //   this.tweening = false
+          // })
         }
       }
       if (this.$refs['nav-bar']) {
@@ -183,18 +209,21 @@ export default {
     menuOut (el, done) {
       var updater = (mesh) => {
         if (mesh) {
-          this.tweening = true
-          this.fadeOutTween((v) => {
-            if (mesh.material) {
-              mesh.material.opacity = v
-            }
-            if (mesh.material.uniforms) {
-              mesh.material.uniforms.opacity.value = v
-            }
-          }, () => {
-            done()
-            this.tweening = false
-          })
+          mesh.visible = false
+          done()
+
+          // this.tweening = true
+          // this.fadeOutTween((v) => {
+          //   if (mesh.material) {
+          //     mesh.material.opacity = v
+          //   }
+          //   if (mesh.material.uniforms) {
+          //     mesh.material.uniforms.opacity.value = v
+          //   }
+          // }, () => {
+          //   done()
+          //   this.tweening = false
+          // })
         }
       }
       if (this.$refs['nav-bar']) {
@@ -204,20 +233,22 @@ export default {
     fsMenuIn (el, done) {
       var updater = (mesh) => {
         if (mesh) {
-          this.tweening = true
           mesh.visible = true
-          this.fadeInTween((v) => {
-            if (mesh.material) {
-              mesh.material.opacity = v
-            }
-            if (mesh.material.uniforms) {
-              mesh.material.uniforms.opacity.value = v
-            }
-          }, () => {
-            done()
-            this.tweening = false
-          })
+          // this.tweening = true
+          // mesh.visible = true
+          // this.fadeInTween((v) => {
+          //   if (mesh.material) {
+          //     mesh.material.opacity = v
+          //   }
+          //   if (mesh.material.uniforms) {
+          //     mesh.material.uniforms.opacity.value = v
+          //   }
+          // }, () => {
+          //   done()
+          //   this.tweening = false
+          // })
         }
+        done()
       }
       if (this.$refs['fs-menu']) {
         this.$refs['fs-menu'].object3d.children.forEach(updater)
@@ -226,20 +257,22 @@ export default {
     fsMenuOut (el, done) {
       var updater = (mesh) => {
         if (mesh) {
-          this.tweening = true
-          this.fadeOutTween((v) => {
-            if (mesh.material) {
-              mesh.material.opacity = v
-            }
-            if (mesh.material.uniforms) {
-              mesh.material.uniforms.opacity.value = v
-            }
-          }, () => {
-            done()
-            mesh.visible = false
-            this.tweening = false
-          })
+          mesh.visible = false
+          // this.tweening = true
+          // this.fadeOutTween((v) => {
+          //   if (mesh.material) {
+          //     mesh.material.opacity = v
+          //   }
+          //   if (mesh.material.uniforms) {
+          //     mesh.material.uniforms.opacity.value = v
+          //   }
+          // }, () => {
+          //   done()
+          //   mesh.visible = false
+          //   this.tweening = false
+          // })
         }
+        done()
       }
       if (this.$refs['fs-menu']) {
         this.$refs['fs-menu'].object3d.children.forEach(updater)

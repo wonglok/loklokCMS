@@ -72,7 +72,10 @@
           <input @change="save(vmsObj)" @input="refresher" class="slider" type="text" v-model="vmsObj.size.y_formula" />
         </div>
       </div>
-      <pre v-if="vmsObj">{{ vmsObj }}</pre>
+      <br />
+      <br />
+      <br />
+      <!-- <pre v-if="vmsObj">{{ vmsObj }}</pre> -->
       <!-- <pre>{{ llvms }}</pre> -->
     </div>
   </div>

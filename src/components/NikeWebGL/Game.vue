@@ -16,7 +16,7 @@
     />
     <keep-alive>
       <component
-        v-if="showPage"
+        d-v-if="showPage"
         ref="page-content"
         v-bind:is="'router-view'"
         @setMouse="(v) => { mouseStack.currentPage = v; }"

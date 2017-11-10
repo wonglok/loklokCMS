@@ -56,10 +56,10 @@ export default {
         uniform float opacity;
         void main () {
           vec4 finalColor = texture2D(image, vUv);
-          if (finalColor.a < 0.1) {
+          finalColor.a *= opacity;
+          if (finalColor.a < 0.001) {
             discard;
           } else {
-            finalColor.a *= opacity;
             gl_FragColor = finalColor;
           }
         }

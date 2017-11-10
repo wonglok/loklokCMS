@@ -1,7 +1,7 @@
 <template>
   <Mesh :visible="visible" :vms="vms" @mesh="(v) => { mesh = v; }" :position="finalPosition" :scale="finalScale" :gclick="gclick" :gTS="gTS">
     <PlaneGeometry v-if="ready" :width="sWidth" :height="sHeight" :translate="finalTranslate" :scale="scale" />
-    <MeshPictureMaterial :opacity="1" :color="0xffffff" :image="link" :blending="THREE.NormalBlending" />
+    <MeshPictureMaterial :opacity="1" :color="0xffffff" :image="link" :blending="blending" :depthTest="depthTest" />
   </Mesh>
 </template>
 
@@ -16,6 +16,8 @@ export default {
   name: 'ImageMesh',
   mixins: [llvmsMesh],
   props: {
+    depthTest: {},
+    blending: { default () { return THREE.NormalBlending } },
     position: {},
     link: {},
     scale: {},

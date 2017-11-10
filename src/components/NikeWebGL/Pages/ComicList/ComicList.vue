@@ -10,11 +10,16 @@
           vms="@comic-list@header@hero"
           :link="require('./img/header/hero.png')"
         />
-        <ImageMesh
+        <!-- <ImageMesh
           :gclick="() => {  }"
           vms="@comic-list@header@slope"
           :link="require('./img/header/slope.png')"
         />
+        <ImageMesh
+          :gclick="() => {  }"
+          vms="@comic-list@header@slope2"
+          :link="require('./img/header/slope.png')"
+        /> -->
         <ImageMesh
           :gclick="() => {  }"
           vms="@comic-list@title@title"
@@ -88,7 +93,7 @@ export default {
       target: this.$refs['page-content'],
       enable: { x: false, y: true },
       bound: {
-        yMax: 20,
+        yMax: 10,
         yMin: 0,
         xMax: 0,
         xMin: 0
