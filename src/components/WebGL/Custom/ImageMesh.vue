@@ -65,6 +65,9 @@ export default {
         // } else {
         // }
         this.ready = true
+        this.$nextTick(() => {
+          this.$emit('ready')
+        })
       }
       img.src = this.link
     }

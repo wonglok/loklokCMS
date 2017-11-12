@@ -1,6 +1,6 @@
 <template>
   <transition
-      @enter="pageFadeIn"
+      @enter="(el, done) => { pageFadeIn(el, done); fadeInCurtain(); }"
       @leave="pageFadeOut"
     >
     <keep-alive>
@@ -17,6 +17,8 @@
         <ImageMesh
           desc="blackarea"
           :gclick="() => {  }"
+          @ready="() => { fadeInCurtain() }"
+          ref="@login@bg@hider"
           vms="@login@bg@hider"
           :blending="THREE.NormalBlending"
           :opacity="1"
@@ -72,6 +74,8 @@
 </template>
 
 <script>
+import TWEEN from '@tweenjs/tween.js'
+
 import * as THREE from 'three'
 
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
@@ -89,18 +93,45 @@ export default {
   props: ['aspect'],
   data () {
     return {
+      TWEEN,
       THREE,
       execStack: {},
       tweening: false
     }
   },
+  mounted () {
+
+  },
   activated () {
+    this.fadeInCurtain()
     this.$emit('exec', this.exec)
   },
   deactivated () {
     this.$emit('exec', () => {})
   },
   methods: {
+    fadeInCurtain () {
+      var mesh = this.$refs['@login@bg@hider'].mesh
+      var posGettter = {
+        get pos () {
+          return mesh.position
+        }
+      }
+      var tween = new this.TWEEN.Tween(posGettter.pos)
+      .to({
+        y: '-100'
+      }, 1000)
+      .easing(TWEEN.Easing.Quadratic.Out)
+
+      var tween2 = new this.TWEEN.Tween(posGettter.pos)
+      .to({
+        y: '+100'
+      }, 0)
+
+      setTimeout(() => {
+        tween2.chain(tween).start()
+      }, 0)
+    },
     demo (msg) {
       alert(msg)
     },

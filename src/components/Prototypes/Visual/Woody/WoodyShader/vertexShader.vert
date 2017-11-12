@@ -115,7 +115,7 @@ void main() {
 
   float slider = clamp(mousePos.x, 0.0, 1.0);
 
-  float sizeInc = slider * 80.0;
+  float sizeInc = slider * 120.0;
   float bezR = 1.0 - evaluateBezierPosition(1.0, 0.0, 1.0, 0.0, (slider));
   float bez = evaluateBezierPosition(0.0, 1.0, 0.0, 1.0, (slider));
   finalSize += sizeInc * bezR;
@@ -123,7 +123,7 @@ void main() {
   // float bez = evaluateBezierPosition(0.0, 1.0, 0.0, 1.0, (slider + 0.15));
   highp float rand1 = abs(rand(vec2(vertIndex * 0.000001)));
   highp float reducer = abs(slider) * bez * 200.0;
-  if ((rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * 200.0) < reducer)   {
+  if ((rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * rand1 * 200.0) < reducer)   {
     finalDot.w = 0.0;
   }
 

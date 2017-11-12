@@ -28,7 +28,7 @@ void main() {
   if (length(coord) > 0.5) {
     discard;
   } else {
-    vec4 ballColor = mix(vec4(1.0,1.0,1.0, opacity), vec4(238.0 / 255.0, 57.0 / 255.0, 50.0 / 255.0, opacity), mousePos.x);
+    vec4 ballColor = mix(vec4(1.0,1.0,1.0, opacity), vec4(255.0 / 255.0, 57.0 / 255.0, 50.0 / 255.0, opacity), mousePos.x);
     gl_FragColor = ballColor;
   }
 
