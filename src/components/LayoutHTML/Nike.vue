@@ -100,7 +100,8 @@ export default {
 }
 
 .baseline {
-  max-height: 736px;
+  /* max-height: 736px; */
+  max-height: 628px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -126,12 +127,12 @@ export default {
   position: relative;
 }
 
-.maxer-desc {
+/* .maxer-desc {
   position: absolute;
   top: -40px;
   left: 0px;
   width: 100%;
   height: 40px;
-}
+} */
 
 </style>

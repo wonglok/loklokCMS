@@ -16,7 +16,7 @@ export default function () {
 
     var shaderMaterial = api.material = new THREE.ShaderMaterial({
       side: THREE.DoubleSide,
-      transparent: true,
+      transparent: false,
       depthTest: true,
       blending: THREE.NormalBlending,
       uniforms: {

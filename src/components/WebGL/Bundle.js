@@ -11,6 +11,7 @@ import MeshBasicMaterial from './Material/MeshBasicMaterial'
 import PointsMaterial from './Material/PointsMaterial'
 import MeshPictureMaterial from './Material/MeshPictureMaterial'
 import MeshGrungeMaterial from './Material/MeshGrungeMaterial'
+import MeshHiderMaterial from './Material/MeshHiderMaterial'
 import MeshCanvasMaterial from './Material/MeshCanvasMaterial'
 
 import PlaneGeometry from './Geometry/PlaneGeometry'
@@ -45,6 +46,7 @@ export default {
   MeshPictureMaterial,
   MeshGrungeMaterial,
   MeshCanvasMaterial,
+  MeshHiderMaterial,
 
   PointsMaterial,
   PerspectiveCamera,

@@ -71,7 +71,6 @@ export default {
         void main () {
           if (useImage) {
             vec4 imageColor = texture2D(image, vUv);
-
             float noise = rand(vec2(vUv) + time);
             float noise2 = rand(vec2(vUv + vec2(0.3, 0.2) + noise) + time);
             float noise3 = rand(vec2(vUv + vec2(0.5, -0.6) + noise2) + time);
@@ -82,11 +81,13 @@ export default {
             float noise2 = rand(vec2(vUv + vec2(0.3, 0.2) + noise) + time);
             float noise3 = rand(vec2(vUv + vec2(0.5, -0.6) + noise2) + time);
             float noise4 = noise * noise2 * noise3;
-            if (noise4 <= 0.1) {
+            vec3 finalColor = vec3(noise4 * color);
+            if (finalColor.r <= 0.1 * gOpacity) {
               discard;
             } else {
-              gl_FragColor = vec4(vec3(noise4 * color), gOpacity * opacity);
+              gl_FragColor = vec4(finalColor, gOpacity * opacity);
             }
+
           }
 
 

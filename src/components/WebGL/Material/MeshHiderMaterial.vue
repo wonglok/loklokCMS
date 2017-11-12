@@ -1,5 +1,4 @@
 <script>
-import { textureCache } from '../Shared/cache'
 import * as THREE from 'three'
 export default {
   abstract: true,
@@ -7,28 +6,22 @@ export default {
     return null
   },
   props: {
-    blendEquation: {},
-    blendSrc: {},
-    blendDst: {},
-
     image: {},
-    transparent: {
-      default: true
-    },
     depthTest: {
       type: Boolean,
       default: true
     },
     color: {
-      type: Number
+      type: Number,
+      default: 0xbababa
     },
-    opacity: {
+    gOpacity: {
       type: Number,
       default: 1.0
     },
     blending: {
       default () {
-        return THREE.NormalBlending
+        return THREE.AdditiveBlending
         // return null
       }
     }
@@ -39,29 +32,19 @@ export default {
     }
   },
   created () {
-    // var vm = this
     this.material = new THREE.ShaderMaterial({
-      transparent: this.transparent,
+      transparent: true,
       // blending: THREE.AdditiveBlending,
-      blending: this.blending,
-
-      // blendEquation: this.blendEquation, // default
-      // blendSrc: this.blendSrc, // default
-      // blendDst: this.blendDst, // default
-
-      depthTest: this.depthTest,
-      defines: {
-        USE_ALPHAMAP: { value: true },
-        ALPHATEST: { value: 0.5 }
-      },
+      blending: THREE.NormalBlending,
+      depthTest: false,
+      side: THREE.DoubleSide,
       uniforms: {
-        // alphaMap: { value: (function () {
-        //   var ans = textureCache.getTexture(vm.alphaMap)
-        //   ans.needsUpdate = true
-        //   return ans
-        // }()) },
-        image: { value: textureCache.getTexture(this.image) },
-        opacity: { value: this.opacity }
+        image: { value: new THREE.TextureLoader().load(this.image) },
+        useImage: { value: typeof this.image !== 'undefined' },
+        time: { value: 0.0 },
+        color: { value: new THREE.Color(this.color) },
+        opacity: { value: 1.0 },
+        gOpacity: { value: this.gOpacity }
       },
       vertexShader: `
         varying vec2 vUv;
@@ -73,24 +56,43 @@ export default {
         }
       `,
       fragmentShader: `
+        #include <common>
+
+        uniform bool useImage;
         uniform sampler2D image;
+
+
         varying vec2 vUv;
+        uniform float gOpacity;
         uniform float opacity;
+        uniform float time;
+        uniform vec3 color;
+
         void main () {
-          vec4 finalColor = texture2D(image, vUv);
-          finalColor.a *= opacity;
-          if (finalColor.a < 0.001) {
-            discard;
-          } else {
-            gl_FragColor = finalColor;
-          }
+
+          gl_FragColor = vec4(0.0, 0.0, 0.0, 0.5);
         }
       `
     })
     // this.material
     this.$emit('material', this.material)
+    this.$emit('exec', this.exec)
   },
   watch: {
+    gOpacity () {
+      this.material.uniforms.gOpacity.value = this.gOpacity
+    },
+    color () {
+      this.material.uniforms.color.value.set(this.color)
+    }
+  },
+  methods: {
+    exec () {
+      if (this.material) {
+        this.material.uniforms.time.value = window.performance.now() * 0.001
+        this.material.uniforms.time.value = this.material.uniforms.time.value % 1
+      }
+    }
   },
   mounted () {
     this.$parent.__add(this.material, 'material')
@@ -102,7 +104,7 @@ export default {
 </script>
 
 <style scoped>
-.mesh-phong-material{
+.mesh-hider-material{
   display: none;
 }
 </style>

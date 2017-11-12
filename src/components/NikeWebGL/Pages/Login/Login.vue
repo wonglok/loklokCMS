@@ -5,12 +5,25 @@
     >
     <keep-alive>
       <Object3D ref="page-content">
-        <!-- <ImageMesh
-          d-gclick="() => {  }"
-          :position="{ x: 0, y: 20.0, z: -0.1 }"
-          :scale="{ x: 1 / 3 * 1.35, y: 1 / 3 * 1.35, z: 1.0 }"
-          :link="require('./img/bg/rex.png')"
-        /> -->
+        <!--
+          <ImageMesh
+            d-gclick="() => {  }"
+            :position="{ x: 0, y: 20.0, z: -0.1 }"
+            :scale="{ x: 1 / 3 * 1.35, y: 1 / 3 * 1.35, z: 1.0 }"
+            :link="require('./img/bg/rex.png')"
+          />
+        -->
+
+        <ImageMesh
+          desc="blackarea"
+          :gclick="() => {  }"
+          vms="@login@bg@hider"
+          :blending="THREE.NormalBlending"
+          :opacity="1"
+          :depthTest="true"
+          :transparent="true"
+          :link="require('./img/bg/hider.png')"
+        />
 
         <ImageMesh
           :gclick="() => {  }"
@@ -59,6 +72,8 @@
 </template>
 
 <script>
+import * as THREE from 'three'
+
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
 
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
@@ -74,6 +89,7 @@ export default {
   props: ['aspect'],
   data () {
     return {
+      THREE,
       execStack: {},
       tweening: false
     }

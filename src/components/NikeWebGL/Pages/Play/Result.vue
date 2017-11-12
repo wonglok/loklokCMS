@@ -11,70 +11,87 @@
           :link="require('./img/start/hold-tight.png')"
         /> -->
 
-        <NumberCounter
-          :word="$route.query.punch"
-          ref="number-counter"
-          vms="@play@result@number-counter"
-        >
-        </NumberCounter>
 
-        <ImageMesh
-          :gclick="() => {  }"
-          vms="@play@result@coupon-box-text"
-          :link="require('./img/result/coupon-box-text.png')"
-        />
-        <ImageMesh
-          :gclick="() => { $router.push({ path: '/nike/game/rules' }) }"
-          vms="@play@result@coupon-box-btn-rule"
-          :link="require('./img/result/coupon-box-btn-rule.png')"
-        />
-        <ImageMesh
-          :gclick="() => { go('https://nike.com/justdoit') }"
-          vms="@play@result@coupon-box-btn-nike"
-          :link="require('./img/result/coupon-box-btn-nike.png')"
-        />
-        <GrungeMesh
-          vms="@play@result@grunge@coupon-box"
-          :gclick="() => {  }"
-          @exec="(v) => { execStack.grungeCouponBox = v }"
-        />
+        <Object3D ref="sub-page-scroller">
 
-        <GrungeMesh
-          :gclick="() => { $router.push({ path: '/nike/game/play' }) }"
-          vms="@play@result@try-again"
-          :link="require('./img/result/try-again.png')"
-          @exec="(v) => { execStack.tryAgain = v }"
-        />
+          <ImageMesh
+            desc="blackarea"
+            :gclick="() => {  }"
+            vms="@play@result@hider"
+            :blending="THREE.NormalBlending"
+            :opacity="1"
+            :depthTest="true"
+            :transparent="true"
+            :link="require('./img/result/hider-reverse.png')"
+          />
 
-        <GrungeMesh
-          :gclick="() => { $router.push({ path: '/nike/game/status' }) }"
-          vms="@play@result@check-coupon"
-          :link="require('./img/result/check-coupon.png')"
-          @exec="(v) => { execStack.checkCoupon = v }"
-        />
+          <NumberCounter
+            :word="$route.query.punch"
+            ref="number-counter"
+            vms="@play@result@number-counter"
+          >
+          </NumberCounter>
 
-        <GrungeMesh
-          :gclick="() => {  }"
-          vms="@play@result@grunge@share-box"
-          @exec="(v) => { execStack.shareBox = v }"
-        />
+          <ImageMesh
+            :gclick="() => {  }"
+            vms="@play@result@coupon-box-text"
+            :link="require('./img/result/coupon-box-text.png')"
+          />
+          <ImageMesh
+            :gclick="() => { $router.push({ path: '/nike/game/rules' }) }"
+            vms="@play@result@coupon-box-btn-rule"
+            :link="require('./img/result/coupon-box-btn-rule-2.png')"
+          />
+          <ImageMesh
+            :gclick="() => { go('https://nike.com') }"
+            vms="@play@result@coupon-box-btn-nike"
+            :link="require('./img/result/coupon-box-btn-nike-2.png')"
+          />
+          <GrungeMesh
+            vms="@play@result@grunge@coupon-box"
+            :gclick="() => {  }"
+            @exec="(v) => { execStack.grungeCouponBox = v }"
+          />
 
-        <ImageMesh
-          :gclick="() => {  }"
-          vms="@play@result@share-box"
-          :link="require('./img/result/share-box.png')"
-        />
-        <ImageMesh
-          :gclick="() => { $router.push({ path: '/nike/game/daily-task' }) }"
-          vms="@play@result@daily-task-box"
-          :link="require('./img/result/daily-task-box.png')"
-        />
+          <GrungeMesh
+            :gclick="() => { $router.push({ path: '/nike/game/play' }) }"
+            vms="@play@result@try-again"
+            :link="require('./img/result/try-again.png')"
+            @exec="(v) => { execStack.tryAgain = v }"
+          />
 
-        <ImageMesh
-          :gclick="() => {  }"
-          vms="@play@result@punch-number-desc"
-          :link="require('./img/result/punch-number-desc.png')"
-        />
+          <GrungeMesh
+            :gclick="() => { $router.push({ path: '/nike/game/status' }) }"
+            vms="@play@result@check-coupon"
+            :link="require('./img/result/check-coupon.png')"
+            @exec="(v) => { execStack.checkCoupon = v }"
+          />
+
+          <GrungeMesh
+            :gclick="() => {  }"
+            vms="@play@result@grunge@share-box"
+            @exec="(v) => { execStack.shareBox = v }"
+          />
+
+          <ImageMesh
+            :gclick="() => {  }"
+            vms="@play@result@share-box"
+            :link="require('./img/result/share-box.png')"
+          />
+          <ImageMesh
+            :gclick="() => { $router.push({ path: '/nike/game/daily-task' }) }"
+            vms="@play@result@daily-task-box"
+            :link="require('./img/result/daily-task-box.png')"
+          />
+
+          <ImageMesh
+            :gclick="() => {  }"
+            vms="@play@result@punch-number-desc"
+            :link="require('./img/result/punch-number-desc.png')"
+          />
+
+        </Object3D>
+
 
       </Object3D>
     </keep-alive>
@@ -82,6 +99,7 @@
 </template>
 
 <script>
+import * as THREE from 'three'
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 import scroller from '@/components/WebGL/Mixins/scroller'
 import Bundle from '@/components/WebGL/Bundle'
@@ -98,6 +116,7 @@ export default {
   props: ['aspect', 'camera'],
   data () {
     return {
+      THREE,
       execStack: {},
       tweening: false
     }
@@ -132,7 +151,7 @@ export default {
         }
       })
       this.setupScroller({
-        target: this.$refs['sub-page-content'],
+        target: this.$refs['sub-page-scroller'],
         enable: { x: false, y: true },
         bound: {
           yMax: 30,
