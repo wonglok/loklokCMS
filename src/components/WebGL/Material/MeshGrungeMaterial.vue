@@ -75,7 +75,7 @@ export default {
             float noise2 = rand(vec2(vUv + vec2(0.3, 0.2) + noise) + time);
             float noise3 = rand(vec2(vUv + vec2(0.5, -0.6) + noise2) + time);
             float noise4 = noise * noise2 * noise3;
-            gl_FragColor = vec4(vec3(vec3(imageColor) - noise4 * 0.5), opacity);
+            gl_FragColor = vec4(vec3(vec3(imageColor) - noise4 * 0.5), imageColor.a);
           } else {
             float noise = rand(vec2(vUv) + time);
             float noise2 = rand(vec2(vUv + vec2(0.3, 0.2) + noise) + time);

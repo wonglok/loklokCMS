@@ -160,6 +160,7 @@ export default {
           exec()
         }
       }
+
       this.execTween()
     }
   }

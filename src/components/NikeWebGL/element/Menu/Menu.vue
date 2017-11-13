@@ -6,12 +6,13 @@
     d-gclick="() => { showFSMenu = !showFSMenu; }"
     :link="require('./img/menu-open.png')"
   />
-  <ImageMesh
+  <GrungeMesh
     :depthTest="false"
-    :blending="THREE.NormalBlending"
+    :blending="THREE.AdditiveBlending"
     vms="@menu@red-gradient"
     ref="menu-gradient"
-    :opacity="0.5"
+    :opacity="0.8"
+    @exec="(v) => { execStack.red = v }"
     :gclick="() => {}"
     :link="require('./img/red-gradient.svg')"
   />
