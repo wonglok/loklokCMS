@@ -15,15 +15,15 @@
         -->
 
         <ImageMesh
-          desc="blackarea"
           :gclick="() => {  }"
-          @ready="() => { fadeInCurtain() }"
+          @ready="() => { }"
           ref="@login@bg@hider"
           vms="@login@bg@hider"
           :blending="THREE.NormalBlending"
           :opacity="1"
           :depthTest="true"
           :transparent="true"
+          :position="{ x: 0, y: 10, z: -1 }"
           :link="require('./img/bg/hider.png')"
         />
 
@@ -44,7 +44,6 @@
           vms="@login@form@login-field-desc"
           :link="require('./img/form/login-field-desc.png')"
         />
-
 
         <ImageMesh
           :gclick="() => {  }"
@@ -75,11 +74,8 @@
 
 <script>
 import TWEEN from '@tweenjs/tween.js'
-
 import * as THREE from 'three'
-
 import Woody from '@/components/Prototypes/Visual/Woody/Woody.vue'
-
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
 
 import Bundle from '@/components/WebGL/Bundle'
@@ -100,7 +96,6 @@ export default {
     }
   },
   mounted () {
-
   },
   activated () {
     this.fadeInCurtain()
@@ -111,26 +106,34 @@ export default {
   },
   methods: {
     fadeInCurtain () {
-      var mesh = this.$refs['@login@bg@hider'].mesh
-      var posGettter = {
-        get pos () {
-          return mesh.position
-        }
-      }
-      var tween = new this.TWEEN.Tween(posGettter.pos)
-      .to({
-        y: '-100'
-      }, 1000)
-      .easing(TWEEN.Easing.Quadratic.Out)
+      // var vm = this
+      // setTimeout(() => {
+      //   // var mesh = this.$refs['@login@bg@hider'].mesh
+      //   var posGettter = {
+      //     get pos () {
+      //       var ans = { x: 0, y: 0, z: 0 }
+      //       try {
+      //         ans = vm.$refs['@login@bg@hider'].mesh.position
+      //       } catch (e) {
+      //       }
 
-      var tween2 = new this.TWEEN.Tween(posGettter.pos)
-      .to({
-        y: '+100'
-      }, 0)
+      //       return ans
+      //     }
+      //   }
+      //   var tween = new this.TWEEN.Tween(posGettter.pos)
+      //   .to({
+      //     y: '-100'
+      //   }, 1000)
+      //   .easing(TWEEN.Easing.Quadratic.Out)
 
-      setTimeout(() => {
-        tween2.chain(tween).start()
-      }, 0)
+      //   var tween2 = new this.TWEEN.Tween(posGettter.pos)
+      //   .to({
+      //     y: '+100'
+      //   }, 0)
+      //   setTimeout(() => {
+      //     tween2.chain(tween).start()
+      //   }, 10)
+      // }, 10)
     },
     demo (msg) {
       alert(msg)
