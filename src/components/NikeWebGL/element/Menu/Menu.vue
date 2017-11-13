@@ -11,7 +11,7 @@
     :blending="THREE.AdditiveBlending"
     vms="@menu@red-gradient"
     ref="menu-gradient"
-    :opacity="0.8"
+    :opacity="0.5"
     @exec="(v) => { execStack.red = v }"
     :gclick="() => {}"
     :link="require('./img/red-gradient.svg')"

@@ -7,7 +7,7 @@
         <linearGradient x1="0%" y1="51.0710299%" x2="99.2158037%" y2="51.0705173%" id="linearGradient-1">
             <stop stop-color="#FF0000" stop-opacity="0" offset="0%"></stop>
             <stop stop-color="#FF0000" stop-opacity="0" offset="66.7992671%"></stop>
-            <stop stop-color="#FF0000" stop-opacity="0.5" offset="100%"></stop>
+            <stop stop-color="#FF0000" stop-opacity="0.25" offset="100%"></stop>
         </linearGradient>
     </defs>
     <g id="Nike-Digital-Hub" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

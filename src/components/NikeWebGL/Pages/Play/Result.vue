@@ -37,12 +37,12 @@
         <ImageMesh
           :gclick="() => { $router.push({ path: '/nike/game/rules' }) }"
           vms="@play@result@coupon-box-btn-rule"
-          :link="require('./img/result/coupon-box-btn-rule-2.png')"
+          :link="require('./img/result/coupon-box-btn-rule.png')"
         />
         <ImageMesh
           :gclick="() => { go('https://nike.com') }"
           vms="@play@result@coupon-box-btn-nike"
-          :link="require('./img/result/coupon-box-btn-nike-2.png')"
+          :link="require('./img/result/coupon-box-btn-nike.png')"
         />
         <GrungeMesh
           vms="@play@result@grunge@coupon-box"

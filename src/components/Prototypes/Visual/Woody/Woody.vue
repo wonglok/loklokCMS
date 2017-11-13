@@ -61,7 +61,7 @@ export default {
       }
 
       this.punchTween = new TWEEN.Tween(varying)
-                    .to({ opacity: 0 * factor }, 300 * (magnitude || 1))
+                    .to({ opacity: 0 * factor }, 800 * (magnitude || 1))
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .onUpdate(() => {
                       update(varying.opacity / factor)
@@ -85,7 +85,7 @@ export default {
       }
 
       this.punchTween = new TWEEN.Tween(varying)
-                    .to({ opacity: 1 * factor }, 300 * (magnitude || 1))
+                    .to({ opacity: 1 * factor }, 400 * (magnitude || 1))
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .onUpdate(() => {
                       update(varying.opacity / factor)
