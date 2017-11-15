@@ -7,6 +7,7 @@
 
 <script>
 import * as THREE from 'three'
+// import { textureCache } from '../Shared/cache'
 import { llvmsMesh } from '../Mixins/llvms'
 import Mesh from '../Components/Mesh'
 import PlaneGeometry from '../Geometry/PlaneGeometry'
@@ -55,6 +56,8 @@ export default {
       this.mesh.userData.$component = this
     }
     if (this.link) {
+      // textureCache.setCache(this.link, () => {
+      // })
       var img = new Image()
       img.onload = () => {
         this.sWidth = img.width / 10

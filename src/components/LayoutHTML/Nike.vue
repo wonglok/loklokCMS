@@ -101,7 +101,7 @@ export default {
 
 .baseline {
   /* max-height: 736px; */
-  max-height: 628px;
+  max-height: 635px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -113,8 +113,8 @@ export default {
   width: 100%;
   height: 100%;
   max-width: 375px;
-  max-height: 628px;
-  outline: grey solid 1px;
+  max-height: 635px;
+  /* outline: blue solid 1px; */
   position: relative;
 }
 .maxer2 {
@@ -123,7 +123,7 @@ export default {
   height: 100%;
   max-width: 375px;
   max-height: 562px;
-  outline: grey solid 1px;
+  /* outline: blue solid 1px; */
   position: relative;
 }
 
