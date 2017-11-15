@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import * as backend from '@/backend/firebase'
 import { preLoad, homeLinks, menuLinks } from '@/components/WebGL/Shared/cache'
+import { initLoad } from '@/components/WebGL/Mixins/llvms'
+initLoad()
 
 router.beforeEach((to, from, next) => {
   if (to.fullPath.indexOf('/cms') === 0) {

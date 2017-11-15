@@ -206,9 +206,9 @@ export default {
 
       // await this.waitSec(1000)
 
-      await this.shakeShake(this.$refs['@landing@shake@boxing'], this.shakeStack.s1, { x: 8, y: 0, z: 0 })
-      await this.shakeShake(this.$refs['@landing@shake@nike'], this.shakeStack.s2, { x: 8, y: 0, z: 0 })
-      await this.shakeShake(this.$refs['@landing@shake@camp'], this.shakeStack.s3, { x: -8, y: 0, z: 0 })
+      await this.shakeShake(this.$refs['@landing@shake@boxing'], this.shakeStack.s1, { x: 13, y: 0, z: 0 })
+      await this.shakeShake(this.$refs['@landing@shake@nike'], this.shakeStack.s2, { x: 13, y: 0, z: 0 })
+      await this.shakeShake(this.$refs['@landing@shake@camp'], this.shakeStack.s3, { x: -13, y: 0, z: 0 })
 
       // await this.fadeInItems(this.$refs['@landing@hero@camp'])
 

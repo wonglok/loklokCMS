@@ -69,12 +69,13 @@ export default {
           vK[ 5] = vTC + vec2( cv *  0.020, cv *  0.02);
 
           vec3 newPos = vec3(vec3(position) - initPos * (1.0 - progress));
-          newPos += shake * rand(vK[0] - uv);
-          newPos += shake * rand(vK[1] - uv);
-          newPos += shake * rand(vK[2] - uv);
-          newPos -= shake * rand(vK[3] - uv);
-          newPos -= shake * rand(vK[4] - uv);
-          newPos -= shake * rand(vK[5] - uv);
+
+          newPos += (shake) * rand(vK[0] - uv);
+          newPos += (shake) * rand(vK[1] - uv);
+          newPos += (shake) * rand(vK[2] - uv);
+          newPos -= (shake) * rand(vK[3] - uv);
+          newPos -= (shake) * rand(vK[4] - uv);
+          newPos -= (shake) * rand(vK[5] - uv);
 
           vec4 mvPosition = modelViewMatrix * vec4( newPos, 1.0 );
           vec4 outputPos = projectionMatrix * mvPosition;
@@ -154,7 +155,6 @@ export default {
           this.material.uniforms.progress.value = v.prg
         })
         .start()
-
       new TWEEN.Tween(v)
         .to({ o: 1 }, 150)
         .easing(TWEEN.Easing.Bounce.InOut)

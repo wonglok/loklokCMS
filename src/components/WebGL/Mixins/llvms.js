@@ -78,31 +78,38 @@ export function initLoad () {
       polyfill(__styleContainer.data)
       __styleContainer.ready = true
       useRealtime()
-      resolve()
+        .then(() => {
+          resolve()
+        })
     }).catch(() => {
       __styleContainer.ready = true
       useRealtime()
-      resolve()
+        .then(() => {
+          resolve()
+        })
     })
   })
 }
 
-initLoad()
-
 function useRealtime () {
-  if (backend.appState.useCMS) {
-    backend.readyRT()
-    .then(() => {
-      var ref = backend.api.db.ref('/cms-data/styles')
-      ref.on('value', function (snapshot) {
-        var val = snapshot.val()
-        __styleContainer.data = backend.transform(val)
-        polyfill(__styleContainer.data)
-        __styleContainer.random = Math.random()
-        console.log(__styleContainer.data)
+  return new Promise((resolve, reject) => {
+    if (backend.appState.useCMS) {
+      backend.readyRT()
+      .then(() => {
+        var ref = backend.api.db.ref('/cms-data/styles')
+        ref.on('value', function (snapshot) {
+          var val = snapshot.val()
+          __styleContainer.data = backend.transform(val)
+          polyfill(__styleContainer.data)
+          __styleContainer.random = Math.random()
+          console.log(__styleContainer.data)
+          resolve()
+        })
       })
-    })
-  }
+    } else {
+      resolve()
+    }
+  })
 }
 
 function polyfill (array) {
