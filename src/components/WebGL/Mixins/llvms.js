@@ -154,11 +154,13 @@ export const llvmsMesh = {
         var rectInfo = this.__llvms__getRect({ vms: this.vmsObj })
         var params = { ...rectInfo, ...this.vmsObj.position }
         try {
-          return {
+          var ans = {
             x: Parser.evaluate(this.vmsObj.position.x_formula || ('0.0'), params),
             y: Parser.evaluate(this.vmsObj.position.y_formula || ('0.0'), params),
             z: Parser.evaluate(this.vmsObj.position.z_formula || ('0.0'), params)
           }
+          this.$emit('final-position', { pos: ans, params })
+          return ans
         } catch (e) {
           return false
         }

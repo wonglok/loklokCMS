@@ -48,6 +48,7 @@
           vms="@status@checkstatus@rules-text"
           :gclick="() => {  }"
           :link="require('./img/checkstatus/rules-text.png')"
+          @final-position="({ pos, params }) => { tryMaximiseScroller({ pos, params, extra: 45 }) }"
         />
         <GrungeMesh
           vms="@status@grunge@coupon-box-j5"

@@ -74,6 +74,7 @@
           :gclick="() => {  }"
           vms="@play@result@share-box"
           :link="require('./img/result/share-box.png')"
+          @final-position="tryMaximiseScroller"
         />
         <ImageMesh
           :gclick="() => { $router.push({ path: '/nike/game/daily-task' }) }"
@@ -114,6 +115,7 @@ export default {
   data () {
     return {
       THREE,
+
       execStack: {},
       tweening: false
     }
@@ -147,15 +149,11 @@ export default {
           }
         }
       })
+
       this.setupScroller({
         target: this.$refs['sub-page-content'],
         enable: { x: false, y: true },
-        bound: {
-          yMax: 30,
-          yMin: 0,
-          xMax: 0,
-          xMin: 0
-        }
+        bound: this.scrollerState.bound
       })
       this.emitHandler()
     },

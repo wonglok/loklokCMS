@@ -112,7 +112,7 @@ export default {
   font-family: DINCond-Regular;
   width: 100%;
   height: 100%;
-  max-width: 414px;
+  max-width: 375px;
   max-height: 628px;
   outline: grey solid 1px;
   position: relative;

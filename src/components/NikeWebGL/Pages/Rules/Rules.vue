@@ -54,6 +54,7 @@
         />
         <GrungeMesh
           vms="@rules@grunge@terms-box"
+          @final-position="({ pos, params }) => { tryMaximiseScroller({ pos, params, extra: -15 }) }"
           @exec="(v) => { execStack.terms = v }"
           :gclick="() => {  }"
         />

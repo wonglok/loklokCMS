@@ -39,12 +39,17 @@ export default {
     emitHandler () {
       this.$emit('setMouse', this.scrollEntry)
     },
+    tryMaximiseScroller ({ pos, extra, params }) {
+      this.scrollerState.bound.yMax = (-pos.y * 1.25 - params.meshHeight) + (extra || 0)
+    },
     setupScroller ({ target, enable, bound }) {
       // if (!this.mouseStack) {
       //   this.$emit('setMouse', this.scrollEntry)
       // }
 
-      this.scrollerState.bound = bound
+      if (bound) {
+        this.scrollerState.bound = bound
+      }
       this.scrollStack.scrollMe = this.scrollMe
       this.scrollerTarget = target
       if (this.scrollerState.enable) {
