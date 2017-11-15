@@ -2,6 +2,7 @@ import TWEEN from '@tweenjs/tween.js'
 export default {
   data () {
     return {
+      TWEEN,
       tweening: false
     }
   },
@@ -72,8 +73,10 @@ export default {
       attachment.fadeIn.start()
     },
 
-    updateTween () {
-
+    waitSec (delay) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => { resolve() }, delay)
+      })
     },
 
     pageFadeIn (el, done) {

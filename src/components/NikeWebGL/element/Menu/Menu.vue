@@ -16,15 +16,13 @@
     :gclick="() => {}"
     :link="require('./img/red-gradient.svg')"
   />
-
   <Mesh
-  ref="red-box"
-  :gclick="() => { showFSMenu = !showFSMenu; }"
-  :position="{ x: 32.5 * aspect, y: 35.2, z: 0.3 }">
+    ref="red-box"
+    :gclick="() => { showFSMenu = !showFSMenu; }"
+    :position="{ x: 32.5 * aspect, y: 35.2, z: 0.3 }">
     <PlaneGeometry :width="6" :height="6"  />
     <MeshBasicMaterial :opacity="0.0" :color="0x000000" />
   </Mesh>
-
 
   <transition
     @enter="menuIn"
@@ -79,14 +77,12 @@
           :gclick="() => {  }"
           @exec="(v) => { execStack.grungeCouponBox = v; }"
         />
-
         <!-- <Mesh
           ref="fs-menu-grunge"
           :position="{ x: 0, y: 0, z: 0.1 }">
           <PlaneGeometry :width="55" :height="120"  />
           <MeshBasicMaterial :opacity="0.5" :color="0x010101" />
         </Mesh> -->
-
         <ImageMesh
           vms="@menu@fs-menu-close"
           ref="fs-menu-close"
@@ -153,6 +149,19 @@ export default {
     }
   },
   activated () {
+    try {
+      this.$refs['nike-logo'].mesh.material.uniforms.opacity.value = 0
+      this.$refs['nav-red-line'].mesh.material.opacity = 0
+      this.$refs['nav-grey-box'].mesh.material.opacity = 0
+      this.$refs['menu-open'].mesh.material.uniforms.opacity.value = 0
+    } catch (e) {
+      console.log(e)
+    }
+
+    setTimeout(() => {
+      this.animateAll()
+    }, 1000)
+
     this.$emit('exec', () => {
       for (var execItem in this.execStack) {
         let exec = this.execStack[execItem]
@@ -169,6 +178,80 @@ export default {
   mounted () {
   },
   methods: {
+    animateMenuBtn () {
+      return new Promise((resolve, reject) => {
+        this.$nextTick(() => {
+          if (this.$refs['menu-open']) {
+            let mesh = this.$refs['menu-open'].mesh
+            mesh.material.uniforms.opacity.value = 0
+            new this.TWEEN.Tween(mesh.material.uniforms.opacity)
+              .to({ value: 1.0 }, 500)
+              .easing(this.TWEEN.Easing.Quadratic.Out)
+              .start()
+
+            mesh.position.x += 3
+            new this.TWEEN.Tween(mesh.position)
+              .to({
+                ...mesh.position,
+                x: mesh.position.x - 3
+              }, 500)
+              .easing(this.TWEEN.Easing.Quadratic.Out)
+              .onComplete(() => {
+                resolve()
+              })
+              .start()
+          }
+        })
+      })
+    },
+    animateNavLine () {
+      return new Promise((resolve, reject) => {
+        this.$nextTick(() => {
+          if (this.$refs['nike-logo']) {
+            let mesh = this.$refs['nike-logo'].mesh
+            mesh.material.uniforms.opacity.value = 0
+            new this.TWEEN.Tween(mesh.material.uniforms.opacity)
+              .to({ value: 1.0 }, 500)
+              .easing(this.TWEEN.Easing.Quadratic.Out)
+              .start()
+
+            mesh.position.y -= 3
+            new this.TWEEN.Tween(mesh.position)
+              .to({
+                ...mesh.position,
+                y: mesh.position.y + 3
+              }, 500)
+              .easing(this.TWEEN.Easing.Quadratic.Out)
+              .onComplete(() => {
+                resolve()
+              })
+              .start()
+          }
+        })
+      })
+    },
+    animateRedLine () {
+      return new Promise((resolve, reject) => {
+        this.$nextTick(() => {
+          if (this.$refs['nav-red-line']) {
+            let mesh = this.$refs['nav-red-line'].mesh
+            mesh.material.opacity = 0
+            let v = { v: 0 }
+            new this.TWEEN.Tween(v)
+              .to({ v: 1 }, 500)
+              .easing(this.TWEEN.Easing.Quadratic.Out)
+              .onUpdate(() => {
+                mesh.material.opacity = v.v
+              })
+              .start()
+          }
+        })
+      })
+    },
+    async animateAll () {
+      await this.waitSec(1000)
+      await [this.animateNavLine(), this.animateRedLine(), this.animateMenuBtn()]
+    },
     // getSceneWidth () {
     //   var dist = 50
     //   var vFOV = THREE.Math.degToRad(75) // convert vertical fov to radians
@@ -188,7 +271,6 @@ export default {
         if (mesh) {
           mesh.visible = true
           done()
-
           // this.tweening = true
           // this.fadeInTween((v) => {
           //   if (mesh.material) {
