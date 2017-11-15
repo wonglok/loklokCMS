@@ -104,11 +104,16 @@ export default {
           ev.emitClick = true
           setTimeout(() => {
             ev.emitClick = false
-          }, 300)
+          }, 345)
           this.setMouse({ type: 'ts', isIn: true, touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
         },
         onTM: (evt) => {
           evt.preventDefault()
+          var dx = ev.tsData.pageX - evt.touches[0].pageX
+          var dy = ev.tsData.pageY - evt.touches[0].pageY
+          if (Math.sqrt(dx * dx + dy * dy) > 80) {
+            ev.emitClick = false
+          }
           this.setMouse({ type: 'tm', touches: evt.touches, pageX: evt.touches[0].pageX, pageY: evt.touches[0].pageY, rect: this.rect })
         },
         onTE: (evt) => {

@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import * as backend from '@/backend/firebase'
-import { preLoad } from '@/components/WebGL/Shared/cache'
+import { preLoad, homeLinks, menuLinks } from '@/components/WebGL/Shared/cache'
 
 router.beforeEach((to, from, next) => {
   if (to.fullPath.indexOf('/cms') === 0) {
@@ -65,15 +65,17 @@ new Vue({
   },
   components: { App }
 })
+var loadTargets = []
 
 if (router.currentRoute.path.indexOf('/game') !== -1) {
-  preLoad(() => {
-    state.allLoaded = true
-  }, () => {
-
-  })
+  loadTargets = [...homeLinks, ...menuLinks]
 } else {
-  state.allLoaded = true
+  loadTargets = [...menuLinks]
 }
+
+preLoad(loadTargets, () => {
+  state.allLoaded = true
+}, () => {
+})
 
 export { router }
