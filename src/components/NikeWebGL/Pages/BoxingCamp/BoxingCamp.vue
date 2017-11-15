@@ -6,16 +6,43 @@
     <keep-alive>
       <Object3D ref="page-content">
 
-        <ImageMesh
+        <ShakeMesh
+          ref="@landing@shake@nike"
+          vms="@landing@shake@nike"
+          :link="require('./img/shake/nike.png')"
+          @shake="(v) => { shakeStack.s1 = v }"
+          @exec="(v) => { execStack.s1 = v }"
+        />
+
+        <ShakeMesh
+          ref="@landing@shake@boxing"
+          vms="@landing@shake@boxing"
+          :link="require('./img/shake/boxing.png')"
+          @shake="(v) => { shakeStack.s2 = v }"
+          @exec="(v) => { execStack.s2 = v }"
+        />
+
+        <ShakeMesh
+          ref="@landing@shake@camp"
+          vms="@landing@shake@camp"
+          :link="require('./img/shake/camp.png')"
+          @shake="(v) => { shakeStack.s3 = v }"
+          @exec="(v) => { execStack.s3 = v }"
+        />
+
+        <!-- <ImageMesh
           ref="@landing@hero@boxing"
           vms="@landing@hero@boxing"
           :link="require('./img/hero/nike-boxing.png')"
-        />
-        <ImageMesh
+        /> -->
+
+        <!-- <ImageMesh
           vms="@landing@hero@camp"
           ref="@landing@hero@camp"
           :link="require('./img/hero/camp.png')"
-        />
+        /> -->
+
+
         <ImageMesh
           ref="@landing@bg@boxing"
           vms="@landing@bg@boxing"
@@ -62,6 +89,8 @@ export default {
   props: ['aspect'],
   data () {
     return {
+      shakeStack: {
+      },
       execStack: {
         grungeBg () {}
       },
@@ -137,9 +166,11 @@ export default {
             })
             .easing(this.TWEEN.Easing.Quadratic.Out)
             .onComplete(() => {
-              resolve()
+
             })
             .start()
+
+          setTimeout(() => { resolve() }, 1500)
         }
 
         if (item) {
@@ -147,10 +178,24 @@ export default {
         }
       })
     },
+    shakeShake (item, shaker, pos) {
+      return new Promise((resolve, reject) => {
+        if (item) {
+          shaker({ initPos: pos })
+          setTimeout(() => {
+            resolve()
+          }, 500)
+        }
+      })
+    },
     async animateAll () {
       this.opacity(this.$refs['@landing@bg@boxing'].mesh, 0)
-      this.opacity(this.$refs['@landing@hero@boxing'].mesh, 0)
-      this.opacity(this.$refs['@landing@hero@camp'].mesh, 0)
+
+      this.opacity(this.$refs['@landing@shake@nike'].mesh, 0)
+      this.opacity(this.$refs['@landing@shake@boxing'].mesh, 0)
+      this.opacity(this.$refs['@landing@shake@camp'].mesh, 0)
+
+      // this.opacity(this.$refs['@landing@hero@camp'].mesh, 0)
       this.opacity(this.$refs['@landing@button-area@bg'].mesh, 0)
 
       this.opacity(this.$refs['@landing@button-area@enter-now'].mesh, 0)
@@ -158,13 +203,18 @@ export default {
 
       await this.waitSec(1000)
       await this.fadeInZoom(this.$refs['@landing@bg@boxing'])
+
       // await this.waitSec(1000)
-      await this.fadeInItems(this.$refs['@landing@hero@boxing'])
-      await this.fadeInItems(this.$refs['@landing@hero@camp'])
+
+      await this.shakeShake(this.$refs['@landing@shake@boxing'], this.shakeStack.s1, { x: 8, y: 0, z: 0 })
+      await this.shakeShake(this.$refs['@landing@shake@nike'], this.shakeStack.s2, { x: 8, y: 0, z: 0 })
+      await this.shakeShake(this.$refs['@landing@shake@camp'], this.shakeStack.s3, { x: -8, y: 0, z: 0 })
+
+      // await this.fadeInItems(this.$refs['@landing@hero@camp'])
 
       await this.fadeInItems(this.$refs['@landing@button-area@bg'])
-      await this.fadeInItems(this.$refs['@landing@button-area@watch-comics'])
-      await this.fadeInItems(this.$refs['@landing@button-area@enter-now'])
+      this.fadeInItems(this.$refs['@landing@button-area@watch-comics'])
+      this.fadeInItems(this.$refs['@landing@button-area@enter-now'])
     },
     __add (v) {
       this.$parent.scene.add(v)

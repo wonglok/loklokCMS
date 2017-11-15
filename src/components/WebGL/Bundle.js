@@ -12,6 +12,7 @@ import PointsMaterial from './Material/PointsMaterial'
 import MeshPictureMaterial from './Material/MeshPictureMaterial'
 import MeshGrungeMaterial from './Material/MeshGrungeMaterial'
 import MeshHiderMaterial from './Material/MeshHiderMaterial'
+import MeshShakeMaterial from './Material/MeshShakeMaterial'
 import MeshCanvasMaterial from './Material/MeshCanvasMaterial'
 
 import PlaneGeometry from './Geometry/PlaneGeometry'
@@ -23,12 +24,14 @@ import PointLight from './Light/PointLight'
 import ImageMesh from './Custom/ImageMesh'
 import CanvasMesh from './Custom/CanvasMesh'
 import GrungeMesh from './Custom/GrungeMesh'
+import ShakeMesh from './Custom/ShakeMesh'
 import VMS from './Custom/VMS'
 
 export default {
   GrungeMesh,
   ImageMesh,
   CanvasMesh,
+  ShakeMesh,
   VMS,
 
   Object3D,
@@ -47,6 +50,7 @@ export default {
   MeshGrungeMaterial,
   MeshCanvasMaterial,
   MeshHiderMaterial,
+  MeshShakeMaterial,
 
   PointsMaterial,
   PerspectiveCamera,

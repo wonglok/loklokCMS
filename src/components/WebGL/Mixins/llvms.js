@@ -70,16 +70,24 @@ export function getTemplate ({ name, data }) {
   }
 }
 
-backend.getStyles().then((data) => {
-  // console.log(data)
-  __styleContainer.data = data
-  polyfill(__styleContainer.data)
-  __styleContainer.ready = true
-  useRealtime()
-}).catch(() => {
-  __styleContainer.ready = true
-  useRealtime()
-})
+export function initLoad () {
+  return new Promise((resolve, reject) => {
+    backend.getStyles().then((data) => {
+      // console.log(data)
+      __styleContainer.data = data
+      polyfill(__styleContainer.data)
+      __styleContainer.ready = true
+      useRealtime()
+      resolve()
+    }).catch(() => {
+      __styleContainer.ready = true
+      useRealtime()
+      resolve()
+    })
+  })
+}
+
+initLoad()
 
 function useRealtime () {
   if (backend.appState.useCMS) {

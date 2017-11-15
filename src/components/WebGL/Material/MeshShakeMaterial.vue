@@ -1,0 +1,195 @@
+<script>
+import TWEEN from '@tweenjs/tween.js'
+import * as THREE from 'three'
+export default {
+  name: 'Shake',
+  abstract: true,
+  render () {
+    return null
+  },
+  props: {
+    image: {},
+    shake: {
+      type: Number,
+      default: 1
+    },
+    depthTest: {
+      type: Boolean,
+      default: true
+    },
+    blending: {
+      default () {
+        return THREE.AdditiveBlending
+        // return null
+      }
+    }
+  },
+  data () {
+    return {
+      material: null
+    }
+  },
+  created () {
+    this.material = new THREE.ShaderMaterial({
+      transparent: true,
+      // blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
+      depthTest: this.depthTest,
+      uniforms: {
+        image: { value: new THREE.TextureLoader().load(this.image) },
+        time: { value: 0.0 },
+        color: { value: new THREE.Color(this.color) },
+        opacity: { value: 0.0 },
+        progress: { value: 0.0 },
+        shake: { value: 0.0 },
+        initPos: { value: new THREE.Vector3(0.0, 0.0, 0.0) }
+      },
+      vertexShader: `
+        #include <common>
+
+        varying vec2 vUv;
+        varying vec2 vK[6];
+        uniform float time;
+        uniform float shake;
+        uniform vec3 initPos;
+        uniform float progress;
+
+        void main ( void ) {
+          vUv = uv;
+
+          vec2 vTC = uv;
+          float cv = shake * time * 10.0;
+
+          vK[ 0] = vTC + vec2( cv * -0.024, cv * -0.02);
+          vK[ 1] = vTC + vec2( cv * -0.016, cv * -0.01);
+          vK[ 2] = vTC + vec2( cv * -0.008, cv * -0.00);
+
+          vK[ 3] = vTC + vec2( cv *  0.004, cv *  0.00);
+          vK[ 4] = vTC + vec2( cv *  0.012, cv *  0.01);
+          vK[ 5] = vTC + vec2( cv *  0.020, cv *  0.02);
+
+          vec3 newPos = vec3(vec3(position) - initPos * (1.0 - progress));
+          newPos += shake * rand(vK[0] - uv);
+          newPos += shake * rand(vK[1] - uv);
+          newPos += shake * rand(vK[2] - uv);
+          newPos -= shake * rand(vK[3] - uv);
+          newPos -= shake * rand(vK[4] - uv);
+          newPos -= shake * rand(vK[5] - uv);
+
+          vec4 mvPosition = modelViewMatrix * vec4( newPos, 1.0 );
+          vec4 outputPos = projectionMatrix * mvPosition;
+          gl_Position = outputPos;
+        }
+      `,
+      fragmentShader: `
+        #include <common>
+
+        uniform sampler2D image;
+
+        varying vec2 vUv;
+        varying vec2 vK[6];
+
+        uniform float opacity;
+        uniform float time;
+        uniform vec3 color;
+
+        void main () {
+          vec4 _c = vec4(0.0);
+
+          _c += texture2D(image, vK[ 0])*0.0044299121055113265;
+          _c += texture2D(image, vK[ 1])*0.00895781211794;
+          _c += texture2D(image, vK[ 2])*0.0215963866053;
+          _c += texture2D(image, vK[ 3])*0.0443683338718;
+          _c += texture2D(image, vK[ 4])*0.0776744219933;
+          _c += texture2D(image, vK[ 5])*0.115876621105;
+          _c += texture2D(image, vK[ 0])*0.147308056121;
+
+          _c += texture2D(image, vUv) * 0.159576912161;
+
+          _c += texture2D(image, vK[ 0])*0.147308056121;
+          _c += texture2D(image, vK[ 1])*0.115876621105;
+          _c += texture2D(image, vK[ 2])*0.0776744219933;
+          _c += texture2D(image, vK[ 3])*0.0443683338718;
+          _c += texture2D(image, vK[ 4])*0.0215963866053;
+          _c += texture2D(image, vK[ 5])*0.00895781211794;
+          _c += texture2D(image, vK[ 0])*0.0044299121055113265;
+
+          _c.a *= opacity;
+
+          gl_FragColor = _c;
+
+        }
+      `
+    })
+
+    // setTimeout(() => {
+    //   this.shakeShake()
+    // }, 1000)
+
+    // this.material
+    this.$emit('material', this.material)
+    this.$emit('exec', this.exec)
+    this.$emit('shake', this.shakeShake)
+  },
+
+  watch: {
+    color () {
+      this.material.uniforms.color.value.set(this.color)
+    }
+  },
+  methods: {
+    shakeShake ({ initPos }) {
+      this.material.uniforms.initPos.value.set(initPos.x, initPos.y, initPos.z)
+
+      var v = {
+        prg: 0,
+        o: 0,
+        s: 1.0
+      }
+      new TWEEN.Tween(v)
+        .to({ prg: 1 }, 500)
+        .easing(TWEEN.Easing.Quartic.Out)
+        .onUpdate(() => {
+          // this.material.uniforms.shake.value = v.s
+          this.material.uniforms.progress.value = v.prg
+        })
+        .start()
+
+      new TWEEN.Tween(v)
+        .to({ o: 1 }, 150)
+        .easing(TWEEN.Easing.Bounce.InOut)
+        .onUpdate(() => {
+          // this.material.uniforms.shake.value = v.s
+          this.material.uniforms.opacity.value = v.o
+        })
+        .start()
+      new TWEEN.Tween(v)
+        .to({ s: 0 }, 550)
+        .easing(TWEEN.Easing.Bounce.InOut)
+        .onUpdate(() => {
+          this.material.uniforms.shake.value = v.s
+          // this.material.uniforms.opacity.value = v.o
+        })
+        .start()
+    },
+    exec () {
+      if (this.material) {
+        this.material.uniforms.time.value = window.performance.now() * 0.001
+        this.material.uniforms.time.value = this.material.uniforms.time.value % 1
+      }
+    }
+  },
+  mounted () {
+    this.$parent.__add(this.material, 'material')
+  },
+  beforeDestroy () {
+    this.$parent.__remove(this.material, 'material')
+  }
+}
+</script>
+
+<style scoped>
+.mesh-phong-material{
+  display: none;
+}
+</style>
