@@ -36,7 +36,6 @@
           vms="@rules@rules@terms-text"
           :link="require('./img/rules/terms-text.png')"
         />
-
         <GrungeMesh
           vms="@rules@grunge@rule-box-r1"
           @exec="(v) => { execStack.r1 = v }"
