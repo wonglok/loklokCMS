@@ -39,15 +39,13 @@ export default {
       THREE.UVMapping,
       THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping,
       THREE.LinearFilter,
-      THREE.LinearMipMapLinearFilter
+      THREE.LinearFilter
     )
-
     this.material = new THREE.ShaderMaterial({
       transparent: true,
       // blending: THREE.AdditiveBlending,
       blending: THREE.AdditiveBlending,
       depthTest: false,
-
       uniforms: {
         canvas: { value: texture },
         useImage: { value: typeof texture !== 'undefined' },
@@ -80,7 +78,7 @@ export default {
         void main () {
           if (useImage) {
             vec4 canvasColor = texture2D(canvas, vUv);
-            gl_FragColor = vec4(vec3(canvasColor), opacity);
+            gl_FragColor = vec4(vec3(canvasColor), canvasColor * opacity);
           } else {
             gl_FragColor = vec4(color, opacity);
           }

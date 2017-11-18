@@ -30,6 +30,11 @@
           @exec="(v) => { execStack.s3 = v }"
         />
 
+        <BoxingArea
+          ref="boxing-area"
+          vms="@landing@shake@box-canvas"
+        />
+
         <!-- <ImageMesh
           ref="@landing@hero@boxing"
           vms="@landing@hero@boxing"
@@ -42,7 +47,6 @@
           :link="require('./img/hero/camp.png')"
         /> -->
 
-
         <ImageMesh
           ref="@landing@bg@boxing"
           vms="@landing@bg@boxing"
@@ -53,7 +57,8 @@
           ref="@landing@button-area@bg"
           :link="require('./img/button-area/button-area.png')"
         />
-        <ImageMesh
+
+        <!-- <ImageMesh
           :gclick="(v) => { $router.push('/nike/game/agree') }"
           vms="@landing@button-area@enter-now"
           ref="@landing@button-area@enter-now"
@@ -64,7 +69,8 @@
           vms="@landing@button-area@watch-comics"
           ref="@landing@button-area@watch-comics"
           :link="require('./img/button-area/watch-comics.png')"
-        />
+        /> -->
+
         <GrungeMesh
           vms="@landing@grunge@bg"
           :gOpacity="0.53"
@@ -78,12 +84,14 @@
 
 <script>
 import fadeInOut from '@/components/WebGL/Mixins/FadeInOut'
+import BoxingArea from '@/components/NikeWebGL/Pages/BoxingCamp/BoxingArea/BoxingArea.vue'
 
 import Bundle from '@/components/WebGL/Bundle'
 export default {
   name: 'BoxingCamp',
   mixins: [fadeInOut],
   components: {
+    BoxingArea,
     ...Bundle
   },
   props: ['aspect'],
@@ -189,6 +197,7 @@ export default {
       })
     },
     async animateAll () {
+      this.$refs['boxing-area'].reset()
       this.opacity(this.$refs['@landing@bg@boxing'].mesh, 0)
 
       this.opacity(this.$refs['@landing@shake@nike'].mesh, 0)
@@ -198,8 +207,8 @@ export default {
       // this.opacity(this.$refs['@landing@hero@camp'].mesh, 0)
       this.opacity(this.$refs['@landing@button-area@bg'].mesh, 0)
 
-      this.opacity(this.$refs['@landing@button-area@enter-now'].mesh, 0)
-      this.opacity(this.$refs['@landing@button-area@watch-comics'].mesh, 0)
+      // this.opacity(this.$refs['@landing@button-area@enter-now'].mesh, 0)
+      // this.opacity(this.$refs['@landing@button-area@watch-comics'].mesh, 0)
 
       await this.waitSec(1000)
       await this.fadeInZoom(this.$refs['@landing@bg@boxing'])
@@ -210,11 +219,13 @@ export default {
       await this.shakeShake(this.$refs['@landing@shake@nike'], this.shakeStack.s2, { x: 13, y: 0, z: 0 })
       await this.shakeShake(this.$refs['@landing@shake@camp'], this.shakeStack.s3, { x: -13, y: 0, z: 0 })
 
+      this.$refs['boxing-area'].start()
+
       // await this.fadeInItems(this.$refs['@landing@hero@camp'])
 
-      await this.fadeInItems(this.$refs['@landing@button-area@bg'])
-      this.fadeInItems(this.$refs['@landing@button-area@watch-comics'])
-      this.fadeInItems(this.$refs['@landing@button-area@enter-now'])
+      // await this.fadeInItems(this.$refs['@landing@button-area@bg'])
+      // this.fadeInItems(this.$refs['@landing@button-area@watch-comics'])
+      // this.fadeInItems(this.$refs['@landing@button-area@enter-now'])
     },
     __add (v) {
       this.$parent.scene.add(v)

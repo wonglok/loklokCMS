@@ -15,24 +15,27 @@ export const textureCache = {
   }
 }
 
-export const preLoad = (links, done, progress) => {
-  var loaded = 0
-  links.map((link) => {
-    textureCache.cache[link] = new THREE.TextureLoader().load(link, (texture) => {
-      textureCache.cache[link].needsUpdate = true
-      loaded++
-      var currentVal = loaded / links.length
-      if (progress) {
-        progress(currentVal)
-      }
-      if (currentVal === 1) {
-        window.requestAnimationFrame(done)
+export const preLoad = (links) => {
+  return new Promise((resolve, reject) => {
+    var loaded = 0
+    links.map((link) => {
+      textureCache.cache[link] = new THREE.TextureLoader().load(link, (texture) => {
+        textureCache.cache[link].needsUpdate = true
+        loaded++
+        var currentVal = loaded / links.length
+        // if (progress) {
+        //   progress(currentVal)
+        // }
+        if (currentVal === 1) {
+          resolve()
+          // window.requestAnimationFrame(done)
+        }
+      })
+      return {
+        texture: textureCache.cache[link],
+        link
       }
     })
-    return {
-      texture: textureCache.cache[link],
-      link
-    }
   })
 }
 

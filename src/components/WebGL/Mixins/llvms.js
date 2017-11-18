@@ -76,16 +76,16 @@ export function initLoad () {
       // console.log(data)
       __styleContainer.data = data
       polyfill(__styleContainer.data)
-      __styleContainer.ready = true
       useRealtime()
         .then(() => {
           resolve()
+          __styleContainer.ready = true
         })
     }).catch(() => {
-      __styleContainer.ready = true
       useRealtime()
         .then(() => {
           resolve()
+          __styleContainer.ready = true
         })
     })
   })
@@ -158,10 +158,11 @@ export const llvmsMesh = {
     }
   },
   mounted () {
-    if (this.vms) {
-      this.mesh.visible = false
-    }
+    // if (this.vms) {
+    //   this.mesh.visible = false
+    // }
     this.mesh.userData.$component = this
+    this.__llvms__updateVMSObjRef()
   },
   computed: {
     finalPosition () {
@@ -292,9 +293,9 @@ export const llvmsMesh = {
   },
   watch: {
     __llvms__readyStyles () {
-      if (this.vms) {
-        this.mesh.visible = this.visible
-      }
+      // if (this.vms) {
+      //   this.mesh.visible = this.visible
+      // }
       this.__llvms__updateVMSObjRef()
     },
     __llvms__vmsRemoteRefresh () {
@@ -309,6 +310,9 @@ export const llvmsMesh = {
     this.__llvms__updateVMSObjRef()
   },
   methods: {
+    loadVMS () {
+      this.__llvms__updateVMSObjRef()
+    },
     __llvms__updateVMSObjRef () {
       if (this.vms && this.__llvms__readyStyles) {
         let vmsObj = this.vmsObj = this.mesh.userData.vms = this.__llvms__find(this.vms)

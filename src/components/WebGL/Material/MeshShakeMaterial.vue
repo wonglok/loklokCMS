@@ -15,7 +15,7 @@ export default {
     },
     depthTest: {
       type: Boolean,
-      default: true
+      default: false
     },
     blending: {
       default () {
@@ -58,7 +58,7 @@ export default {
           vUv = uv;
 
           vec2 vTC = uv;
-          float cv = shake * time * 10.0;
+          float cv = shake * time * 100.0;
 
           vK[ 0] = vTC + vec2( cv * -0.024, cv * -0.02);
           vK[ 1] = vTC + vec2( cv * -0.016, cv * -0.01);
@@ -70,12 +70,12 @@ export default {
 
           vec3 newPos = vec3(vec3(position) - initPos * (1.0 - progress));
 
-          newPos += (shake) * rand(vK[0] - uv);
-          newPos += (shake) * rand(vK[1] - uv);
-          newPos += (shake) * rand(vK[2] - uv);
-          newPos -= (shake) * rand(vK[3] - uv);
-          newPos -= (shake) * rand(vK[4] - uv);
-          newPos -= (shake) * rand(vK[5] - uv);
+          newPos += (shake * 0.16667 * 2.0) * ( rand((vK[0] - uv)) + rand(vec2(0.12345)) );
+          newPos += (shake * 0.16667 * 2.0) * ( rand((vK[1] - uv)) + rand(vec2(0.32355)) );
+          newPos += (shake * 0.16667 * 2.0) * ( rand((vK[2] - uv)) + rand(vec2(0.88779)) );
+          newPos += (shake * 0.16667 * 2.0) * ( rand((vK[3] - uv)) + rand(vec2(0.55667)) );
+          newPos += (shake * 0.16667 * 2.0) * ( rand((vK[4] - uv)) + rand(vec2(0.22334)) );
+          newPos += (shake * 0.16667 * 2.0) * ( rand((vK[5] - uv)) + rand(vec2(0.62235)) );
 
           vec4 mvPosition = modelViewMatrix * vec4( newPos, 1.0 );
           vec4 outputPos = projectionMatrix * mvPosition;
@@ -97,23 +97,23 @@ export default {
         void main () {
           vec4 _c = vec4(0.0);
 
-          _c += texture2D(image, vK[ 0])*0.0044299121055113265;
-          _c += texture2D(image, vK[ 1])*0.00895781211794;
-          _c += texture2D(image, vK[ 2])*0.0215963866053;
-          _c += texture2D(image, vK[ 3])*0.0443683338718;
-          _c += texture2D(image, vK[ 4])*0.0776744219933;
-          _c += texture2D(image, vK[ 5])*0.115876621105;
-          _c += texture2D(image, vK[ 0])*0.147308056121;
+          _c += texture2D(image, vK[ 0]) * 0.00442991210551;
+          _c += texture2D(image, vK[ 1]) * 0.00895781211794;
+          _c += texture2D(image, vK[ 2]) * 0.02159638660533;
+          _c += texture2D(image, vK[ 3]) * 0.04436833387183;
+          _c += texture2D(image, vK[ 4]) * 0.07767442199335;
+          _c += texture2D(image, vK[ 5]) * 0.11587662110566;
+          _c += texture2D(image, vK[ 0]) * 0.14730805612155;
 
           _c += texture2D(image, vUv) * 0.159576912161;
 
-          _c += texture2D(image, vK[ 0])*0.147308056121;
-          _c += texture2D(image, vK[ 1])*0.115876621105;
-          _c += texture2D(image, vK[ 2])*0.0776744219933;
-          _c += texture2D(image, vK[ 3])*0.0443683338718;
-          _c += texture2D(image, vK[ 4])*0.0215963866053;
-          _c += texture2D(image, vK[ 5])*0.00895781211794;
-          _c += texture2D(image, vK[ 0])*0.0044299121055113265;
+          _c += texture2D(image, vK[ 0]) * 0.147308056121;
+          _c += texture2D(image, vK[ 1]) * 0.115876621105;
+          _c += texture2D(image, vK[ 2]) * 0.077674421993;
+          _c += texture2D(image, vK[ 3]) * 0.044368333871;
+          _c += texture2D(image, vK[ 4]) * 0.021596386605;
+          _c += texture2D(image, vK[ 5]) * 0.008957812117;
+          _c += texture2D(image, vK[ 0]) * 0.004429912105;
 
           _c.a *= opacity;
 
@@ -147,25 +147,28 @@ export default {
         o: 0,
         s: 1.0
       }
+
       new TWEEN.Tween(v)
-        .to({ prg: 1 }, 500)
-        .easing(TWEEN.Easing.Quartic.Out)
+        .to({ prg: 1 }, 380 * 0.5)
+        .easing(TWEEN.Easing.Quadratic.Out)
         .onUpdate(() => {
           // this.material.uniforms.shake.value = v.s
           this.material.uniforms.progress.value = v.prg
         })
         .start()
+
       new TWEEN.Tween(v)
-        .to({ o: 1 }, 150)
+        .to({ o: 1 }, 380 * 0.25)
         .easing(TWEEN.Easing.Bounce.InOut)
         .onUpdate(() => {
           // this.material.uniforms.shake.value = v.s
           this.material.uniforms.opacity.value = v.o
         })
         .start()
+
       new TWEEN.Tween(v)
-        .to({ s: 0 }, 550)
-        .easing(TWEEN.Easing.Bounce.InOut)
+        .to({ s: 0 }, 600 * 0.5)
+        .easing(TWEEN.Easing.Bounce.Out)
         .onUpdate(() => {
           this.material.uniforms.shake.value = v.s
           // this.material.uniforms.opacity.value = v.o

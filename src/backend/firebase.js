@@ -9,6 +9,7 @@ function isset (o) {
 }
 
 export const appState = {
+  vmsLoaded: false,
   useClick: true,
   useCMS: false,
   useRT: false,

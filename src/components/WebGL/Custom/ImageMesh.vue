@@ -12,6 +12,7 @@ import { llvmsMesh } from '../Mixins/llvms'
 import Mesh from '../Components/Mesh'
 import PlaneGeometry from '../Geometry/PlaneGeometry'
 import MeshPictureMaterial from '../Material/MeshPictureMaterial'
+// import { textureCache } from '@/components/WebGL/Shared/cache'
 
 export default {
   name: 'ImageMesh',
@@ -68,6 +69,7 @@ export default {
         // } else {
         // }
         this.ready = true
+        this.mesh.visible = this.visible
         this.$nextTick(() => {
           this.$emit('ready')
         })
