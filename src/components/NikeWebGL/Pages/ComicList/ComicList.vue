@@ -45,6 +45,7 @@
           :gclick="() => { $router.push({ path: '/nike/game/comic-detail/4' }) }"
           vms="@comic-list@link@l-4"
           :link="require('./img/link/l-4.png')"
+          @final-position="(item) => { tryMaximiseScroller(item); scrollerState.bound.yMax -= 35; }"
         />
 
       </Object3D>
@@ -92,12 +93,13 @@ export default {
     this.setupScroller({
       target: this.$refs['page-content'],
       enable: { x: false, y: true },
-      bound: {
-        yMax: 10,
-        yMin: 0,
-        xMax: 0,
-        xMin: 0
-      }
+      bound: this.scrollerState.bound
+      // bound: {
+      //   yMax: 10,
+      //   yMin: 0,
+      //   xMax: 0,
+      //   xMin: 0
+      // }
     })
     this.emitHandler()
   },
