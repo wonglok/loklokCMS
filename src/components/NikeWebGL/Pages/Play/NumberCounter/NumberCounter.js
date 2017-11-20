@@ -13,6 +13,7 @@ export default function () {
 
   var ctx, context;
   context = ctx = canvas.getContext("2d");
+  // ctx.translate(0.5, 0.5);
 
   var grd = context.createLinearGradient(0, 0, canvas.width, canvas.height);
   // light blue

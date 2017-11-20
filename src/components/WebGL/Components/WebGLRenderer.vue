@@ -16,7 +16,7 @@ export default {
     },
     antialias: {
       type: Boolean,
-      default: false
+      default: true
     },
     camera: {
     },

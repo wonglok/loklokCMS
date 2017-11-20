@@ -226,7 +226,7 @@ export default {
           shaker({ initPos: pos })
           setTimeout(() => {
             resolve()
-          }, 500)
+          }, 333)
         }
       })
     },

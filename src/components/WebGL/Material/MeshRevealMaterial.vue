@@ -125,7 +125,7 @@ export default {
 
       new TWEEN.Tween(v)
         .to({ opacity: 1 }, 1000.0)
-        .easing(TWEEN.Easing.Bounce.InOut)
+        .easing(TWEEN.Easing.Quadratic.Out)
         .onUpdate(() => {
           // this.material.uniforms.shake.value = v.s
           this.material.uniforms.opacity.value = v.opacity

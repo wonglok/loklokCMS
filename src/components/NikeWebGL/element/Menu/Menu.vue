@@ -49,7 +49,7 @@
 
         <Mesh
           ref="nav-grey-box"
-          :position="{ x: 0, y: 0, z: 0.05 }">
+          :position="{ x: 0, y: 0, z: 0.06 }">
           <PlaneGeometry :width="55" :height="6.45"  />
           <MeshBasicMaterial :opacity="0.7" :blending="THREE.NormalBlending" :color="0x010101" />
         </Mesh>
@@ -66,7 +66,7 @@
       <Object3D ref="fs-menu" v-if="showFSMenu" :position="{ x: 0, y: 0, z: 0.1 }">
 
         <Mesh
-          ref="nav-grey-box"
+          ref="nav-grey-box-2"
           :position="{ x: 0, y: 0, z: 0.05 }">
           <PlaneGeometry :width="55" :height="155"  />
           <MeshBasicMaterial :opacity="0.7" :blending="THREE.NormalBlending" :color="0x010101" />
@@ -75,7 +75,7 @@
         <GrungeMesh
           vms="@menu@content@grunge@menu-bg"
           :gclick="() => {  }"
-          @exec="(v) => { execStack.grungeCouponBox = v; }"
+          @exec="(v) => { if (showFSMenu) { execStack.grungeCouponBox = v; } }"
         />
         <!-- <Mesh
           ref="fs-menu-grunge"
@@ -178,6 +178,24 @@ export default {
   mounted () {
   },
   methods: {
+    animateGreyNavLayer () {
+      return new Promise((resolve, reject) => {
+        this.$nextTick(() => {
+          if (this.$refs['nav-grey-box']) {
+            let mesh = this.$refs['nav-grey-box'].mesh
+            mesh.material.opacity = 0
+            let v = { v: 0 }
+            new this.TWEEN.Tween(v)
+              .to({ v: 0.7 }, 500)
+              .easing(this.TWEEN.Easing.Quadratic.Out)
+              .onUpdate(() => {
+                mesh.material.opacity = v.v
+              })
+              .start()
+          }
+        })
+      })
+    },
     animateMenuBtn () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
@@ -250,7 +268,7 @@ export default {
     },
     async animateAll () {
       await this.waitSec(1000)
-      await [this.animateNavLine(), this.animateRedLine(), this.animateMenuBtn()]
+      await [this.animateNavLine(), this.animateRedLine(), this.animateMenuBtn(), this.animateGreyNavLayer()]
     },
     // getSceneWidth () {
     //   var dist = 50

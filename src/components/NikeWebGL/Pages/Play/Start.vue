@@ -42,6 +42,8 @@
           :link="require('./img/start/hider-reverse.png')"
         />
 
+
+
       </Object3D>
     </keep-alive>
   </transition>
