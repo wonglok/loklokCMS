@@ -42,20 +42,26 @@ function exec () {
   })
 }
 
-var loadTargets = []
-
-if (router.currentRoute.path.indexOf('/game') !== -1) {
+function initPrep () {
+  var loadTargets = []
   loadTargets = [...homeLinks, ...menuLinks]
-} else {
-  loadTargets = [...menuLinks]
+
+  var prepItems = [
+    initLoad(),
+    preLoad(loadTargets)
+  ]
+
+  if (window.location.pathname.indexOf('/cms') === 0) {
+    prepItems.push(backend.readyRT())
+  }
+
+  Promise.all(prepItems)
+  .then(() => {
+    setTimeout(() => {
+      exec()
+    }, 500)
+  })
 }
 
-Promise.all([
-  initLoad(),
-  preLoad(loadTargets)
-])
-.then(() => {
-  exec()
-})
-
+initPrep()
 export { router }

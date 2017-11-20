@@ -14,6 +14,7 @@ import MeshGrungeMaterial from './Material/MeshGrungeMaterial'
 import MeshHiderMaterial from './Material/MeshHiderMaterial'
 import MeshShakeMaterial from './Material/MeshShakeMaterial'
 import MeshCanvasMaterial from './Material/MeshCanvasMaterial'
+import MeshRevealMaterial from './Material/MeshRevealMaterial'
 
 import PlaneGeometry from './Geometry/PlaneGeometry'
 import BoxGeometry from './Geometry/BoxGeometry'
@@ -25,6 +26,7 @@ import ImageMesh from './Custom/ImageMesh'
 import CanvasMesh from './Custom/CanvasMesh'
 import GrungeMesh from './Custom/GrungeMesh'
 import ShakeMesh from './Custom/ShakeMesh'
+import RevealMesh from './Custom/RevealMesh'
 import VMS from './Custom/VMS'
 
 export default {
@@ -32,6 +34,7 @@ export default {
   ImageMesh,
   CanvasMesh,
   ShakeMesh,
+  RevealMesh,
   VMS,
 
   Object3D,
@@ -51,6 +54,7 @@ export default {
   MeshCanvasMaterial,
   MeshHiderMaterial,
   MeshShakeMaterial,
+  MeshRevealMaterial,
 
   PointsMaterial,
   PerspectiveCamera,

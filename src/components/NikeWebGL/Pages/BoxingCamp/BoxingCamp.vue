@@ -30,6 +30,37 @@
           @exec="(v) => { execStack.s3 = v }"
         />
 
+        <RevealMesh
+          ref="@landing@reveal@box-txt-1"
+          vms="@landing@reveal@box-txt-1"
+          :link="require('./img/shake/box-txt-1.png')"
+          @reveal="(v) => { revealStack.r1 = v }"
+          @exec="(v) => { execStack.r1 = v }"
+        />
+        <RevealMesh
+          ref="@landing@reveal@box-txt-2"
+          vms="@landing@reveal@box-txt-2"
+          :link="require('./img/shake/box-txt-2.png')"
+          @reveal="(v) => { revealStack.r2 = v }"
+          @exec="(v) => { execStack.r2 = v }"
+        />
+        <RevealMesh
+          ref="@landing@reveal@box-btn-game"
+          vms="@landing@reveal@box-btn-game"
+          :gclick="(v) => { $router.push('/nike/game/agree') }"
+          :link="require('./img/shake/box-btn-game.png')"
+          @reveal="(v) => { revealStack.r3 = v }"
+          @exec="(v) => { execStack.r3 = v }"
+        />
+        <RevealMesh
+          ref="@landing@reveal@box-btn-comics"
+          vms="@landing@reveal@box-btn-comics"
+          :gclick="(v) => { $router.push('/nike/game/comic-list') }"
+          :link="require('./img/shake/box-btn-comics.png')"
+          @reveal="(v) => { revealStack.r4 = v }"
+          @exec="(v) => { execStack.r4 = v }"
+        />
+
         <BoxingArea
           ref="boxing-area"
           vms="@landing@shake@box-canvas"
@@ -52,11 +83,12 @@
           vms="@landing@bg@boxing"
           :link="require('./img/bg/boxing.jpg')"
         />
-        <ImageMesh
+
+        <!-- <ImageMesh
           vms="@landing@button-area@bg"
           ref="@landing@button-area@bg"
           :link="require('./img/button-area/button-area.png')"
-        />
+        /> -->
 
         <!-- <ImageMesh
           :gclick="(v) => { $router.push('/nike/game/agree') }"
@@ -97,6 +129,8 @@ export default {
   props: ['aspect'],
   data () {
     return {
+      revealStack: {
+      },
       shakeStack: {
       },
       execStack: {
@@ -196,6 +230,16 @@ export default {
         }
       })
     },
+    revealMove (item, revaler, pos) {
+      return new Promise((resolve, reject) => {
+        if (item) {
+          revaler({ initPos: pos })
+          setTimeout(() => {
+            resolve()
+          }, 500)
+        }
+      })
+    },
     async animateAll () {
       this.$refs['boxing-area'].reset()
       this.opacity(this.$refs['@landing@bg@boxing'].mesh, 0)
@@ -204,8 +248,13 @@ export default {
       this.opacity(this.$refs['@landing@shake@boxing'].mesh, 0)
       this.opacity(this.$refs['@landing@shake@camp'].mesh, 0)
 
+      this.opacity(this.$refs['@landing@reveal@box-txt-1'].mesh, 0)
+      this.opacity(this.$refs['@landing@reveal@box-txt-2'].mesh, 0)
+      this.opacity(this.$refs['@landing@reveal@box-btn-game'].mesh, 0)
+      this.opacity(this.$refs['@landing@reveal@box-btn-comics'].mesh, 0)
+
       // this.opacity(this.$refs['@landing@hero@camp'].mesh, 0)
-      this.opacity(this.$refs['@landing@button-area@bg'].mesh, 0)
+      // this.opacity(this.$refs['@landing@button-area@bg'].mesh, 0)
 
       // this.opacity(this.$refs['@landing@button-area@enter-now'].mesh, 0)
       // this.opacity(this.$refs['@landing@button-area@watch-comics'].mesh, 0)
@@ -219,10 +268,18 @@ export default {
       await this.shakeShake(this.$refs['@landing@shake@nike'], this.shakeStack.s2, { x: 13, y: 0, z: 0 })
       await this.shakeShake(this.$refs['@landing@shake@camp'], this.shakeStack.s3, { x: -13, y: 0, z: 0 })
 
+      await this.waitSec(100)
+
       this.$refs['boxing-area'].start()
+      await this.waitSec(500)
+      this.revealMove(this.$refs['@landing@reveal@box-btn-game'], this.revealStack.r3, { x: 0, y: 10, z: 0 })
+      await this.waitSec(400)
+      this.revealMove(this.$refs['@landing@reveal@box-txt-1'], this.revealStack.r1, { x: 0, y: 10, z: 0 })
+      await this.waitSec(300)
+      this.revealMove(this.$refs['@landing@reveal@box-txt-2'], this.revealStack.r2, { x: 0, y: 10, z: 0 })
+      this.revealMove(this.$refs['@landing@reveal@box-btn-comics'], this.revealStack.r4, { x: 0, y: 10, z: 0 })
 
       // await this.fadeInItems(this.$refs['@landing@hero@camp'])
-
       // await this.fadeInItems(this.$refs['@landing@button-area@bg'])
       // this.fadeInItems(this.$refs['@landing@button-area@watch-comics'])
       // this.fadeInItems(this.$refs['@landing@button-area@enter-now'])
