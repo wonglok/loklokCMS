@@ -70,16 +70,35 @@
           @exec="(v) => { execStack.shareBox = v }"
         />
 
-        <ImageMesh
+        <!-- <ImageMesh
           :gclick="() => {  }"
           vms="@play@result@share-box"
           :link="require('./img/result/share-box.png')"
-          @final-position="tryMaximiseScroller"
+        /> -->
+
+        <ImageMesh
+          :gclick="() => {  }"
+          vms="@play@result@share-txt"
+          :link="require('./img/result-2/share-txt.png')"
         />
+        <ImageMesh
+          :gclick="() => { $router.push({ path: '/nike/game/rules'}); }"
+          vms="@play@result@share-rule-txt"
+          :link="require('./img/result-2/share-rule-txt.png')"
+        />
+        <ImageMesh
+          :gclick="() => { alert('This is demo only.') }"
+          vms="@play@result@share-btn"
+          :link="require('./img/result-2/share-btn.png')"
+
+          @final-position="(props) => { tryMaximiseScroller(props); this.scrollerState.bound.yMax -= 30; }"
+        />
+
         <ImageMesh
           :gclick="() => { $router.push({ path: '/nike/game/daily-task' }) }"
           vms="@play@result@daily-task-box"
           :link="require('./img/result/daily-task-box.png')"
+
         />
 
         <ImageMesh
@@ -134,6 +153,9 @@ export default {
     this.$emit('exec', () => {})
   },
   methods: {
+    alert (txt) {
+      window.alert(txt)
+    },
     go (location) {
       window.location.assign(location)
     },
