@@ -69,7 +69,7 @@
           ref="nav-grey-box-2"
           :position="{ x: 0, y: 0, z: 0.05 }">
           <PlaneGeometry :width="55" :height="155"  />
-          <MeshBasicMaterial :opacity="0.7" :blending="THREE.NormalBlending" :color="0x010101" />
+          <MeshBasicMaterial :opacity="0.85" :blending="THREE.NormalBlending" :color="0x010101" />
         </Mesh>
 
         <GrungeMesh

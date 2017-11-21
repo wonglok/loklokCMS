@@ -68,7 +68,7 @@
           :link="require('./img/start/white-ball.png')"
         />
         <ImageMesh
-          :gclick="() => {  }"
+          :gclick="() => { $router.push({ path: '/nike/game/play/countdown' }) }"
           @ready="() => { }"
           ref="@play@start@white-ball-text"
           vms="@play@start@white-ball-text"
@@ -156,12 +156,13 @@ export default {
       mesh.scale.y = v
       mesh.scale.z = v
     },
-    scaleIn (mesh, { time, scale, opacity, initScale, initOpacity }) {
+    scaleIn (mesh, { time, scale, opacity, initScale, initOpacity, delay }) {
       return new Promise((resolve, reject) => {
         var v = {
           scale: initScale || 0,
           opacity: initOpacity || 0
         }
+        delay = delay || 0
 
         new TWEEN.Tween(v)
           .to({ scale, opacity }, time)
@@ -170,6 +171,7 @@ export default {
             this.opacity(mesh, v.opacity)
             this.scale(mesh, v.scale)
           })
+          .delay(delay)
           .onComplete(() => {
             resolve()
           })
@@ -190,8 +192,8 @@ export default {
 
       await this.sleep(1500)
 
-      await this.scaleIn(this.$refs['@play@start@white-ball'].mesh, { time: 1000, scale: this.aspect * 0.85, opacity: 1 })
-      await this.scaleIn(this.$refs['@play@start@white-ball-text'].mesh, { time: 1000, scale: this.aspect * 0.85, opacity: 1, initScale: this.aspect * 0.85 })
+      this.scaleIn(this.$refs['@play@start@white-ball'].mesh, { time: 1000, scale: this.aspect * 0.85, opacity: 1 })
+      await this.scaleIn(this.$refs['@play@start@white-ball-text'].mesh, { delay: 500, time: 1000, scale: this.aspect * 0.85, opacity: 1, initScale: this.aspect * 0.85 })
 
       await this.shakeShake(this.shakeStack.s2, { x: -80, y: 0, z: 0 }, 700)
       await this.shakeShake(this.shakeStack.s2, { x: -10, y: 10, z: 0 }, 300, 1.0)
