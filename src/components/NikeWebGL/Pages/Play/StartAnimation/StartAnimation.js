@@ -79,18 +79,18 @@ export default function  ({ renderresher }) {
   }
 
   function box2 () {
-    var boxW = (230 - 10) * pxr;
+    var boxW = (230) * pxr;
     var boxH = (180) * pxr;
-    var top = (20 + 60) * pxr;
-    var left = (5 * pxr) + getLeft({ boxW: 230 * pxr });
+    var top = (60 + 20 + 4) * pxr;
+    var left = getLeft({ boxW: 230 * pxr });
     return { boxW, boxH, top, left };
   }
 
   function box3 () {
-    var boxW = (200 - 20) * pxr;
+    var boxW = (200) * pxr;
     var boxH = (100) * pxr;
-    var top = (20 + 60 + 60) * pxr;
-    var left = (10 * pxr) + getLeft({ boxW: 200 * pxr });
+    var top = (60 + 60 + 20 + 4) * pxr;
+    var left = getLeft({ boxW: 200 * pxr });
     return { boxW, boxH, top, left };
   }
 
