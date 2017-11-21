@@ -274,7 +274,7 @@ export default {
       this.revealMove(this.$refs['@landing@reveal@box-btn-game'], this.revealStack.r3, { x: 0, y: 10, z: 0 })
       await this.waitSec(400)
       this.revealMove(this.$refs['@landing@reveal@box-txt-1'], this.revealStack.r1, { x: 0, y: 10, z: 0 })
-      await this.waitSec(300)
+      await this.waitSec(120)
       this.revealMove(this.$refs['@landing@reveal@box-txt-2'], this.revealStack.r2, { x: 0, y: 10, z: 0 })
       this.revealMove(this.$refs['@landing@reveal@box-btn-comics'], this.revealStack.r4, { x: 0, y: 10, z: 0 })
 

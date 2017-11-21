@@ -130,6 +130,7 @@ export default {
     this.animateAll()
   },
   deactivated () {
+    this.$refs['@play@canvas@start-canvas'].reset()
   },
   methods: {
     shakeShake (shaker, pos, time, ratio) {
@@ -180,7 +181,6 @@ export default {
       })
     },
     hideAll () {
-      this.$refs['@play@canvas@start-canvas'].reset()
       this.opacity(this.$refs['@play@start@hold-tight'].mesh, 0)
       this.opacity(this.$refs['@play@start@start-icon'].mesh, 0)
       this.opacity(this.$refs['@play@start@white-ball'].mesh, 0)
@@ -201,9 +201,15 @@ export default {
       await this.scaleIn(this.$refs['@play@start@white-ball-text'].mesh, { delay: 500, time: 1000, scale: this.aspect * 0.85, opacity: 1, initScale: this.aspect * 0.85 })
 
       await this.shakeShake(this.shakeStack.s2, { x: -80, y: 0, z: 0 }, 700)
+
       await this.sleep(300)
       await this.shakeShake(this.shakeStack.s2, { x: -15, y: 3, z: 0 }, 300, 1.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: -3, z: 0 }, 300, 1.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -20, y: -3, z: 0 }, 300, 1.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 0, z: 0 }, 300, 1.0)
+
+      await this.sleep(1300)
+      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 3, z: 0 }, 300, 1.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -20, y: -3, z: 0 }, 300, 1.0)
       await this.shakeShake(this.shakeStack.s2, { x: -15, y: 0, z: 0 }, 300, 1.0)
 
       // var vm = this

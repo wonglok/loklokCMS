@@ -2,7 +2,7 @@
 import TWEEN from '@tweenjs/tween.js'
 
 export default function  ({ refresher }) {
-  var pxr = 2.0;
+  var pxr = 1.0;
   var api = {};
   var size = 512 * pxr;
 
