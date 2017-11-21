@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import * as backend from '@/backend/firebase'
-import { preLoad, homeLinks, menuLinks, getFonts } from '@/components/WebGL/Shared/cache'
+import { preLoad, homeLinks, menuLinks, getFonts, startAnimationLinks } from '@/components/WebGL/Shared/cache'
 import { initLoad } from '@/components/WebGL/Mixins/llvms'
 // import { appState } from './backend/firebase';
 
@@ -45,6 +45,9 @@ function exec () {
 function initPrep () {
   var loadTargets = []
   loadTargets = [...homeLinks, ...menuLinks]
+  if (window.location.pathname.indexOf('/play') !== -1) {
+    loadTargets = [...loadTargets, ...startAnimationLinks]
+  }
 
   var prepItems = [
     initLoad(),

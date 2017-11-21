@@ -46,6 +46,13 @@ export function getFonts () {
   })
 }
 
+export const startAnimationLinks = [
+  require('@/components/NikeWebGL/Pages/Play/img/start/white-ball.png'),
+  require('@/components/NikeWebGL/Pages/Play/img/start/white-ball-text.png'),
+  require('@/components/NikeWebGL/Pages/Play/img/start/hider-reverse.png'),
+  require('@/components/NikeWebGL/Pages/Play/img/start/start-icon.png')
+]
+
 export const fontLinks = [
   require('@/components/NikeWebGL/Fonts/DinCondense/regular.otf'),
   require('@/components/NikeWebGL/Fonts/DinCondense/medium.otf'),

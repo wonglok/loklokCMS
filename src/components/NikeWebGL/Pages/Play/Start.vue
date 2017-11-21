@@ -62,7 +62,7 @@
           ref="@play@start@white-ball"
           vms="@play@start@white-ball"
           :blending="THREE.NormalBlending"
-          :opacity="1"
+          :opacity="0"
           :depthTest="true"
           :transparent="true"
           :link="require('./img/start/white-ball.png')"
@@ -73,7 +73,7 @@
           ref="@play@start@white-ball-text"
           vms="@play@start@white-ball-text"
           :blending="THREE.NormalBlending"
-          :opacity="1"
+          :opacity="0"
           :depthTest="true"
           :transparent="true"
           :link="require('./img/start/white-ball-text.png')"
@@ -117,7 +117,6 @@ export default {
     }
   },
   activated () {
-    this.animateAll()
     this.$emit('exec', () => {
       for (var execItem in this.execStack) {
         let exec = this.execStack[execItem]
@@ -126,9 +125,13 @@ export default {
         }
       }
     })
+
+    this.hideAll()
+    setTimeout(() => {
+      this.animateAll()
+    }, 500)
   },
   deactivated () {
-
   },
   methods: {
     shakeShake (shaker, pos, time, ratio) {
@@ -178,12 +181,15 @@ export default {
           .start()
       })
     },
-    async animateAll () {
+    hideAll () {
       this.$refs['@play@canvas@start-canvas'].reset()
       this.opacity(this.$refs['@play@start@hold-tight'].mesh, 0)
       this.opacity(this.$refs['@play@start@start-icon'].mesh, 0)
       this.opacity(this.$refs['@play@start@white-ball'].mesh, 0)
       this.opacity(this.$refs['@play@start@white-ball-text'].mesh, 0)
+    },
+    async animateAll () {
+      this.hideAll()
 
       await this.sleep(1000)
 
