@@ -82,7 +82,7 @@
           :gclick="() => { goComics('4') }"
           vms="@comic-detail@active-link@l-4"
           :link="require('./img/link-active/la-4.png')"
-          @final-position="(item) => { tryMaximiseScroller(item); scrollerState.bound.yMax -= 40; }"
+          @final-position="(props) => { tryMaximiseScroller(props); scrollerState.bound.yMax -= 40; }"
         />
         <ImageMesh
           :gclick="() => {  }"
@@ -182,6 +182,7 @@ export default {
         }
       }
     })
+
     this.$emit('setMouse', (args) => {
       // this.mouseStack.scroller(args)
       // this.mouseStack.comics(args)

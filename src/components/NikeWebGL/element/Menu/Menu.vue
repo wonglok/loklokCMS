@@ -158,9 +158,7 @@ export default {
       console.log(e)
     }
 
-    setTimeout(() => {
-      this.animateAll()
-    }, 1000)
+    this.animateAll()
 
     this.$emit('exec', () => {
       for (var execItem in this.execStack) {
@@ -267,7 +265,10 @@ export default {
       })
     },
     async animateAll () {
-      await this.waitSec(1000)
+      await this.sleep(500)
+      if (this.$route.path.indexOf('/home') !== -1) {
+        await this.sleep(2000)
+      }
       await [this.animateNavLine(), this.animateRedLine(), this.animateMenuBtn(), this.animateGreyNavLayer()]
     },
     // getSceneWidth () {

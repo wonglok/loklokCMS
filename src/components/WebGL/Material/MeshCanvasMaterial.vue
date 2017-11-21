@@ -78,7 +78,7 @@ export default {
         void main () {
           if (useImage) {
             vec4 canvasColor = texture2D(canvas, vUv);
-            gl_FragColor = vec4(vec3(canvasColor), canvasColor * opacity);
+            gl_FragColor = vec4(vec3(canvasColor), canvasColor.a * opacity);
           } else {
             gl_FragColor = vec4(color, opacity);
           }

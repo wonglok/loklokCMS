@@ -13,13 +13,18 @@ export default function () {
 
   var ctx, context;
   context = ctx = canvas.getContext("2d");
-  // ctx.translate(0.5, 0.5);
+  // ctx.shadowColor = 'white';
+  // ctx.shadowOffsetX = 0;
+  // ctx.shadowOffsetY = 0;
+  // ctx.shadowBlur = 0.0;
 
-  var grd = context.createLinearGradient(0, 0, canvas.width, canvas.height);
-  // light blue
-  grd.addColorStop(0, 'red');
-  // dark blue
-  grd.addColorStop(1, 'white');
+  ctx.translate(0.5, 0.5);
+
+  // var grd = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+  // // light blue
+  // grd.addColorStop(0, 'red');
+  // // dark blue
+  // grd.addColorStop(1, 'white');
 
   var drawing = false
 

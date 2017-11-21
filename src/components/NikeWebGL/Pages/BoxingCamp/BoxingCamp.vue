@@ -255,7 +255,6 @@ export default {
 
       // this.opacity(this.$refs['@landing@hero@camp'].mesh, 0)
       // this.opacity(this.$refs['@landing@button-area@bg'].mesh, 0)
-
       // this.opacity(this.$refs['@landing@button-area@enter-now'].mesh, 0)
       // this.opacity(this.$refs['@landing@button-area@watch-comics'].mesh, 0)
 

@@ -139,8 +139,9 @@ export default {
     }
   },
   methods: {
-    shakeShake ({ initPos }) {
+    shakeShake ({ initPos, timeRatio }) {
       this.material.uniforms.initPos.value.set(initPos.x, initPos.y, initPos.z)
+      timeRatio = timeRatio || 1.0
 
       var v = {
         prg: 0,
@@ -149,7 +150,7 @@ export default {
       }
 
       new TWEEN.Tween(v)
-        .to({ prg: 1 }, 380 * 0.5)
+        .to({ prg: 1 }, timeRatio * 380 * 0.5)
         .easing(TWEEN.Easing.Quadratic.Out)
         .onUpdate(() => {
           // this.material.uniforms.shake.value = v.s
@@ -158,7 +159,7 @@ export default {
         .start()
 
       new TWEEN.Tween(v)
-        .to({ o: 1 }, 380 * 0.25)
+        .to({ o: 1 }, timeRatio * 380 * 0.25)
         .easing(TWEEN.Easing.Bounce.InOut)
         .onUpdate(() => {
           // this.material.uniforms.shake.value = v.s
@@ -167,7 +168,7 @@ export default {
         .start()
 
       new TWEEN.Tween(v)
-        .to({ s: 0 }, 600 * 0.5)
+        .to({ s: 0 }, timeRatio * 600 * 0.5)
         .easing(TWEEN.Easing.Bounce.Out)
         .onUpdate(() => {
           this.material.uniforms.shake.value = v.s

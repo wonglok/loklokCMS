@@ -78,6 +78,11 @@ export default {
         setTimeout(() => { resolve() }, delay)
       })
     },
+    sleep (delay) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => { resolve() }, delay)
+      })
+    },
 
     pageFadeIn (el, done) {
       var updater = (mesh) => {

@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import axios from 'axios'
 export const textureCache = {
   cache: {},
   setCache (link) {
@@ -38,6 +39,18 @@ export const preLoad = (links) => {
     })
   })
 }
+
+export function getFonts () {
+  return fontLinks.map((link) => {
+    return axios.get(link)
+  })
+}
+
+export const fontLinks = [
+  require('@/components/NikeWebGL/Fonts/DinCondense/regular.otf'),
+  require('@/components/NikeWebGL/Fonts/DinCondense/medium.otf'),
+  require('@/components/NikeWebGL/Fonts/Futura/condensed-medium.ttf')
+]
 
 export const homeLinks = [
   require('@/components/NikeWebGL/Pages/BoxingCamp/img/bg/boxing.jpg'),

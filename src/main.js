@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import * as backend from '@/backend/firebase'
-import { preLoad, homeLinks, menuLinks } from '@/components/WebGL/Shared/cache'
+import { preLoad, homeLinks, menuLinks, getFonts } from '@/components/WebGL/Shared/cache'
 import { initLoad } from '@/components/WebGL/Mixins/llvms'
 // import { appState } from './backend/firebase';
 
@@ -48,7 +48,8 @@ function initPrep () {
 
   var prepItems = [
     initLoad(),
-    preLoad(loadTargets)
+    preLoad(loadTargets),
+    ...getFonts()
   ]
 
   if (window.location.pathname.indexOf('/cms') === 0) {
@@ -56,11 +57,11 @@ function initPrep () {
   }
 
   Promise.all(prepItems)
-  .then(() => {
-    setTimeout(() => {
-      exec()
-    }, 500)
-  })
+    .then(() => {
+      setTimeout(() => {
+        exec()
+      }, 500)
+    })
 }
 
 initPrep()
