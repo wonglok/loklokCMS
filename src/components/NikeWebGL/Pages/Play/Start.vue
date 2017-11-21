@@ -127,9 +127,7 @@ export default {
     })
 
     this.hideAll()
-    setTimeout(() => {
-      this.animateAll()
-    }, 500)
+    this.animateAll()
   },
   deactivated () {
   },
