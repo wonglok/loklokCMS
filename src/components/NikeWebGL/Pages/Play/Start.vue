@@ -203,14 +203,14 @@ export default {
       await this.shakeShake(this.shakeStack.s2, { x: -80, y: 0, z: 0 }, 700)
 
       await this.sleep(300)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 3, z: 0 }, 300, 1.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -20, y: -3, z: 0 }, 300, 1.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 0, z: 0 }, 300, 1.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 3, z: 0 }, 400, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -20, y: -3, z: 0 }, 400, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 0, z: 0 }, 400, 2.0)
 
       await this.sleep(1300)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 3, z: 0 }, 300, 1.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -20, y: -3, z: 0 }, 300, 1.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 0, z: 0 }, 300, 1.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 3, z: 0 }, 400, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -20, y: -3, z: 0 }, 400, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 0, z: 0 }, 400, 2.0)
 
       // var vm = this
       // setTimeout(() => {

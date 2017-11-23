@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import * as backend from '@/backend/firebase'
-import { preLoad, homeLinks, menuLinks, getFonts, startAnimationLinks } from '@/components/WebGL/Shared/cache'
+import { preLoad, homeLinks, menuLinks, getFonts, preloadBundle, startAnimationLinks } from '@/components/WebGL/Shared/cache'
 import { initLoad } from '@/components/WebGL/Mixins/llvms'
 // import { appState } from './backend/firebase';
 
@@ -21,6 +21,7 @@ router.beforeEach((to, from, next) => {
 })
 
 var state = {
+  progress: 0.14,
   appState: backend.appState
 }
 
@@ -31,10 +32,14 @@ function exec () {
     el: '#app',
     router,
     template: `
-      <App />
+      <App v-if="state.progress === 1" />
+      <div v-else class="main-loader">
+        <div class="main-red-bar" :style="{ width: (w * state.progress) + 'px' }"></div>
+      </div>
     `,
     data () {
       return {
+        w: window.innerWidth,
         state
       }
     },
@@ -49,21 +54,31 @@ function initPrep () {
     loadTargets = [...loadTargets, ...startAnimationLinks]
   }
 
+  var progressHandler = (progress) => {
+    console.log(progress)
+    if (progress === 1.0) {
+      setTimeout(() => {
+        state.progress = progress
+      }, 500)
+    } else {
+      state.progress = progress
+    }
+  }
   var prepItems = [
     initLoad(),
-    preLoad(loadTargets),
+    // preLoad(loadTargets),
     ...getFonts()
   ]
 
   if (window.location.pathname.indexOf('/cms') === 0) {
     prepItems.push(backend.readyRT())
   }
-
   Promise.all(prepItems)
     .then(() => {
+      exec()
       setTimeout(() => {
-        exec()
-      }, 500)
+        preLoad([...loadTargets, ...preloadBundle], progressHandler)
+      }, 3000)
     })
 }
 

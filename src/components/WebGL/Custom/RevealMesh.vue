@@ -10,6 +10,7 @@ import { llvmsMesh } from '../Mixins/llvms'
 import Mesh from '../Components/Mesh'
 import PlaneGeometry from '../Geometry/PlaneGeometry'
 import MeshRevealMaterial from '../Material/MeshRevealMaterial'
+// import { textureCache } from '@/components/WebGL/Shared/cache'
 
 export default {
   name: 'ImageMesh',

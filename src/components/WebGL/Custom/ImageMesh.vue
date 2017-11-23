@@ -12,7 +12,7 @@ import { llvmsMesh } from '../Mixins/llvms'
 import Mesh from '../Components/Mesh'
 import PlaneGeometry from '../Geometry/PlaneGeometry'
 import MeshPictureMaterial from '../Material/MeshPictureMaterial'
-// import { textureCache } from '@/components/WebGL/Shared/cache'
+import { textureCache } from '@/components/WebGL/Shared/cache'
 
 export default {
   name: 'ImageMesh',
@@ -59,8 +59,8 @@ export default {
     if (this.link) {
       // textureCache.setCache(this.link, () => {
       // })
-      var img = new Image()
-      img.onload = () => {
+      var img
+      var handle = () => {
         this.sWidth = img.width / 10
         this.sHeight = img.height / 10
         // if (this.scale) {
@@ -74,7 +74,16 @@ export default {
           this.$emit('ready')
         })
       }
-      img.src = this.link
+
+      var storedImage = textureCache.image[this.link]
+      if (storedImage) {
+        img = storedImage
+        handle()
+      } else {
+        img = new Image()
+        img.onload = handle
+        img.src = this.link
+      }
     }
   },
   beforeDestroy () {
