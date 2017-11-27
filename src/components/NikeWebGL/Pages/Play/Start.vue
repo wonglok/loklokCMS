@@ -55,7 +55,6 @@
           :position="{ x: 0, y: -32.7, z: -1 }"
           :link="require('./img/start/hider-reverse.png')"
         />
-
         <ImageMesh
           :gclick="() => {  }"
           @ready="() => { }"
@@ -188,7 +187,7 @@ export default {
     },
     async animateAll () {
       this.hideAll()
-      await this.sleep(100)
+      await this.sleep(10)
       this.hideAll()
 
       await this.sleep(1000)
@@ -197,20 +196,20 @@ export default {
 
       await this.sleep(1500)
 
-      this.scaleIn(this.$refs['@play@start@white-ball'].mesh, { time: 1000, scale: this.aspect * 0.85, opacity: 1 })
+      this.scaleIn(this.$refs['@play@start@white-ball'].mesh, { time: 500, scale: this.aspect * 0.85, opacity: 1 })
       await this.scaleIn(this.$refs['@play@start@white-ball-text'].mesh, { delay: 500, time: 1000, scale: this.aspect * 0.85, opacity: 1, initScale: this.aspect * 0.85 })
 
       await this.shakeShake(this.shakeStack.s2, { x: -80, y: 0, z: 0 }, 700)
 
       await this.sleep(300)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 3, z: 0 }, 400, 2.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -20, y: -3, z: 0 }, 400, 2.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 0, z: 0 }, 400, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -35, y: 3, z: 0 }, 600, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -30, y: -3, z: 0 }, 600, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -35, y: 0, z: 0 }, 600, 2.0)
 
       await this.sleep(1300)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 3, z: 0 }, 400, 2.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -20, y: -3, z: 0 }, 400, 2.0)
-      await this.shakeShake(this.shakeStack.s2, { x: -15, y: 0, z: 0 }, 400, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -35, y: 3, z: 0 }, 600, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -30, y: -3, z: 0 }, 600, 2.0)
+      await this.shakeShake(this.shakeStack.s2, { x: -35, y: 0, z: 0 }, 600, 2.0)
 
       // var vm = this
       // setTimeout(() => {

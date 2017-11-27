@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+// import Hello from '@/components/Hello'
 import LayoutPrototype from '@/components/LayoutHTML/Prototype'
 
 import Preview from '@/components/Prototypes/Preview'
@@ -100,8 +100,9 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      redirect: '/nike/game'
+      // name: 'Hello',
+      // component: Hello
     },
     {
       path: '/nike',

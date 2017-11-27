@@ -106,7 +106,7 @@ export default {
     }
   },
   methods: {
-    reveal ({ initPos }) {
+    reveal ({ initPos, time }) {
       this.material.uniforms.initPos.value.set(initPos.x, initPos.y, initPos.z)
 
       var v = {
@@ -115,7 +115,7 @@ export default {
       }
 
       new TWEEN.Tween(v)
-        .to({ prg: 1 }, 1000.0)
+        .to({ prg: 1 }, time || 1000.0)
         .easing(TWEEN.Easing.Quadratic.Out)
         .onUpdate(() => {
           // this.material.uniforms.shake.value = v.s
@@ -124,7 +124,7 @@ export default {
         .start()
 
       new TWEEN.Tween(v)
-        .to({ opacity: 1 }, 1000.0)
+        .to({ opacity: 1 }, time || 1000.0)
         .easing(TWEEN.Easing.Quadratic.Out)
         .onUpdate(() => {
           // this.material.uniforms.shake.value = v.s
