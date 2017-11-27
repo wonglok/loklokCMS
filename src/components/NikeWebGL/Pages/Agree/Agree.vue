@@ -46,12 +46,12 @@
         /> -->
 
 
-        <ShakeMesh
+        <RevealMesh
           :gclick="() => {  }"
           vms="@agree@tagline@title"
           ref="@agree@tagline@title"
           :link="require('./img/tagline/title.png')"
-          @shake="(v) => { shakeStack.tagline = v }"
+          @reveal="(v) => { revealStack.tagline = v }"
           @exec="(v) => { execStack.tagline = v }"
         />
         <!-- <ImageMesh
@@ -341,41 +341,43 @@ export default {
       this.opacity(this.$refs['@agree@desc@punch-about'].mesh, 0)
 
       this.opacity(this.$refs['@agree@grunge@enter-now'].mesh, 0)
-      await this.sleep(100)
-      this.opacity(this.$refs['@agree@grunge@enter-now'].mesh, 0)
-
       this.opacity(this.$refs['@agree@agree@agree-rule'].mesh, 0)
       this.opacity(this.$refs['@agree@agree@box-unchecked'].mesh, 0)
       this.opacity(this.$refs['@agree@agree@box-checked'].mesh, 0)
 
+      await this.sleep(100)
+      this.opacity(this.$refs['@agree@grunge@enter-now'].mesh, 0)
+
       await this.sleep(500)
-
-      await this.shakeShake(this.shakeStack.title1, { x: 0, y: 30, z: 0 }, 700, 1.0)
-
-      this.revealMove(this.$refs['@agree@header@title2'].mesh, this.revealStack.title2, 300, { x: 0, y: 3, z: 0 })
+      this.shakeShake(this.shakeStack.title1, { x: 0, y: 10, z: 0 }, 700, 1.0)
+      await this.sleep(0)
+      this.revealMove(this.$refs['@agree@header@title2'].mesh, this.revealStack.title2, 400, { x: 0, y: 3, z: 0 })
+      await this.sleep(0)
       this.scaleIn(this.$refs['@agree@bg@rex'].mesh, { time: 1500, scale: 0.5, opacity: 1.0, initScale: 0.45, initOpacity: 0, delay: 0 })
-      await this.sleep(100)
+      await this.sleep(0)
       await this.shakeShake(this.shakeStack.rexBG, { x: 0, y: 0, z: 50 }, 500, 1.0)
-      await this.sleep(100)
-      await this.shakeShake(this.shakeStack.tagline, { x: 0, y: 10, z: 0 }, 500, 1.0)
 
-      this.stretchIn(this.$refs['@agree@grunge@punch-icon'].mesh, { time: 500, scale: this.aspect, opacity: 1.0, initScale: { x: this.aspect, y: 0, z: 1 }, initOpacity: 0, delay: 0 })
-      this.stretchIn(this.$refs['@agree@grunge@punch-about'].mesh, { time: 500, scale: this.aspect, opacity: 1.0, initScale: { x: this.aspect, y: 0, z: 1 }, initOpacity: 0, delay: 0 })
+      await this.sleep(500)
+      // this.shakeShake(this.shakeStack.tagline, { x: 0, y: 10, z: 0 }, 500, 1.0)
+      this.revealMove(this.$refs['@agree@tagline@title'].mesh, this.revealStack.tagline, 400, { x: 0, y: 3, z: 0 })
+      this.stretchIn(this.$refs['@agree@grunge@punch-icon'].mesh, { time: 500, scale: this.aspect, opacity: 1.0, initScale: { x: this.aspect, y: this.aspect, z: 1 }, initOpacity: 0, delay: 0 })
+      this.stretchIn(this.$refs['@agree@grunge@punch-about'].mesh, { time: 500, scale: this.aspect, opacity: 1.0, initScale: { x: this.aspect, y: this.aspect, z: 1 }, initOpacity: 0, delay: 0 })
 
       await this.sleep(100)
       this.revealMove(this.$refs['@agree@desc@punch-icon'].mesh, this.revealStack.punchIcon, 300, { x: 0, y: 3, z: 0 })
-      await this.revealMove(this.$refs['@agree@desc@punch-about'].mesh, this.revealStack.punchAbout, 300, { x: 0, y: 3, z: 0 })
+      this.revealMove(this.$refs['@agree@desc@punch-about'].mesh, this.revealStack.punchAbout, 300, { x: 0, y: 3, z: 0 })
+      this.revealMove(this.$refs['@agree@agree@agree-rule'].mesh, this.revealStack.agreeRule, 500, { x: 0, y: 3, z: 0 })
 
-      // this.$refs['@agree@grunge@enter-now'].mesh.position.x -= 100
+      // checker
+      await this.revealMove(this.$refs['@agree@agree@box-unchecked'].mesh, this.revealStack.uncheckBox, 500, { x: 0, y: 3, z: 0 })
 
-      await this.revealMove(this.$refs['@agree@grunge@enter-now'].mesh, this.revealStack.enterNow, 500, { x: -100, y: 0, z: 0 })
-
-      this.revealMove(this.$refs['@agree@agree@agree-rule'].mesh, this.revealStack.agreeRule, 500, { x: 0, y: 0, z: 0 })
-      this.revealMove(this.$refs['@agree@agree@box-unchecked'].mesh, this.revealStack.uncheckBox, 500, { x: 0, y: 0, z: 0 })
-      await this.sleep(500)
-
+      // check action
       this.stretchIn(this.$refs['@agree@agree@box-checked'].mesh, { time: 500, scale: this.aspect, opacity: 1.0, initScale: { x: 1, y: 1, z: 1 }, initOpacity: 0, delay: 0 })
       await this.revealMove(this.$refs['@agree@agree@box-checked'].mesh, this.revealStack.checkedBox, 500, { x: 0, y: 0, z: 0 })
+
+      await this.sleep(250)
+      // enter now
+      await this.revealMove(this.$refs['@agree@grunge@enter-now'].mesh, this.revealStack.enterNow, 300, { x: -100, y: 0, z: 0 })
     },
     __add (v) {
       this.$nextTick(() => {
