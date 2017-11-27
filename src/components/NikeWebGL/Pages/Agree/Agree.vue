@@ -375,9 +375,9 @@ export default {
       this.stretchIn(this.$refs['@agree@agree@box-checked'].mesh, { time: 500, scale: this.aspect, opacity: 1.0, initScale: { x: 1, y: 1, z: 1 }, initOpacity: 0, delay: 0 })
       await this.revealMove(this.$refs['@agree@agree@box-checked'].mesh, this.revealStack.checkedBox, 500, { x: 0, y: 0, z: 0 })
 
-      await this.sleep(250)
+      await this.sleep(150)
       // enter now
-      await this.revealMove(this.$refs['@agree@grunge@enter-now'].mesh, this.revealStack.enterNow, 300, { x: -100, y: 0, z: 0 })
+      await this.revealMove(this.$refs['@agree@grunge@enter-now'].mesh, this.revealStack.enterNow, 300, { x: 0, y: 30, z: 0 })
     },
     __add (v) {
       this.$nextTick(() => {
