@@ -344,7 +344,11 @@ export default {
       await this.sleep(100)
       this.opacity(this.$refs['@agree@grunge@enter-now'].mesh, 0)
 
-      await this.sleep(1500)
+      this.opacity(this.$refs['@agree@agree@agree-rule'].mesh, 0)
+      this.opacity(this.$refs['@agree@agree@box-unchecked'].mesh, 0)
+      this.opacity(this.$refs['@agree@agree@box-checked'].mesh, 0)
+
+      await this.sleep(500)
 
       await this.shakeShake(this.shakeStack.title1, { x: 0, y: 30, z: 0 }, 700, 1.0)
 

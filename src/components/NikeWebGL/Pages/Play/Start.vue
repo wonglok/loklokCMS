@@ -193,7 +193,6 @@ export default {
       await this.sleep(1000)
       await this.shakeShake(this.shakeStack.s1, { x: 0, y: 30, z: 0 }, 700)
       await this.runBoxy()
-
       await this.sleep(1500)
 
       this.scaleIn(this.$refs['@play@start@white-ball'].mesh, { time: 500, scale: this.aspect * 0.85, opacity: 1 })
