@@ -75,10 +75,10 @@ function exec () {
 
 function initPrep () {
   var loadTargets = []
-  loadTargets = [...homeLinks, ...menuLinks]
-  if (window.location.pathname.indexOf('/play') !== -1) {
-    loadTargets = [...loadTargets, ...startAnimationLinks]
-  }
+  loadTargets = [...homeLinks, ...menuLinks, ...startAnimationLinks]
+  // if (window.location.pathname.indexOf('/play') !== -1) {
+  //   loadTargets = [...loadTargets, ...startAnimationLinks]
+  // }
 
   var progressHandler = (progress) => {
     console.log(progress)
