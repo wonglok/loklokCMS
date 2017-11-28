@@ -184,11 +184,12 @@ export default {
       this.opacity(this.$refs['@play@start@start-icon'].mesh, 0)
       this.opacity(this.$refs['@play@start@white-ball'].mesh, 0)
       this.opacity(this.$refs['@play@start@white-ball-text'].mesh, 0)
+      this.scaleIn(this.$refs['@play@start@white-ball-text'].mesh, { delay: 0, time: 0, scale: 0, opacity: 0, initScale: 0 })
     },
     async animateAll () {
       this.hideAll()
-      await this.sleep(10)
-      this.hideAll()
+      // await this.sleep(10)
+      // this.hideAll()
 
       await this.sleep(1000)
       await this.shakeShake(this.shakeStack.s1, { x: 0, y: 30, z: 0 }, 700)
