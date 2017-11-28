@@ -106,7 +106,6 @@ export default {
   props: ['aspect', 'camera'],
   data () {
     return {
-      TWEEN,
       THREE,
       shakeStack: {
         s1 () {}
@@ -129,7 +128,9 @@ export default {
     this.animateAll()
   },
   deactivated () {
-    this.$refs['@play@canvas@start-canvas'].reset()
+    if (this.$refs['@play@canvas@start-canvas']) {
+      this.$refs['@play@canvas@start-canvas'].reset()
+    }
   },
   methods: {
     shakeShake (shaker, pos, time, ratio) {
