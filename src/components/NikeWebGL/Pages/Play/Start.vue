@@ -188,8 +188,8 @@ export default {
     },
     async animateAll () {
       this.hideAll()
-      // await this.sleep(10)
-      // this.hideAll()
+      await this.sleep(10)
+      this.hideAll()
 
       await this.sleep(1000)
       await this.shakeShake(this.shakeStack.s1, { x: 0, y: 30, z: 0 }, 700)
