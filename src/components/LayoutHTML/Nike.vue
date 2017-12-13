@@ -6,7 +6,7 @@
       <img src="./mocker/title.svg" class="mocker-title" />
       <div>
         <div class="mocker">
-          <div class="maxer" v-show="isTallEnough">
+          <div class="maxer">
             <!-- <div class="maxer-desc"></div> -->
             <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
           </div>
@@ -97,7 +97,7 @@ export default {
 
 .full {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
