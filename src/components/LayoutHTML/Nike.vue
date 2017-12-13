@@ -2,20 +2,25 @@
   <div class="full">
     <div :class="{'full-v' : appState.useCMS, 'full': !appState.useCMS }">
       <Controllers v-if="appState.useCMS" @api="(v) => { apis.controllers = v }" />
-      <div class="baseline">
-        <div class="maxer" v-show="isTallEnough">
-          <div class="maxer-desc"></div>
-          <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
+
+      <img src="./mocker/title.svg" class="mocker-title" />
+      <div>
+        <div class="mocker">
+          <div class="maxer" v-show="isTallEnough">
+            <!-- <div class="maxer-desc"></div> -->
+            <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
+          </div>
         </div>
-        <div class="maxer2" v-show="isTallEnough && isBigEnough" v-if="isBigEnough || isBigEnoughAtStart">
+      </div>
+      <img src="./mocker/logo.svg" class="mocker-logo" />
+        <!-- <div class="maxer2" v-show="isTallEnough && isBigEnough" v-if="isBigEnough || isBigEnoughAtStart">
           <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
-        </div>
+        </div> -->
         <!-- <div class="maxer" v-show="isTallEnough" v-if="isBigEnough">
           <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
         </div> -->
-      </div>
     </div>
   </div>
 </template>
@@ -83,12 +88,21 @@ export default {
   src: url("../NikeWebGL/Fonts/Futura/condensed-medium.ttf") format("truetype");
 }
 
+.mocker-title{
+  margin: 25px;
+}
+.mocker-logo{
+  margin: 35px;
+}
+
 .full {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  background-color: black;
 }
 .full-v {
   width: 100%;
@@ -101,13 +115,26 @@ export default {
 
 .baseline {
   /* max-height: 736px; */
-  max-height: 635px;
+  max-height: calc(635px + 180px);
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-around;
   align-items: baseline;
 }
+
+.mocker{
+  /* Rectangle 11: */
+  background: #141414;
+  border-radius: 40px;
+
+  width: calc(375px + 40px);
+  height: calc(635px + 180px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .maxer {
   font-family: DINCond-Regular;
   width: 100%;
