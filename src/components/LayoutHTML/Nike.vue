@@ -3,16 +3,24 @@
     <div :class="{'full-v' : appState.useCMS, 'full': !appState.useCMS }">
       <Controllers v-if="appState.useCMS" @api="(v) => { apis.controllers = v }" />
 
-      <img src="./mocker/title.svg" class="mocker-title" />
-      <div>
-        <div class="mocker">
-          <div class="maxer">
-            <!-- <div class="maxer-desc"></div> -->
-            <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
+      <div v-if="isBigEnough" class="full">
+        <img src="./mocker/title.svg" class="mocker-title" />
+        <div>
+          <div class="mocker">
+            <div class="maxer">
+              <!-- <div class="maxer-desc"></div> -->
+              <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
+            </div>
           </div>
         </div>
+        <img src="./mocker/logo.svg" class="mocker-logo" />
       </div>
-      <img src="./mocker/logo.svg" class="mocker-logo" />
+      <div v-else class="mocker-mobile">
+        <div class="maxer">
+          <GLView @refresh="(v) => { refresh.maxer1 = v }" @glClick="passer"></GLView>
+        </div>
+      </div>
+
         <!-- <div class="maxer2" v-show="isTallEnough && isBigEnough" v-if="isBigEnough || isBigEnoughAtStart">
           <div class="maxer-desc"></div>
           <GLView @refresh="(v) => { refresh.maxer2 = v }" @glClick="passer"></GLView>
@@ -130,6 +138,17 @@ export default {
 
   width: calc(375px + 40px);
   height: calc(635px + 180px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mocker-mobile{
+  /* Rectangle 11: */
+  /* background: #141414; */
+  /* border-radius: 40px; */
+
+  width: calc(375px);
+  height: calc(635px);
   display: flex;
   justify-content: center;
   align-items: center;
